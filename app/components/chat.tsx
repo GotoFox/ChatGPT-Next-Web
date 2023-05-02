@@ -616,19 +616,6 @@ export function Chat() {
               }}
             />
           </div>
-          {!isMobileScreen && (
-            <div className="window-action-button">
-              <IconButton
-                icon={config.tightBorder ? <MinIcon /> : <MaxIcon />}
-                bordered
-                onClick={() => {
-                  config.update(
-                    (config) => (config.tightBorder = !config.tightBorder),
-                  );
-                }}
-              />
-            </div>
-          )}
         </div>
 
         <PromptToast
@@ -772,13 +759,6 @@ export function Chat() {
             }}
             autoFocus
             rows={inputRows}
-          />
-          <IconButton
-            icon={<SendWhiteIcon />}
-            text={Locale.Chat.Send}
-            className={styles["chat-input-send"]}
-            type="primary"
-            onClick={onUserSubmit}
           />
         </div>
       </div>
