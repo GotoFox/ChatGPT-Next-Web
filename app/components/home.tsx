@@ -53,6 +53,12 @@ export function useSwitchTheme() {
   const config = useAppConfig();
 
   useEffect(() => {
+    // production
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
+    document.addEventListener("keydown", (event) => {
+      if (event.keyCode === 123) event.preventDefault();
+    });
+    // develop
     document.body.classList.remove("light");
     document.body.classList.remove("dark");
 
