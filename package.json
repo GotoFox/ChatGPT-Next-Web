@@ -5,6 +5,7 @@
   "license": "Anti 996",
   "scripts": {
     "dev": "yarn fetch && next dev",
+    "nextDev": "next dev",
     "build": "yarn fetch && next build",
     "start": "next start",
     "lint": "next lint",
