@@ -624,7 +624,6 @@ export function Chat() {
         <div className="window-header-title">
           <div
             className={`window-header-main-title " ${styles["chat-body-title"]}`}
-            onClickCapture={renameSession}
           >
             {!session.topic ? DEFAULT_TOPIC : session.topic}
           </div>
@@ -639,13 +638,6 @@ export function Chat() {
               bordered
               title={Locale.Chat.Actions.ChatList}
               onClick={() => navigate(Path.Home)}
-            />
-          </div>
-          <div className="window-action-button">
-            <IconButton
-              icon={<RenameIcon />}
-              bordered
-              onClick={renameSession}
             />
           </div>
           <div className="window-action-button">

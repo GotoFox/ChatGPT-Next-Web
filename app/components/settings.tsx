@@ -287,9 +287,7 @@ export function Settings() {
             <IconButton
               icon={<ClearIcon />}
               onClick={() => {
-                if (confirm(Locale.Settings.Actions.ConfirmClearAll)) {
-                  chatStore.clearAllData();
-                }
+                chatStore.clearAllData();
               }}
               bordered
               title={Locale.Settings.Actions.ClearAll}
@@ -299,9 +297,7 @@ export function Settings() {
             <IconButton
               icon={<ResetIcon />}
               onClick={() => {
-                if (confirm(Locale.Settings.Actions.ConfirmResetAll)) {
-                  resetConfig();
-                }
+                resetConfig();
               }}
               bordered
               title={Locale.Settings.Actions.ResetAll}
