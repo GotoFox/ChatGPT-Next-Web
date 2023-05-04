@@ -123,12 +123,10 @@ export function NewChat() {
           <IconButton
             text={Locale.NewChat.NotShow}
             onClick={() => {
-              if (confirm(Locale.NewChat.ConfirmNoShow)) {
-                startChat();
-                config.update(
-                  (config) => (config.dontShowMaskSplashScreen = true),
-                );
-              }
+              startChat();
+              config.update(
+                (config) => (config.dontShowMaskSplashScreen = true),
+              );
             }}
           ></IconButton>
         )}
