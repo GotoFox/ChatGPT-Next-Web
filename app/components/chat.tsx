@@ -123,9 +123,7 @@ export function SessionConfigModel(props: { onClose: () => void }) {
             icon={<ResetIcon />}
             bordered
             text={Locale.Chat.Config.Reset}
-            onClick={() =>
-              confirm(Locale.Memory.ResetConfirm) && chatStore.resetSession()
-            }
+            onClick={() => chatStore.resetSession()}
           />,
           <IconButton
             key="copy"

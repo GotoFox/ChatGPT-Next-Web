@@ -361,9 +361,7 @@ export function MaskPage() {
                       icon={<DeleteIcon />}
                       text={Locale.Mask.Item.Delete}
                       onClick={() => {
-                        if (confirm(Locale.Mask.Item.DeleteConfirm)) {
-                          maskStore.delete(m.id);
-                        }
+                        maskStore.delete(m.id);
                       }}
                     />
                   )}
