@@ -112,7 +112,6 @@ function Screen() {
             : styles.container
         }`
       }
-      style={{ borderTop: "1px solid #e5e5e5" }}
     >
       <SideBar className={isHome ? styles["sidebar-show"] : ""} />
 
