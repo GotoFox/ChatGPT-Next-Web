@@ -177,16 +177,63 @@ export function Users() {
             <div className={styles.font12}>demo@qq.com</div>
           </ListItem>
         </List>
+
+        <List>
+          <ListItem title={"登录密码"} subTitle={"修改账号登录密码"}>
+            <div className={styles.font12}>
+              {" "}
+              <IconButton
+                icon={<EditIcon />}
+                text={"修改"}
+                onClick={() => checkUsage(true)}
+              />
+            </div>
+          </ListItem>
+        </List>
         <List>
           <ListItem title={"当前套餐"} subTitle={"已开通的套餐"}>
             <div className={styles.font12}>免费计划</div>
           </ListItem>
+          <ListItem
+            title={"套餐查询"}
+            subTitle={"当前已使用 1000 字符，套餐总额 10000 字符"}
+          >
+            <div className={styles.font12}>
+              <IconButton
+                icon={<ResetIcon></ResetIcon>}
+                text={"重新检查"}
+                onClick={() => checkUsage(true)}
+              />
+            </div>
+          </ListItem>
           <ListItem title={"所有套餐"} subTitle={""}>
             <div className={styles.font12}>
               {" "}
+              <IconButton text={"升级"} onClick={() => checkUsage(true)} />
+            </div>
+          </ListItem>
+        </List>
+
+        <List>
+          <ListItem
+            title={"邀请链接"}
+            subTitle={"邀请新用户注册将获得 500 字符"}
+          >
+            <div className={styles.font12}>
+              {" "}
               <IconButton
-                icon={<ResetIcon></ResetIcon>}
-                text={"去升级"}
+                icon={<CopyIcon></CopyIcon>}
+                text={"复制"}
+                onClick={() => checkUsage(true)}
+              />
+            </div>
+          </ListItem>
+          <ListItem title={"邀请记录"} subTitle={""}>
+            <div className={styles.font12}>
+              {" "}
+              <IconButton
+                icon={<EyeIcon></EyeIcon>}
+                text={"查看"}
                 onClick={() => checkUsage(true)}
               />
             </div>
