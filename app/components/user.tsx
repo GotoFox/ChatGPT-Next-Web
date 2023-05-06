@@ -216,8 +216,10 @@ export function Users() {
 
         <List>
           <ListItem
-            title={"邀请链接"}
-            subTitle={"邀请新用户注册将获得 500 字符"}
+            title={"邀请码"}
+            subTitle={
+              "邀请新用户注册将获得 500 字符，邀请用户和注册用户都将获得奖励"
+            }
           >
             <div className={styles.font12}>
               {" "}
