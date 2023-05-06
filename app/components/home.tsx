@@ -1,5 +1,7 @@
 "use client";
 
+import { Users } from "@/app/components/user";
+
 require("../polyfill");
 
 import { useState, useEffect } from "react";
@@ -46,6 +48,10 @@ const NewChat = dynamic(async () => (await import("./new-chat")).NewChat, {
 });
 
 const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
+  loading: () => <Loading noLogo />,
+});
+
+const UserPage = dynamic(async () => (await import("./user")).Users, {
   loading: () => <Loading noLogo />,
 });
 
@@ -122,6 +128,7 @@ function Screen() {
           <Route path={Path.Masks} element={<MaskPage />} />
           <Route path={Path.Chat} element={<Chat />} />
           <Route path={Path.Settings} element={<Settings />} />
+          <Route path={Path.User} element={<UserPage />} />
         </Routes>
       </div>
     </div>
