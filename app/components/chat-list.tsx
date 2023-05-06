@@ -130,9 +130,7 @@ export function ChatList(props: { narrow?: boolean }) {
                   selectSession(i);
                 }}
                 onDelete={() => {
-                  if (props.narrow) {
-                    chatStore.deleteSession(i);
-                  }
+                  chatStore.deleteSession(i);
                 }}
                 narrow={props.narrow}
                 mask={item.mask}
