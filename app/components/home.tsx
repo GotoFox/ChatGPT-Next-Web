@@ -18,7 +18,7 @@ import { Path, SlotID } from "../constant";
 import { ErrorBoundary } from "./error";
 
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
   Route,
   useLocation,
