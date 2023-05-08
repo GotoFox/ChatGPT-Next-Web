@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
 
 import styles from "./user.module.scss";
+import { PostUser } from "../http/user";
 
 import ResetIcon from "../icons/reload.svg";
 import AddIcon from "../icons/add.svg";
@@ -13,7 +14,15 @@ import QqIcon from "../icons/map/qq.svg";
 import WeiXinIcon from "../icons/map/weixin.svg";
 import GithubIcon from "../icons/map/github.svg";
 import WeiboIcon from "../icons/map/weibo.svg";
-import { Input, List, ListItem, Modal, PasswordInput, Popover } from "./ui-lib";
+import {
+  Input,
+  List,
+  ListItem,
+  Modal,
+  PasswordInput,
+  Popover,
+  showToast,
+} from "./ui-lib";
 import { ModelConfigList } from "./model-config";
 
 import { IconButton } from "./button";
@@ -123,6 +132,17 @@ export function Users() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  async function ClickUser() {
+    let params = {
+      username: "test",
+    };
+    try {
+      let res = await PostUser(params);
+    } catch (error) {
+      showToast(error.response.data.msg);
+    }
+  }
 
   return (
     <ErrorBoundary>
@@ -236,7 +256,7 @@ export function Users() {
               <IconButton
                 icon={<EyeIcon></EyeIcon>}
                 text={"查看"}
-                onClick={() => checkUsage(true)}
+                onClick={() => ClickUser()}
               />
             </div>
           </ListItem>
