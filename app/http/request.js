@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:8080";
-const API_BASE_URL = process.env.API_BASE_URL ?? API_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL ?? API_URL;
 
 const server = axios.create({
   baseURL: API_BASE_URL,
@@ -17,9 +17,6 @@ server.interceptors.request.use(
       config.headers["x-access-token"] = token;
     }
     config.headers["Content-Type"] = "application/json";
-    if (config.method === "options") {
-      config.headers["Access-Control-Allow-Origin"] = "*";
-    }
     return config;
   },
   (err) => Promise.reject(err),
