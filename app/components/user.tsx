@@ -139,8 +139,9 @@ export function Users() {
     };
     try {
       let res = await PostUser(params);
-    } catch (error) {
-      showToast(error.response.data.msg);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.msg;
+      showToast(errorMessage);
     }
   }
 
