@@ -7,6 +7,7 @@
     "dev": "yarn fetch && next dev",
     "nextDev": "next dev",
     "build": "yarn fetch && next build",
+    "nextBuild": "next build",
     "start": "next start",
     "lint": "next lint",
     "fetch": "node ./scripts/fetch-prompts.mjs",

@@ -171,11 +171,11 @@ export function SideBar(props: { className?: string }) {
                   if (res.status === 200) {
                     navigate(Path.User);
                   } else {
-                    showToast(res?.msg);
+                    showToast(res && (res as any).msg);
                     isUser && navigate(Path.Auth);
                   }
                 } catch (error) {
-                  const errorMessage = error.response?.data?.msg;
+                  const errorMessage = (error as any).response?.data?.msg;
                   showToast(errorMessage);
                   isUser && navigate(Path.Auth);
                 }
