@@ -16,6 +16,9 @@ server.interceptors.request.use(
     if (token) {
       config.headers["x-access-token"] = token;
     }
+    if (config.method === "options") {
+      config.headers["Access-Control-Allow-Origin"] = "*";
+    }
     config.headers["Content-Type"] = "application/json";
     return config;
   },
