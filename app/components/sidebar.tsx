@@ -24,10 +24,11 @@ import {
   REPO_URL,
 } from "../constant";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showToast } from "./ui-lib";
+import { PostLogin, PostUser } from "@/app/http/user";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -87,6 +88,8 @@ export function SideBar(props: { className?: string }) {
   // drag side bar
   const { onDragMouseDown, shouldNarrow } = useDragSideBar();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isUser = location.pathname === Path.User;
 
   const config = useAppConfig();
 
@@ -150,9 +153,34 @@ export function SideBar(props: { className?: string }) {
             </Link>
           </div>
           <div className={styles["sidebar-action"]}>
-            <Link to={Path.User}>
-              <IconButton icon={<UserIcon />} shadow />
-            </Link>
+            <IconButton
+              icon={<UserIcon />}
+              shadow
+              onClick={async () => {
+                const token = localStorage.getItem("access_token");
+                if (!token) {
+                  showToast("访问令牌已过期或无效，请重新登录");
+                  navigate(Path.Auth);
+                  return;
+                }
+                try {
+                  let params = {
+                    username: "test",
+                  };
+                  let res = await PostUser(params);
+                  if (res.status === 200) {
+                    navigate(Path.User);
+                  } else {
+                    showToast(res?.msg);
+                    isUser && navigate(Path.Auth);
+                  }
+                } catch (error) {
+                  const errorMessage = error.response?.data?.msg;
+                  showToast(errorMessage);
+                  isUser && navigate(Path.Auth);
+                }
+              }}
+            />
           </div>
         </div>
         <div>

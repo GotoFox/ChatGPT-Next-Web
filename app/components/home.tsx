@@ -51,6 +51,10 @@ const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
   loading: () => <Loading noLogo />,
 });
 
+const AuthPage = dynamic(async () => (await import("./auth")).AuthPage, {
+  loading: () => <Loading noLogo />,
+});
+
 const UserPage = dynamic(async () => (await import("./user")).Users, {
   loading: () => <Loading noLogo />,
 });
@@ -126,6 +130,7 @@ function Screen() {
           <Route path={Path.Home} element={<Chat />} />
           <Route path={Path.NewChat} element={<NewChat />} />
           <Route path={Path.Masks} element={<MaskPage />} />
+          <Route path={Path.Auth} element={<AuthPage />} />
           <Route path={Path.Chat} element={<Chat />} />
           <Route path={Path.Settings} element={<Settings />} />
           <Route path={Path.User} element={<UserPage />} />
