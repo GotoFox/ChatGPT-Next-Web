@@ -50,7 +50,13 @@ export function auth(req: NextRequest) {
 
   // if user does not provide an api key, inject system api key
   if (!token) {
-    const apiKey = serverConfig.apiKey;
+    const apiKeys = process.env.OPENAI_API_KEY
+      ? process.env.OPENAI_API_KEY.split(",")
+      : [];
+    const apiKey =
+      apiKeys.length === 1
+        ? apiKeys[0]
+        : apiKeys[Math.floor(Math.random() * apiKeys.length)];
     if (apiKey) {
       console.log("[Auth] use system api key");
       req.headers.set("Authorization", `Bearer ${apiKey}`);
