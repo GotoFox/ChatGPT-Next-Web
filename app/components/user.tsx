@@ -145,6 +145,8 @@ export function Users() {
     }
   }
 
+  const user = JSON.parse(localStorage.getItem("access_user") ?? "null");
+
   return (
     <ErrorBoundary>
       <div className="window-header">
@@ -192,10 +194,10 @@ export function Users() {
             </Popover>
           </ListItem>
           <ListItem title={"账号"}>
-            <div className={styles.font12}>demo</div>
+            <div className={styles.font12}>{user && user.username}</div>
           </ListItem>
           <ListItem title={"邮箱"}>
-            <div className={styles.font12}>demo@qq.com</div>
+            <div className={styles.font12}>{user && user.email}</div>
           </ListItem>
         </List>
 
@@ -278,6 +280,22 @@ export function Users() {
               <div className={styles["sidebar-action"]}>
                 <IconButton icon={<WeiboIcon />} shadow />
               </div>
+            </div>
+          </ListItem>
+        </List>
+
+        <List>
+          <ListItem title={"退出"} subTitle={"退出登录的账号"}>
+            <div className={styles.font12}>
+              {" "}
+              <IconButton
+                text={"立即退出"}
+                onClick={() => {
+                  localStorage.removeItem("access_token");
+                  localStorage.removeItem("access_user");
+                  navigate(Path.Home);
+                }}
+              />
             </div>
           </ListItem>
         </List>

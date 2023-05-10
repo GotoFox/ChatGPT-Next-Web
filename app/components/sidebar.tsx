@@ -192,7 +192,7 @@ export function SideBar(props: { className?: string }) {
                   localStorage.getItem("access_user") as string,
                 );
                 if (!token) {
-                  showToast("访问令牌已过期或无效，请重新登录");
+                  // showToast("访问令牌已过期或无效，请重新登录");
                   setShowModal(true);
                   // navigate(Path.Auth);
                   return;
