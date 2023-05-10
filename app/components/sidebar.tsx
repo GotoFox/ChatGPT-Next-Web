@@ -186,7 +186,7 @@ export function SideBar(props: { className?: string }) {
                 const token = localStorage.getItem("access_token");
                 if (!token) {
                   showToast("访问令牌已过期或无效，请重新登录");
-                  navigate(Path.Auth);
+                  // navigate(Path.Auth);
                   return;
                 }
                 try {
@@ -198,12 +198,12 @@ export function SideBar(props: { className?: string }) {
                     navigate(Path.User);
                   } else {
                     showToast(res && (res as any).msg);
-                    isUser && navigate(Path.Auth);
+                    // isUser && navigate(Path.Auth);
                   }
                 } catch (error) {
                   const errorMessage = (error as any).response?.data?.msg;
                   showToast(errorMessage);
-                  isUser && navigate(Path.Auth);
+                  // isUser && navigate(Path.Auth);
                 }
               }}
             />
