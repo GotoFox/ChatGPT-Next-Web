@@ -34,6 +34,28 @@ const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
 });
 
+function useHotKey() {
+  const chatStore = useChatStore();
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.metaKey || e.altKey || e.ctrlKey) {
+        const n = chatStore.sessions.length;
+        const limit = (x: number) => (x + n) % n;
+        const i = chatStore.currentSessionIndex;
+        if (e.key === "ArrowUp") {
+          chatStore.selectSession(limit(i - 1));
+        } else if (e.key === "ArrowDown") {
+          chatStore.selectSession(limit(i + 1));
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  });
+}
+
 function useDragSideBar() {
   const limit = (x: number) => Math.min(MAX_SIDEBAR_WIDTH, x);
 
@@ -93,6 +115,8 @@ export function SideBar(props: { className?: string }) {
 
   const config = useAppConfig();
 
+  useHotKey();
+
   return (
     <div
       className={`${styles.sidebar} ${props.className} ${
@@ -143,7 +167,9 @@ export function SideBar(props: { className?: string }) {
             <IconButton
               icon={<CloseIcon />}
               onClick={() => {
-                chatStore.deleteSession(chatStore.currentSessionIndex);
+                if (confirm(Locale.Home.DeleteChat)) {
+                  chatStore.deleteSession(chatStore.currentSessionIndex);
+                }
               }}
             />
           </div>
