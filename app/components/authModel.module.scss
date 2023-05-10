@@ -1,0 +1,29 @@
+@import "../styles/animation.scss";
+.auth-modal {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+
+  .auth-filter {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    animation: slide-in ease 0.3s;
+    height: 40px;
+
+    display: flex;
+
+    .auth-input {
+      flex-grow: 1;
+      max-width: 100%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 30px;
+    }
+  }
+}
+
+.auth-font {
+  font-size: 14px;
+  color: #1d93ab;
+}

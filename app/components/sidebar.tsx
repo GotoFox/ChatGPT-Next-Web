@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useState } from "react";
 
 import styles from "./home.module.scss";
 
@@ -15,6 +16,8 @@ import UserIcon from "../icons/user.svg";
 import Locale from "../locales";
 
 import { useAppConfig, useChatStore } from "../store";
+
+import { AuthModel } from "./authModel";
 
 import {
   MAX_SIDEBAR_WIDTH,
@@ -112,6 +115,7 @@ export function SideBar(props: { className?: string }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isUser = location.pathname === Path.User;
+  const [showModal, setShowModal] = useState(false);
 
   const config = useAppConfig();
 
@@ -184,29 +188,36 @@ export function SideBar(props: { className?: string }) {
               shadow
               onClick={async () => {
                 const token = localStorage.getItem("access_token");
+                const user = JSON.parse(
+                  localStorage.getItem("access_user") as string,
+                );
                 if (!token) {
                   showToast("访问令牌已过期或无效，请重新登录");
+                  setShowModal(true);
                   // navigate(Path.Auth);
                   return;
                 }
                 try {
                   let params = {
-                    username: "test",
+                    username: user.username,
                   };
                   let res = await PostUser(params);
                   if (res.status === 200) {
                     navigate(Path.User);
                   } else {
                     showToast(res && (res as any).msg);
+                    setShowModal(true);
                     // isUser && navigate(Path.Auth);
                   }
                 } catch (error) {
                   const errorMessage = (error as any).response?.data?.msg;
                   showToast(errorMessage);
+                  setShowModal(true);
                   // isUser && navigate(Path.Auth);
                 }
               }}
             />
+            <AuthModel showModal={showModal} setShowModal={setShowModal} />
           </div>
         </div>
         <div>
