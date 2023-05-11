@@ -58,6 +58,7 @@ import { Avatar } from "./emoji";
 import { MaskAvatar, MaskConfig } from "./mask";
 import { useMaskStore } from "../store/mask";
 import { useCommand } from "../command";
+import { AuthModel } from "@/app/components/authModel";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -408,6 +409,7 @@ export function Chat() {
   const [hitBottom, setHitBottom] = useState(true);
   const isMobileScreen = useMobileScreen();
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const onChatBodyScroll = (e: HTMLElement) => {
     const isTouchBottom = e.scrollTop + e.clientHeight >= e.scrollHeight - 100;
@@ -472,6 +474,12 @@ export function Chat() {
 
   const doSubmit = (userInput: string) => {
     if (userInput.trim() === "") return;
+    // Check whether you are logged in. If you are not logged in, the login box will pop up.
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setShowModal(true);
+      return;
+    }
     setIsLoading(true);
     chatStore.onUserInput(userInput).then(() => setIsLoading(false));
     localStorage.setItem(LAST_INPUT_KEY, userInput);
@@ -757,7 +765,7 @@ export function Chat() {
           );
         })}
       </div>
-
+      <AuthModel showModal={showModal} setShowModal={setShowModal} />
       <div className={styles["chat-input-panel"]}>
         <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
 

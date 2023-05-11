@@ -117,6 +117,7 @@ export function SideBar(props: { className?: string }) {
   const [showModal, setShowModal] = useState(false);
 
   const config = useAppConfig();
+  const token = localStorage.getItem("access_token");
 
   useHotKey();
 
@@ -186,7 +187,6 @@ export function SideBar(props: { className?: string }) {
               icon={<UserIcon />}
               shadow
               onClick={async () => {
-                const token = localStorage.getItem("access_token");
                 if (!token) {
                   setShowModal(true);
                   return;
@@ -202,6 +202,10 @@ export function SideBar(props: { className?: string }) {
             icon={<AddIcon />}
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
             onClick={() => {
+              if (!token) {
+                setShowModal(true);
+                return;
+              }
               if (config.dontShowMaskSplashScreen) {
                 chatStore.newSession();
                 navigate(Path.Chat);
