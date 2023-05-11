@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
 
 import styles from "./user.module.scss";
 import { PostUser } from "../http/user";
+import { Loading } from "./home";
 
 import ResetIcon from "../icons/reload.svg";
 import AddIcon from "../icons/add.svg";
@@ -54,6 +55,7 @@ export function Users() {
 
   const updateStore = useUpdateStore();
   const [checkingUpdate, setCheckingUpdate] = useState(false);
+  const [loading, setLoading] = useState(true); // 添加 loading 状态
   const [loadingUsage, setLoadingUsage] = useState(false);
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -61,20 +63,31 @@ export function Users() {
       setLoadingUsage(false);
     });
   }
-
+  const user = JSON.parse(localStorage.getItem("access_user") as string);
   async function ClickUser() {
+    setLoading(true); // 开始请求时设置 loading 为 true
     let params = {
-      username: "test",
+      username: user.username,
     };
     try {
       let res = await PostUser(params);
+      setLoading(false); // 成功返回时设置 loading 为 false
     } catch (error) {
       const errorMessage = error.response?.data?.msg;
       showToast(errorMessage);
+      setLoading(false); // 请求出错时设置 loading 为 false
+      navigate(Path.Home); // 跳转回 Home 页面
     }
   }
 
-  const user = JSON.parse(localStorage.getItem("access_user") ?? "null");
+  useEffect(() => {
+    ClickUser(); // 页面渲染时自动请求用户信息
+  }, []);
+
+  if (loading) {
+    // 如果 loading 为 true，则显示 Loading 组件
+    return <Loading />;
+  }
 
   return (
     <ErrorBoundary>

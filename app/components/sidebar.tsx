@@ -31,7 +31,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showToast } from "./ui-lib";
-import { PostLogin, PostUser } from "@/app/http/user";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -188,33 +187,11 @@ export function SideBar(props: { className?: string }) {
               shadow
               onClick={async () => {
                 const token = localStorage.getItem("access_token");
-                const user = JSON.parse(
-                  localStorage.getItem("access_user") as string,
-                );
                 if (!token) {
-                  // showToast("访问令牌已过期或无效，请重新登录");
                   setShowModal(true);
-                  // navigate(Path.Auth);
                   return;
                 }
-                try {
-                  let params = {
-                    username: user.username,
-                  };
-                  let res = await PostUser(params);
-                  if (res.status === 200) {
-                    navigate(Path.User);
-                  } else {
-                    showToast(res && (res as any).msg);
-                    setShowModal(true);
-                    // isUser && navigate(Path.Auth);
-                  }
-                } catch (error) {
-                  const errorMessage = (error as any).response?.data?.msg;
-                  showToast(errorMessage);
-                  setShowModal(true);
-                  // isUser && navigate(Path.Auth);
-                }
+                navigate(Path.User);
               }}
             />
             <AuthModel showModal={showModal} setShowModal={setShowModal} />
