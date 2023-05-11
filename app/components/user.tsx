@@ -200,7 +200,7 @@ export function Users() {
               <IconButton
                 icon={<CopyIcon></CopyIcon>}
                 text={"复制"}
-                onClick={() => checkUsage(true)}
+                onClick={() => copyToClipboard(user?.invite_code)}
               />
             </div>
           </ListItem>
