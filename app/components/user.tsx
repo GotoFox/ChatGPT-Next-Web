@@ -52,6 +52,7 @@ export function Users() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const config = useAppConfig();
   const updateConfig = config.update;
+  const user = JSON.parse(localStorage.getItem("access_user") as string);
 
   const updateStore = useUpdateStore();
   const [checkingUpdate, setCheckingUpdate] = useState(false);
@@ -63,21 +64,29 @@ export function Users() {
       setLoadingUsage(false);
     });
   }
-  const user = JSON.parse(localStorage.getItem("access_user") as string);
   async function ClickUser() {
     setLoading(true); // 开始请求时设置 loading 为 true
-    let params = {
-      username: user.username,
-    };
+    const params = { username: user.username };
     try {
-      let res = await PostUser(params);
-      setLoading(false); // 成功返回时设置 loading 为 false
+      const res = await PostUser(params);
+      if (res.status === 200) {
+        setLoading(false); // 成功返回时设置 loading 为 false
+      } else {
+        handleNavigationError();
+      }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.msg;
+      const errorMessage = error.response?.data?.msg ?? "网络请求出错，请重试";
+      console.error(errorMessage);
       showToast(errorMessage);
       setLoading(false); // 请求出错时设置 loading 为 false
-      navigate(Path.Home); // 跳转回 Home 页面
+      handleNavigationError();
     }
+  }
+
+  function handleNavigationError() {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("access_user");
+    navigate(Path.Home); // 跳转回 Home 页面
   }
 
   useEffect(() => {
