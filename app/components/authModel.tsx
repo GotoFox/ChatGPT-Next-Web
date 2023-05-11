@@ -21,6 +21,7 @@ export function AuthModel(props: {
     username: "",
     password: "",
     email: "",
+    inviteCode: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -29,6 +30,7 @@ export function AuthModel(props: {
       username: "",
       password: "",
       email: "",
+      inviteCode: "",
     });
   }, [props.showModal]);
 
@@ -37,6 +39,7 @@ export function AuthModel(props: {
       username: "",
       password: "",
       email: "",
+      inviteCode: "",
     });
 
     const accountUser = JSON.parse(
@@ -49,6 +52,7 @@ export function AuthModel(props: {
           username: accountUser.username,
           password: accountUser.password,
           email: "",
+          inviteCode: "",
         });
         setCheckbox(true);
       }
@@ -101,9 +105,13 @@ export function AuthModel(props: {
   }
 
   async function registerSubmit() {
-    const { username, email, password } = user;
+    const { username, email, password, inviteCode } = user;
     if (!username || !email || !password) {
       showToast("用户名、邮箱和密码不能为空");
+      return;
+    }
+    if (!inviteCode) {
+      showToast("邀请码不能为空");
       return;
     }
     if (!/^[a-zA-Z0-9]{1,30}$/.test(user.username)) {
@@ -219,6 +227,7 @@ export function AuthModel(props: {
                               username: "",
                               password: "",
                               email: "",
+                              inviteCode: "",
                             });
                           }}
                         >
@@ -305,6 +314,27 @@ export function AuthModel(props: {
                         icon={<ClearIcon />}
                       />
                     </div>
+                    <div className={styles["auth-filter"]}>
+                      <input
+                        type="text"
+                        value={user.inviteCode}
+                        className={styles["auth-input"]}
+                        placeholder={"请输入邀请码"}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...user,
+                            inviteCode: e.target.value,
+                          })
+                        }
+                      />
+                      <IconButton
+                        bordered
+                        onClick={() =>
+                          setUserInput({ ...user, inviteCode: "" })
+                        }
+                        icon={<ClearIcon />}
+                      />
+                    </div>
                     {isRegistering && (
                       <div className={styles["auth-writing"]}>
                         <span
@@ -315,6 +345,7 @@ export function AuthModel(props: {
                               username: "",
                               password: "",
                               email: "",
+                              inviteCode: "",
                             });
                           }}
                         >
@@ -325,17 +356,13 @@ export function AuthModel(props: {
                         </span>
                         <span
                           className={styles["auth-font-no"]}
-                          style={{ opacity: 0 }}
                           onClick={() => {
-                            setCheckbox(!isChecked);
+                            showToast(
+                              "邀请码机制已上线，请使用已注册用户分享的邀请码",
+                            );
                           }}
                         >
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => {}}
-                          />
-                          <label>找回密码</label>
+                          <label>获取邀请码</label>
                         </span>
                       </div>
                     )}
