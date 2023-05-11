@@ -92,7 +92,6 @@ export function AuthModel(props: {
         }
         props.setShowModal(false);
         setIsRegistering(false);
-        navigate(Path.User);
       } else {
         showToast(res && (res as any).msg);
       }
