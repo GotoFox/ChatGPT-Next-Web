@@ -5,6 +5,7 @@ import styles from "./authModel.module.scss";
 import DeleteIcon from "@/app/icons/delete.svg";
 import ClearIcon from "../icons/clear.svg";
 import LoginIcon from "../icons/login.svg";
+import LoadingIcon from "../icons/three-dots.svg";
 import { Path } from "@/app/constant";
 import { PostLogin, PostRegister, PostUser } from "@/app/http/user";
 import { useNavigate } from "react-router-dom";
@@ -14,20 +15,14 @@ export function AuthModel(props: {
   setShowModal: (show: boolean) => void;
 }) {
   const [isRegistering, setIsRegistering] = useState(false);
-  const navigate = useNavigate();
-
   const [isChecked, setCheckbox] = useState(false);
-
-  const toggleCheckbox = () => {
-    setCheckbox(!isChecked);
-  };
-
-  let Title = isRegistering ? "注册" : "登录";
+  const navigate = useNavigate();
   const [user, setUserInput] = useState({
     username: "",
     password: "",
     email: "",
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setUserInput({
@@ -37,6 +32,29 @@ export function AuthModel(props: {
     });
   }, [props.showModal]);
 
+  useEffect(() => {
+    setUserInput({
+      username: "",
+      password: "",
+      email: "",
+    });
+
+    const accountUser = JSON.parse(
+      localStorage.getItem("account_user") ?? "null",
+    );
+
+    if (!isRegistering) {
+      if (accountUser) {
+        setUserInput({
+          username: accountUser.username,
+          password: accountUser.password,
+          email: "",
+        });
+        setCheckbox(true);
+      }
+    }
+  }, [props.showModal]);
+
   async function loginSubmit() {
     console.log(isChecked, "isChecked40");
     if (!user.username || !user.password) {
@@ -44,6 +62,7 @@ export function AuthModel(props: {
       return;
     }
     try {
+      setLoading(true);
       const { username, password } = user;
       const params = {
         [username.includes("@") ? "email" : "username"]: username,
@@ -76,31 +95,10 @@ export function AuthModel(props: {
     } catch (error) {
       const errorMessage = (error as any).response?.data?.msg;
       showToast(errorMessage);
+    } finally {
+      setLoading(false);
     }
   }
-
-  useEffect(() => {
-    setUserInput({
-      username: "",
-      password: "",
-      email: "",
-    });
-
-    const accountUser = JSON.parse(
-      localStorage.getItem("account_user") ?? "null",
-    );
-
-    if (!isRegistering) {
-      if (accountUser) {
-        setUserInput({
-          username: accountUser.username,
-          password: accountUser.password,
-          email: "",
-        });
-        setCheckbox(true);
-      }
-    }
-  }, [props.showModal]);
 
   async function registerSubmit() {
     const { username, email, password } = user;
@@ -118,6 +116,7 @@ export function AuthModel(props: {
     }
 
     try {
+      setLoading(true);
       let res = await PostRegister(user);
       if (res.status === 200) {
         showToast(res && (res as any).msg);
@@ -128,8 +127,12 @@ export function AuthModel(props: {
     } catch (error) {
       const errorMessage = (error as any).response?.data?.msg;
       showToast(errorMessage);
+    } finally {
+      setLoading(false);
     }
   }
+
+  let Title = isRegistering ? "注册" : "登录";
 
   return (
     <div>
@@ -148,6 +151,7 @@ export function AuthModel(props: {
                 icon={<LoginIcon />}
                 text={isRegistering ? "立即注册" : "立即登录"}
                 onClick={isRegistering ? registerSubmit : loginSubmit}
+                disabled={loading}
               />,
               <IconButton
                 key="cancel"
@@ -158,6 +162,7 @@ export function AuthModel(props: {
                   props.setShowModal(false);
                   setIsRegistering(false);
                 }}
+                // disabled={loading}
               />,
             ]}
           >
@@ -219,15 +224,19 @@ export function AuthModel(props: {
                         >
                           没有账号？注册账号&gt;&gt;
                         </span>
+                        <span className={styles["auth-loading"]}>
+                          {loading && <LoadingIcon />}
+                        </span>
                         <span
                           className={styles["auth-font-no"]}
-                          onClick={toggleCheckbox}
+                          onClick={() => {
+                            setCheckbox(!isChecked);
+                          }}
                         >
                           <input
                             type="checkbox"
                             checked={isChecked}
                             onChange={() => {}}
-                            onClick={toggleCheckbox}
                           />
                           <label>记住密码</label>
                         </span>
@@ -297,18 +306,37 @@ export function AuthModel(props: {
                       />
                     </div>
                     {isRegistering && (
-                      <div
-                        className={styles["auth-font"]}
-                        onClick={() => {
-                          setIsRegistering(false);
-                          setUserInput({
-                            username: "",
-                            password: "",
-                            email: "",
-                          });
-                        }}
-                      >
-                        已有账号，登录账号&gt;&gt;
+                      <div className={styles["auth-writing"]}>
+                        <span
+                          className={styles["auth-font"]}
+                          onClick={() => {
+                            setIsRegistering(false);
+                            setUserInput({
+                              username: "",
+                              password: "",
+                              email: "",
+                            });
+                          }}
+                        >
+                          已有账号，登录账号&gt;&gt;
+                        </span>
+                        <span className={styles["auth-loading"]}>
+                          {loading && <LoadingIcon />}
+                        </span>
+                        <span
+                          className={styles["auth-font-no"]}
+                          style={{ opacity: 0 }}
+                          onClick={() => {
+                            setCheckbox(!isChecked);
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={() => {}}
+                          />
+                          <label>找回密码</label>
+                        </span>
                       </div>
                     )}
                   </div>
