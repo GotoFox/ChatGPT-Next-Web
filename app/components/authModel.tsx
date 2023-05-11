@@ -96,7 +96,8 @@ export function AuthModel(props: {
         showToast(res && (res as any).msg);
       }
     } catch (error) {
-      const errorMessage = (error as any).response?.data?.msg;
+      const errorMessage =
+        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
       showToast(errorMessage);
     } finally {
       setLoading(false);
@@ -132,7 +133,8 @@ export function AuthModel(props: {
         showToast(res && (res as any).msg);
       }
     } catch (error) {
-      const errorMessage = (error as any).response?.data?.msg;
+      const errorMessage =
+        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
       showToast(errorMessage);
     } finally {
       setLoading(false);
