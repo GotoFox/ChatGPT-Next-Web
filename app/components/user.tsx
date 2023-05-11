@@ -51,8 +51,6 @@ export function Users() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const config = useAppConfig();
   const updateConfig = config.update;
-  const resetConfig = config.reset;
-  const chatStore = useChatStore();
 
   const updateStore = useUpdateStore();
   const [checkingUpdate, setCheckingUpdate] = useState(false);
@@ -63,18 +61,6 @@ export function Users() {
       setLoadingUsage(false);
     });
   }
-
-  const accessStore = useAccessStore();
-  const enabledAccessControl = useMemo(
-    () => accessStore.enabledAccessControl(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  const promptStore = usePromptStore();
-  const builtinCount = SearchService.count.builtin;
-  const customCount = promptStore.getUserPrompts().length ?? 0;
-  const [shouldShowPromptModal, setShowPromptModal] = useState(false);
 
   async function ClickUser() {
     let params = {
