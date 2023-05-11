@@ -72,7 +72,7 @@ export function Users() {
     try {
       let res = await PostUser(params);
       setLoading(false); // 成功返回时设置 loading 为 false
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = error.response?.data?.msg;
       showToast(errorMessage);
       setLoading(false); // 请求出错时设置 loading 为 false
