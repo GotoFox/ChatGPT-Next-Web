@@ -46,18 +46,6 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarPicker } from "./emoji";
 import UserIcon from "@/app/icons/user.svg";
 
-function formatVersionDate(t: string) {
-  const d = new Date(+t);
-  const year = d.getUTCFullYear();
-  const month = d.getUTCMonth() + 1;
-  const day = d.getUTCDate();
-
-  return [
-    year.toString(),
-    month.toString().padStart(2, "0"),
-    day.toString().padStart(2, "0"),
-  ].join("");
-}
 export function Users() {
   const navigate = useNavigate();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -68,30 +56,6 @@ export function Users() {
 
   const updateStore = useUpdateStore();
   const [checkingUpdate, setCheckingUpdate] = useState(false);
-  const currentVersion = formatVersionDate(updateStore.version);
-  const remoteId = formatVersionDate(updateStore.remoteVersion);
-  const hasNewVersion = currentVersion !== remoteId;
-
-  function checkUpdate(force = false) {
-    setCheckingUpdate(true);
-    updateStore.getLatestVersion(force).then(() => {
-      setCheckingUpdate(false);
-    });
-
-    console.log(
-      "[Update] local version ",
-      new Date(+updateStore.version).toLocaleString(),
-    );
-    console.log(
-      "[Update] remote version ",
-      new Date(+updateStore.remoteVersion).toLocaleString(),
-    );
-  }
-
-  const usage = {
-    used: updateStore.used,
-    subscription: updateStore.subscription,
-  };
   const [loadingUsage, setLoadingUsage] = useState(false);
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -112,34 +76,13 @@ export function Users() {
   const customCount = promptStore.getUserPrompts().length ?? 0;
   const [shouldShowPromptModal, setShowPromptModal] = useState(false);
 
-  const showUsage = accessStore.isAuthorized();
-  useEffect(() => {
-    // checks per minutes
-    checkUpdate();
-    showUsage && checkUsage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const keydownEvent = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        navigate(Path.Home);
-      }
-    };
-    document.addEventListener("keydown", keydownEvent);
-    return () => {
-      document.removeEventListener("keydown", keydownEvent);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   async function ClickUser() {
     let params = {
       username: "test",
     };
     try {
       let res = await PostUser(params);
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = error.response?.data?.msg;
       showToast(errorMessage);
     }
