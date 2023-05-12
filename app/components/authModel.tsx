@@ -24,6 +24,9 @@ export function AuthModel(props: {
     inviteCode: "",
   });
   const [loading, setLoading] = useState(false);
+  const accountUser = JSON.parse(
+    localStorage.getItem("account_user") ?? "null",
+  );
 
   useEffect(() => {
     setUserInput({
@@ -41,10 +44,6 @@ export function AuthModel(props: {
       email: "",
       inviteCode: "",
     });
-
-    const accountUser = JSON.parse(
-      localStorage.getItem("account_user") ?? "null",
-    );
 
     if (!isRegistering) {
       if (accountUser) {
@@ -354,6 +353,16 @@ export function AuthModel(props: {
                               email: "",
                               inviteCode: "",
                             });
+                            if (isChecked) {
+                              if (accountUser) {
+                                setUserInput({
+                                  username: accountUser.username,
+                                  password: accountUser.password,
+                                  email: "",
+                                  inviteCode: "",
+                                });
+                              }
+                            }
                           }}
                         >
                           已有账号，登录账号&gt;&gt;
