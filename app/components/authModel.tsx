@@ -59,7 +59,6 @@ export function AuthModel(props: {
   }, [props.showModal]);
 
   async function loginSubmit() {
-    console.log(isChecked, "isChecked40");
     if (!user.username || !user.password) {
       showToast("用户名和密码不能为空");
       return;

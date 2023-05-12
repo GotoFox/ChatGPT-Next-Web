@@ -83,3 +83,33 @@
 .fixBox {
   display: flex;
 }
+
+.edit-password-modal {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  overflow-y: auto;
+  font-size: 14px;
+
+  .edit-password-filter {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    animation: slide-in ease 0.3s;
+    height: 40px;
+    display: flex;
+
+    .edit-password-input {
+      flex-grow: 1;
+      max-width: 100%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 20px;
+    }
+  }
+}
+
+.user-center-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

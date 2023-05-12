@@ -1,7 +1,7 @@
-import { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
+import React, { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
 
 import styles from "./user.module.scss";
-import { PostUser } from "../http/user";
+import { PostChangePassword, PostUser } from "../http/user";
 import { Loading } from "./home";
 
 import ResetIcon from "../icons/reload.svg";
@@ -46,6 +46,8 @@ import { InputRange } from "./input-range";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarPicker } from "./emoji";
 import UserIcon from "@/app/icons/user.svg";
+import DeleteIcon from "@/app/icons/delete.svg";
+import LoadingIcon from "@/app/icons/three-dots.svg";
 
 export function Users() {
   const navigate = useNavigate();
@@ -58,6 +60,8 @@ export function Users() {
   const [checkingUpdate, setCheckingUpdate] = useState(false);
   const [loading, setLoading] = useState(true); // 添加 loading 状态
   const [loadingUsage, setLoadingUsage] = useState(false);
+  const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
+
   function checkUsage(force = false) {
     setLoadingUsage(true);
     updateStore.updateUsage(force).finally(() => {
@@ -97,6 +101,12 @@ export function Users() {
     // 如果 loading 为 true，则显示 Loading 组件
     return <Loading />;
   }
+
+  const handleSavePassword = () => {
+    // 保存密码逻辑
+    console.log("saving password");
+    setShowEditPasswordModal(false);
+  };
 
   return (
     <ErrorBoundary>
@@ -159,7 +169,7 @@ export function Users() {
               <IconButton
                 icon={<EditIcon />}
                 text={"修改"}
-                onClick={() => checkUsage(true)}
+                onClick={() => setShowEditPasswordModal(true)}
               />
             </div>
           </ListItem>
@@ -251,6 +261,111 @@ export function Users() {
           </ListItem>
         </List>
       </div>
+      {showEditPasswordModal && (
+        <EditPasswordModal onClose={() => setShowEditPasswordModal(false)} />
+      )}
     </ErrorBoundary>
+  );
+}
+
+function EditPasswordModal(props: { onClose?: () => void }) {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("access_user") as string);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <div className="modal-mask">
+      <Modal
+        title={"修改密码"}
+        onClose={() => props.onClose?.()}
+        actions={[
+          <IconButton
+            key="add"
+            onClick={async () => {
+              // 保存密码逻辑
+              console.log("saving password");
+              if (!oldPassword || !newPassword) {
+                showToast("当前密码和新密码不能为空");
+                return;
+              }
+              try {
+                setLoading(true);
+                const { username } = user;
+                const params = {
+                  [username.includes("@") ? "email" : "username"]: username,
+                  oldPassword: oldPassword,
+                  newPassword: newPassword,
+                };
+                let res = await PostChangePassword(params);
+                if (res.status === 200) {
+                  showToast(res && (res as any).msg);
+                  props.onClose?.();
+                  localStorage.removeItem("access_token");
+                  localStorage.removeItem("access_user");
+                  navigate(Path.Home);
+                } else {
+                  showToast(res && (res as any).msg);
+                }
+              } catch (error) {
+                const errorMessage =
+                  (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+                showToast(errorMessage);
+              } finally {
+                setLoading(false);
+              }
+            }}
+            icon={<AddIcon />}
+            bordered
+            text={"保存"}
+          />,
+          <IconButton
+            key="cancel"
+            bordered
+            text={"取消"}
+            icon={<DeleteIcon />}
+            onClick={() => {
+              console.log("取消");
+              props.onClose?.();
+            }}
+          />,
+        ]}
+      >
+        <div className={styles["edit-password-modal"]}>
+          <div className={styles["edit-password-filter"]}>
+            <input
+              className={styles["edit-password-input"]}
+              type="text"
+              placeholder={"当前密码"}
+              value={oldPassword}
+              onInput={(e) => setOldPassword(e.currentTarget.value)}
+            />
+            <IconButton
+              bordered
+              onClick={() => setOldPassword("")}
+              icon={<ClearIcon />}
+            />
+          </div>
+          <div className={styles["edit-password-filter"]}>
+            <input
+              className={styles["edit-password-input"]}
+              type="text"
+              placeholder={"新密码"}
+              value={newPassword}
+              onInput={(e) => setNewPassword(e.currentTarget.value)}
+            />
+            <IconButton
+              bordered
+              onClick={() => setNewPassword("")}
+              icon={<ClearIcon />}
+            />
+          </div>
+        </div>
+        <span className={styles["user-center-loading"]}>
+          {loading && <LoadingIcon />}
+        </span>
+      </Modal>
+    </div>
   );
 }
