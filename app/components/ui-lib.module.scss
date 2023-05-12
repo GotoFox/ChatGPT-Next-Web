@@ -99,7 +99,7 @@
   }
 
   .modal-content {
-    max-height: 40vh;
+    max-height: 100vh;
     padding: var(--modal-padding);
     overflow: auto;
   }
@@ -207,7 +207,7 @@
 .select-with-icon {
   position: relative;
   max-width: fit-content;
-  
+
   .select-with-icon-select {
     height: 100%;
     border: var(--border-in-light);

@@ -3,22 +3,27 @@
   padding-top: 20px;
   padding-bottom: 20px;
   overflow-y: auto;
+  font-size: 14px;
 
   .auth-filter {
     width: 100%;
     max-width: 100%;
     margin-bottom: 20px;
     animation: slide-in ease 0.3s;
-    height: 40px;
-
+    height: 70px;
     display: flex;
+    flex-wrap: wrap;
+
+    .auth-filter-title {
+      width: 100%;
+    }
 
     .auth-input {
       flex-grow: 1;
       max-width: 100%;
       min-width: 0;
       text-align: left;
-      margin-right: 30px;
+      margin-right: 20px;
     }
   }
 }
@@ -34,12 +39,12 @@
   align-items: center;
 }
 
-.auth-writing{
+.auth-writing {
   display: flex;
   justify-content: space-between;
 }
 
-.auth-loading{
+.auth-loading {
   display: flex;
   align-items: center;
 }

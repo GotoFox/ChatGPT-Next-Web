@@ -181,6 +181,7 @@ export function AuthModel(props: {
                 {!isRegistering && (
                   <div className={styles["auth-modal"]}>
                     <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>用户名</div>
                       <input
                         type="text"
                         value={user.username}
@@ -200,6 +201,7 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>密码</div>
                       <input
                         type="password"
                         value={user.password}
@@ -259,6 +261,7 @@ export function AuthModel(props: {
                 {isRegistering && (
                   <div className={styles["auth-modal"]}>
                     <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>用户名</div>
                       <input
                         type="text"
                         value={user.username}
@@ -278,6 +281,7 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>邮箱</div>
                       <input
                         type="text"
                         value={user.email}
@@ -297,6 +301,7 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>密码</div>
                       <input
                         type="password"
                         value={user.password}
@@ -316,6 +321,7 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>邀请码</div>
                       <input
                         type="text"
                         value={user.inviteCode}
