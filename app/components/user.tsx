@@ -283,9 +283,9 @@ function EditPasswordModal(props: { onClose?: () => void }) {
         actions={[
           <IconButton
             key="add"
+            disabled={loading}
             onClick={async () => {
-              // 保存密码逻辑
-              console.log("saving password");
+              // 修改密码逻辑
               if (!oldPassword || !newPassword) {
                 showToast("当前密码和新密码不能为空");
                 return;
@@ -318,7 +318,7 @@ function EditPasswordModal(props: { onClose?: () => void }) {
             }}
             icon={<AddIcon />}
             bordered
-            text={"保存"}
+            text={"确认修改"}
           />,
           <IconButton
             key="cancel"
