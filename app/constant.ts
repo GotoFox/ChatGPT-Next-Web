@@ -1,6 +1,6 @@
 import { Users } from "@/app/components/user";
 
-export const OWNER = "Yidadaa";
+export const OWNER = "GotoFox";
 export const REPO = "ChatGPT-Next-Web";
 export const REPO_URL = `https://github.com/${OWNER}/${REPO}`;
 export const ISSUE_URL = `https://github.com/${OWNER}/${REPO}/issues`;
