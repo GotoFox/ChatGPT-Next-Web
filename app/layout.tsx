@@ -9,11 +9,19 @@ const buildConfig = getBuildConfig();
 export const metadata = {
   title: "ChatGPT-Client",
   description: "Your Personal ChatGPT Chat AiBot.",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#151515" },
+  ],
   appleWebApp: {
     title: "ChatGPT-Client",
     statusBarStyle: "default",
   },
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
 };
 
 export default function RootLayout({
@@ -24,16 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta
-          name="theme-color"
-          content="#fafafa"
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="theme-color"
-          content="#151515"
-          media="(prefers-color-scheme: dark)"
-        />
         <meta name="version" content={buildConfig.commitId} />
         <link rel="manifest" href="/site.webmanifest"></link>
         <script src="/serviceWorkerRegister.js" defer></script>
