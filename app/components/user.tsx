@@ -67,7 +67,6 @@ export function Users() {
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
   const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
     useState(false);
-  const [InvitationRecordsData, setInvitationRecordsData] = useState([]);
 
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -114,26 +113,6 @@ export function Users() {
     console.log("saving password");
     setShowEditPasswordModal(false);
   };
-
-  // 查询邀请记录
-  async function doClickInvitationRecords() {
-    try {
-      const { username, invite_code } = user;
-      const params = { username, invite_code };
-
-      let res = await PostInvitationRecords(params);
-      if (res.status === 200) {
-        setShowInvitationRecordsModal(true);
-        setInvitationRecordsData(res.data);
-      } else {
-        showToast(res && (res as any).msg);
-      }
-    } catch (error) {
-      const errorMessage =
-        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
-      showToast(errorMessage);
-    }
-  }
 
   return (
     <ErrorBoundary>
@@ -250,7 +229,7 @@ export function Users() {
               <IconButton
                 icon={<EyeIcon></EyeIcon>}
                 text={"查看"}
-                onClick={() => doClickInvitationRecords()}
+                onClick={() => setShowInvitationRecordsModal(true)}
               />
             </div>
           </ListItem>
@@ -297,7 +276,6 @@ export function Users() {
       {showInvitationRecordsModal && (
         <InvitationRecordsModal
           onClose={() => setShowInvitationRecordsModal(false)}
-          data={InvitationRecordsData}
         />
       )}
     </ErrorBoundary>
@@ -405,7 +383,40 @@ function EditPasswordModal(props: { onClose?: () => void }) {
   );
 }
 
-function InvitationRecordsModal(props: { onClose?: () => void; data: any }) {
+function InvitationRecordsModal(props: { onClose?: () => void }) {
+  const [loading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem("access_user") as string);
+  const [invitationRecordsData, setInvitationRecordsData] = useState<{
+    list: any[];
+  }>({ list: [] });
+
+  useEffect(() => {
+    doClickInvitationRecords();
+  }, []);
+
+  // 查询邀请记录
+  async function doClickInvitationRecords() {
+    try {
+      setLoading(true);
+      const { username, invite_code } = user;
+      const params = { username, invite_code };
+
+      let res = await PostInvitationRecords(params);
+      if (res.status === 200) {
+        setInvitationRecordsData(res.data);
+        setLoading(false);
+      } else {
+        showToast(res && (res as any).msg);
+      }
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+      showToast(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="modal-mask">
       <Modal
@@ -434,36 +445,48 @@ function InvitationRecordsModal(props: { onClose?: () => void; data: any }) {
                 </div>
               </div>
 
-              {props.data && props.data.list && props.data.list.length > 0 ? (
-                props.data.list.map(
-                  (
-                    item: {
-                      username: string;
-                      email: string;
-                      create_time: string;
-                    },
-                    index: number,
-                  ) => (
-                    <div key={index} className={styles["model-item"]}>
+              {!loading ? (
+                <div>
+                  {invitationRecordsData &&
+                  invitationRecordsData.list &&
+                  invitationRecordsData.list.length > 0 ? (
+                    invitationRecordsData.list.map(
+                      (
+                        item: {
+                          username: string;
+                          email: string;
+                          create_time: string;
+                        },
+                        index: number,
+                      ) => (
+                        <div key={index} className={styles["model-item"]}>
+                          <div className={styles["header"]}>
+                            <div className={styles["title-text"]}>
+                              {item.username}
+                            </div>
+                            <div className={styles["title-text"]}>
+                              {item.email}
+                            </div>
+                            <div className={styles["title-text"]}>
+                              {item.create_time}
+                            </div>
+                          </div>
+                        </div>
+                      ),
+                    )
+                  ) : (
+                    <div className={styles["model-item"]}>
                       <div className={styles["header"]}>
-                        <div className={styles["title-text"]}>
-                          {item.username}
-                        </div>
-                        <div className={styles["title-text"]}>{item.email}</div>
-                        <div className={styles["title-text"]}>
-                          {item.create_time}
-                        </div>
+                        <div className={styles["title-text"]}>暂无邀请记录</div>
+                        <div className={styles["title-text"]}></div>
+                        <div className={styles["title-text"]}></div>
                       </div>
                     </div>
-                  ),
-                )
+                  )}
+                </div>
               ) : (
-                <div className={styles["model-item"]}>
-                  <div className={styles["header"]}>
-                    <div className={styles["title-text"]}>暂无邀请记录</div>
-                    <div className={styles["title-text"]}></div>
-                    <div className={styles["title-text"]}></div>
-                  </div>
+                <div className={styles["loading-center"]}>
+                  {loading && <LoadingIcon />}
                 </div>
               )}
             </div>
