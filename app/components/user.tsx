@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
 
 import styles from "./user.module.scss";
-import { PostChangePassword, PostUser } from "../http/user";
+import {
+  PostChangePassword,
+  PostInvitationRecords,
+  PostUser,
+} from "../http/user";
 import { Loading } from "./home";
 
 import ResetIcon from "../icons/reload.svg";
@@ -61,6 +65,9 @@ export function Users() {
   const [loading, setLoading] = useState(true); // 添加 loading 状态
   const [loadingUsage, setLoadingUsage] = useState(false);
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
+    useState(false);
+  const [InvitationRecordsData, setInvitationRecordsData] = useState([]);
 
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -107,6 +114,26 @@ export function Users() {
     console.log("saving password");
     setShowEditPasswordModal(false);
   };
+
+  // 查询邀请记录
+  async function doClickInvitationRecords() {
+    try {
+      const { username, invite_code } = user;
+      const params = { username, invite_code };
+
+      let res = await PostInvitationRecords(params);
+      if (res.status === 200) {
+        setShowInvitationRecordsModal(true);
+        setInvitationRecordsData(res.data);
+      } else {
+        showToast(res && (res as any).msg);
+      }
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+      showToast(errorMessage);
+    }
+  }
 
   return (
     <ErrorBoundary>
@@ -186,14 +213,17 @@ export function Users() {
               <IconButton
                 icon={<ResetIcon></ResetIcon>}
                 text={"重新检查"}
-                onClick={() => checkUsage(true)}
+                onClick={() => showToast("该功能仍在开发中……")}
               />
             </div>
           </ListItem>
           <ListItem title={"所有套餐"} subTitle={""}>
             <div className={styles.font12}>
               {" "}
-              <IconButton text={"升级"} onClick={() => checkUsage(true)} />
+              <IconButton
+                text={"升级"}
+                onClick={() => showToast("该功能仍在开发中……")}
+              />
             </div>
           </ListItem>
         </List>
@@ -220,7 +250,7 @@ export function Users() {
               <IconButton
                 icon={<EyeIcon></EyeIcon>}
                 text={"查看"}
-                onClick={() => ClickUser()}
+                onClick={() => doClickInvitationRecords()}
               />
             </div>
           </ListItem>
@@ -229,16 +259,16 @@ export function Users() {
         <List>
           <ListItem title={"快捷登录"} subTitle={"已绑定的第三方平台"}>
             <div className={styles.fixBox}>
-              <div className={styles["sidebar-action"]}>
+              <div className={styles["user-left"]}>
                 <IconButton icon={<QqIcon />} shadow />
               </div>
-              <div className={styles["sidebar-action"]}>
+              <div className={styles["user-left"]}>
                 <IconButton icon={<WeiXinIcon />} shadow />
               </div>
-              <div className={styles["sidebar-action"]}>
+              <div className={styles["user-left"]}>
                 <IconButton icon={<GithubIcon />} shadow />
               </div>
-              <div className={styles["sidebar-action"]}>
+              <div className={styles["user-left"]}>
                 <IconButton icon={<WeiboIcon />} shadow />
               </div>
             </div>
@@ -246,7 +276,7 @@ export function Users() {
         </List>
 
         <List>
-          <ListItem title={"退出"} subTitle={"退出登录的账号"}>
+          <ListItem title={"退出"} subTitle={"退出当前登录的账号"}>
             <div className={styles.font12}>
               {" "}
               <IconButton
@@ -263,6 +293,12 @@ export function Users() {
       </div>
       {showEditPasswordModal && (
         <EditPasswordModal onClose={() => setShowEditPasswordModal(false)} />
+      )}
+      {showInvitationRecordsModal && (
+        <InvitationRecordsModal
+          onClose={() => setShowInvitationRecordsModal(false)}
+          data={InvitationRecordsData}
+        />
       )}
     </ErrorBoundary>
   );
@@ -326,7 +362,6 @@ function EditPasswordModal(props: { onClose?: () => void }) {
             text={"取消"}
             icon={<DeleteIcon />}
             onClick={() => {
-              console.log("取消");
               props.onClose?.();
             }}
           />,
@@ -365,6 +400,75 @@ function EditPasswordModal(props: { onClose?: () => void }) {
         <span className={styles["user-center-loading"]}>
           {loading && <LoadingIcon />}
         </span>
+      </Modal>
+    </div>
+  );
+}
+
+function InvitationRecordsModal(props: { onClose?: () => void; data: any }) {
+  return (
+    <div className="modal-mask">
+      <Modal
+        title={"邀请记录"}
+        onClose={() => props.onClose?.()}
+        actions={[
+          <IconButton
+            key="cancel"
+            bordered
+            text={"关闭"}
+            icon={<DeleteIcon />}
+            onClick={() => {
+              props.onClose?.();
+            }}
+          />,
+        ]}
+      >
+        <div className={styles["invitationRecords-model-box"]}>
+          <div className={styles["invitationRecords-model"]}>
+            <div className={styles["model-list"]}>
+              <div className={styles["model-item"]}>
+                <div className={styles["header"]}>
+                  <div className={styles["title"]}>用户名</div>
+                  <div className={styles["title"]}>邮箱</div>
+                  <div className={styles["title"]}>注册时间</div>
+                </div>
+              </div>
+
+              {props.data && props.data.list && props.data.list.length > 0 ? (
+                props.data.list.map(
+                  (
+                    item: {
+                      username: string;
+                      email: string;
+                      create_time: string;
+                    },
+                    index: number,
+                  ) => (
+                    <div key={index} className={styles["model-item"]}>
+                      <div className={styles["header"]}>
+                        <div className={styles["title-text"]}>
+                          {item.username}
+                        </div>
+                        <div className={styles["title-text"]}>{item.email}</div>
+                        <div className={styles["title-text"]}>
+                          {item.create_time}
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                )
+              ) : (
+                <div className={styles["model-item"]}>
+                  <div className={styles["header"]}>
+                    <div className={styles["title-text"]}>暂无邀请记录</div>
+                    <div className={styles["title-text"]}></div>
+                    <div className={styles["title-text"]}></div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );

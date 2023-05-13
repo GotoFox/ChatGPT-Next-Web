@@ -113,3 +113,54 @@
   align-items: center;
   justify-content: center;
 }
+
+.invitationRecords-model-box{
+  min-height: 40vh;
+  font-size: 14px;
+  .invitationRecords-model {
+    width: 100%;
+
+    .model-list{
+      border: var(--border-in-light);
+      border-radius: 10px;
+
+      .model-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+
+        &:not(:last-child) {
+          border-bottom: var(--border-in-light);
+        }
+        .header {
+          display: flex;
+          width: 100%;
+          align-items: center;
+          justify-content: inherit;
+
+          .title {
+            font-size: 14px;
+            line-height: 2;
+            width: 33%;
+            font-weight: bold;
+          }
+         .title-text{
+           font-weight: normal;
+           overflow: hidden;
+           text-overflow: ellipsis;
+           white-space: nowrap;
+           font-size: 14px;
+           line-height: 2;
+           width: 33%;
+         }
+        }
+      }
+    }
+
+  }
+}
+
+.user-left{
+  margin-left: 10px;
+}
+
