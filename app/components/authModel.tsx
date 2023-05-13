@@ -199,7 +199,9 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
-                      <div className={styles["auth-filter-title"]}>密码</div>
+                      <div className={styles["auth-filter-title"]}>
+                        密&nbsp;&nbsp;&nbsp;码
+                      </div>
                       <input
                         type="password"
                         value={user.password}
@@ -279,7 +281,9 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
-                      <div className={styles["auth-filter-title"]}>邮箱</div>
+                      <div className={styles["auth-filter-title"]}>
+                        邮&nbsp;&nbsp;&nbsp;箱
+                      </div>
                       <input
                         type="text"
                         value={user.email}
@@ -299,7 +303,9 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
-                      <div className={styles["auth-filter-title"]}>密码</div>
+                      <div className={styles["auth-filter-title"]}>
+                        密&nbsp;&nbsp;&nbsp;码
+                      </div>
                       <input
                         type="password"
                         value={user.password}
@@ -373,7 +379,7 @@ export function AuthModel(props: {
                           className={styles["auth-font-no"]}
                           onClick={() => {
                             showToast(
-                              "邀请码机制已上线，请使用已注册用户分享的邀请码",
+                              "邀请码机制已上线，因系统内测存在许多未知因素，内测期间公共邀请码暂不发布，请使用其他已注册用户生成的邀请码",
                             );
                           }}
                         >
