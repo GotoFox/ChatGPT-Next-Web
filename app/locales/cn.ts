@@ -244,7 +244,7 @@ const cn = {
     logInNow: "立即登录",
     cancel: "取消",
     userName: "用户名",
-    password: "密    码",
+    password: "密   码",
     email: "邮   箱",
     invitationCode: "邀请码",
     noUser: "没有账号？注册账号>>",
