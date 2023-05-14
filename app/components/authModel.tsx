@@ -9,6 +9,7 @@ import LoadingIcon from "../icons/three-dots.svg";
 import { Path } from "@/app/constant";
 import { PostLogin, PostRegister, PostUser } from "@/app/http/user";
 import { useNavigate } from "react-router-dom";
+import Locale from "../locales";
 
 export function AuthModel(props: {
   showModal: boolean;
@@ -60,7 +61,7 @@ export function AuthModel(props: {
 
   async function loginSubmit() {
     if (!user.username || !user.password) {
-      showToast("用户名和密码不能为空");
+      showToast(Locale.authModel.Toast.upCannotBeEmpty);
       return;
     }
     try {
@@ -95,7 +96,7 @@ export function AuthModel(props: {
       }
     } catch (error) {
       const errorMessage =
-        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
       showToast(errorMessage);
     } finally {
       setLoading(false);
@@ -105,19 +106,19 @@ export function AuthModel(props: {
   async function registerSubmit() {
     const { username, email, password, inviteCode } = user;
     if (!username || !email || !password) {
-      showToast("用户名、邮箱和密码不能为空");
+      showToast(Locale.authModel.Toast.uepCannotBeEmpty);
       return;
     }
     if (!inviteCode) {
-      showToast("邀请码不能为空");
+      showToast(Locale.authModel.Toast.invitationCodeCannotBeEmpty);
       return;
     }
     if (!/^[a-zA-Z0-9]{1,30}$/.test(user.username)) {
-      showToast("用户名只能包含英文字母和数字，且长度不能超过30");
+      showToast(Locale.authModel.Toast.usernameRestrictions);
       return;
     }
     if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email)) {
-      showToast("请输入正确的邮箱地址");
+      showToast(Locale.authModel.Toast.emailVerification);
       return;
     }
 
@@ -132,14 +133,16 @@ export function AuthModel(props: {
       }
     } catch (error) {
       const errorMessage =
-        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
       showToast(errorMessage);
     } finally {
       setLoading(false);
     }
   }
 
-  let Title = isRegistering ? "注册" : "登录";
+  let Title = isRegistering
+    ? Locale.authModel.register
+    : Locale.authModel.login;
 
   return (
     <div>
@@ -156,14 +159,18 @@ export function AuthModel(props: {
                 key="confirm"
                 bordered
                 icon={<LoginIcon />}
-                text={isRegistering ? "立即注册" : "立即登录"}
+                text={
+                  isRegistering
+                    ? Locale.authModel.signUpNow
+                    : Locale.authModel.logInNow
+                }
                 onClick={isRegistering ? registerSubmit : loginSubmit}
                 disabled={loading}
               />,
               <IconButton
                 key="cancel"
                 bordered
-                text={"取消"}
+                text={Locale.authModel.cancel}
                 icon={<DeleteIcon />}
                 onClick={() => {
                   props.setShowModal(false);
@@ -179,12 +186,14 @@ export function AuthModel(props: {
                 {!isRegistering && (
                   <div className={styles["auth-modal"]}>
                     <div className={styles["auth-filter"]}>
-                      <div className={styles["auth-filter-title"]}>用户名</div>
+                      <div className={styles["auth-filter-title"]}>
+                        {Locale.authModel.userName}
+                      </div>
                       <input
                         type="text"
                         value={user.username}
                         className={styles["auth-input"]}
-                        placeholder={"请输入用户名/邮箱"}
+                        placeholder={Locale.authModel.Toast.pleaseEnterUe}
                         onChange={(e) =>
                           setUserInput({
                             ...user,
@@ -200,13 +209,13 @@ export function AuthModel(props: {
                     </div>
                     <div className={styles["auth-filter"]}>
                       <div className={styles["auth-filter-title"]}>
-                        密&nbsp;&nbsp;&nbsp;码
+                        {Locale.authModel.password}
                       </div>
                       <input
                         type="password"
                         value={user.password}
                         className={styles["auth-input"]}
-                        placeholder={"请输入密码"}
+                        placeholder={Locale.authModel.Toast.pleaseEnterPwd}
                         onChange={(e) =>
                           setUserInput({
                             ...user,
@@ -234,7 +243,7 @@ export function AuthModel(props: {
                             });
                           }}
                         >
-                          没有账号？注册账号&gt;&gt;
+                          {Locale.authModel.noUser}
                         </span>
                         <span className={styles["auth-loading"]}>
                           {loading && <LoadingIcon />}
@@ -250,7 +259,7 @@ export function AuthModel(props: {
                             checked={isChecked}
                             onChange={() => {}}
                           />
-                          <label>记住密码</label>
+                          <label>{Locale.authModel.rememberPsd}</label>
                         </span>
                       </div>
                     )}
@@ -261,12 +270,14 @@ export function AuthModel(props: {
                 {isRegistering && (
                   <div className={styles["auth-modal"]}>
                     <div className={styles["auth-filter"]}>
-                      <div className={styles["auth-filter-title"]}>用户名</div>
+                      <div className={styles["auth-filter-title"]}>
+                        {Locale.authModel.userName}
+                      </div>
                       <input
                         type="text"
                         value={user.username}
                         className={styles["auth-input"]}
-                        placeholder={"请输入用户名"}
+                        placeholder={Locale.authModel.Toast.pleaseEnterUser}
                         onChange={(e) =>
                           setUserInput({
                             ...user,
@@ -282,13 +293,13 @@ export function AuthModel(props: {
                     </div>
                     <div className={styles["auth-filter"]}>
                       <div className={styles["auth-filter-title"]}>
-                        邮&nbsp;&nbsp;&nbsp;箱
+                        {Locale.authModel.email}
                       </div>
                       <input
                         type="text"
                         value={user.email}
                         className={styles["auth-input"]}
-                        placeholder={"请输入邮箱"}
+                        placeholder={Locale.authModel.Toast.pleaseEnterEmail}
                         onChange={(e) =>
                           setUserInput({
                             ...user,
@@ -304,13 +315,13 @@ export function AuthModel(props: {
                     </div>
                     <div className={styles["auth-filter"]}>
                       <div className={styles["auth-filter-title"]}>
-                        密&nbsp;&nbsp;&nbsp;码
+                        {Locale.authModel.password}
                       </div>
                       <input
                         type="password"
                         value={user.password}
                         className={styles["auth-input"]}
-                        placeholder={"请输入密码"}
+                        placeholder={Locale.authModel.Toast.pleaseEnterPwd}
                         onChange={(e) =>
                           setUserInput({
                             ...user,
@@ -325,12 +336,16 @@ export function AuthModel(props: {
                       />
                     </div>
                     <div className={styles["auth-filter"]}>
-                      <div className={styles["auth-filter-title"]}>邀请码</div>
+                      <div className={styles["auth-filter-title"]}>
+                        {Locale.authModel.invitationCode}
+                      </div>
                       <input
                         type="text"
                         value={user.inviteCode}
                         className={styles["auth-input"]}
-                        placeholder={"请输入邀请码"}
+                        placeholder={
+                          Locale.authModel.Toast.pleaseEnterInvitationCode
+                        }
                         onChange={(e) =>
                           setUserInput({
                             ...user,
@@ -370,7 +385,7 @@ export function AuthModel(props: {
                             }
                           }}
                         >
-                          已有账号，登录账号&gt;&gt;
+                          {Locale.authModel.yesUser}
                         </span>
                         <span className={styles["auth-loading"]}>
                           {loading && <LoadingIcon />}
@@ -379,11 +394,11 @@ export function AuthModel(props: {
                           className={styles["auth-font-no"]}
                           onClick={() => {
                             showToast(
-                              "邀请码机制已上线，因系统内测存在许多未知因素，内测期间公共邀请码暂不发布，请使用其他已注册用户生成的邀请码",
+                              Locale.authModel.Toast.getAnInvitationCode,
                             );
                           }}
                         >
-                          <label>获取邀请码</label>
+                          <label>{Locale.authModel.getAnInvitationCode}</label>
                         </span>
                       </div>
                     )}

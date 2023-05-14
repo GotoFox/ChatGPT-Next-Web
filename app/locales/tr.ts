@@ -242,6 +242,37 @@ const tr: LocaleType = {
     Create: "Create",
     Edit: "Edit",
   },
+  authModel: {
+    register: "Kayıt Ol",
+    login: "Giriş Yap",
+    signUpNow: "Hemen kayıt olun",
+    logInNow: "Hemen giriş yapın",
+    cancel: "İptal",
+    userName: "Kullanıcı adı",
+    password: "Şifre",
+    email: "E-posta",
+    invitationCode: "Davetiye kodu",
+    noUser: "Hesabın yok mu? Kayıt ol >>",
+    yesUser: "Zaten bir hesabın var mı? Hesabına giriş yap >>",
+    rememberPsd: "Şifreyi hatırla",
+    getAnInvitationCode: "Davetiye kodunu al",
+    Toast: {
+      upCannotBeEmpty: "Kullanıcı adı veya şifre boş olmamalıdır",
+      uepCannotBeEmpty: "Kullanıcı adı, E-posta veya şifre boş olmamalıdır",
+      invitationCodeCannotBeEmpty: "Davetiye kodu boş olmamalıdır",
+      usernameRestrictions:
+        "Kullanıcı adı sadece harf ve rakam içerebilir ve 30 karakterden uzun olamaz",
+      emailVerification: "Lütfen doğru bir e-posta adresi girin",
+      pleaseEnterUe: "Lütfen kullanıcı adı/e-posta girin",
+      pleaseEnterPwd: "Lütfen şifre girin",
+      pleaseEnterUser: "Lütfen kullanıcı adı girin",
+      pleaseEnterEmail: "Lütfen e-posta adresinizi girin",
+      pleaseEnterInvitationCode: "Lütfen davetiye kodu girin",
+      getAnInvitationCode:
+        "Davetiye kodu mekanizması çevrimiçi oldu, ancak sistem içinde sınırsız faktörler olduğu için test sürecinde genel bir davetiye kodu yayınlamayacağız. Lütfen başka bir kullanıcının davetiye kodunu kullanın",
+      error: "Ağ bağlantısı hatası, lütfen tekrar deneyin",
+    },
+  },
 };
 
 export default tr;

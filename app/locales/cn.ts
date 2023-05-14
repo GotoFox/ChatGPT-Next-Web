@@ -237,6 +237,36 @@ const cn = {
     Create: "新建",
     Edit: "编辑",
   },
+  authModel: {
+    register: "注册",
+    login: "登录",
+    signUpNow: "立即注册",
+    logInNow: "立即登录",
+    cancel: "取消",
+    userName: "用户名",
+    password: "密    码",
+    email: "邮   箱",
+    invitationCode: "邀请码",
+    noUser: "没有账号？注册账号>>",
+    yesUser: "已有账号，登录账号>>",
+    rememberPsd: "记住密码",
+    getAnInvitationCode: "获取邀请码",
+    Toast: {
+      upCannotBeEmpty: "用户名和密码不能为空",
+      uepCannotBeEmpty: "用户名、邮箱和密码不能为空",
+      invitationCodeCannotBeEmpty: "邀请码不能为空",
+      usernameRestrictions: "用户名只能包含英文字母和数字，且长度不能超过30",
+      emailVerification: "请输入正确的邮箱地址",
+      pleaseEnterUe: "请输入用户名/邮箱",
+      pleaseEnterPwd: "请输入密码",
+      pleaseEnterUser: "请输入用户名",
+      pleaseEnterEmail: "请输入邮箱",
+      pleaseEnterInvitationCode: "请输入邀请码",
+      getAnInvitationCode:
+        "邀请码机制已上线，因系统内测存在许多未知因素，内测期间公共邀请码暂不发布，请使用其他已注册用户生成的邀请码",
+      error: "网络请求出错，请重试",
+    },
+  },
 };
 
 export type LocaleType = typeof cn;

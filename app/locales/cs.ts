@@ -239,6 +239,37 @@ const cs: LocaleType = {
     Create: "Vytvořit",
     Edit: "Upravit",
   },
+  authModel: {
+    register: "Registrace",
+    login: "Přihlásit se",
+    signUpNow: "Zaregistrujte se nyní",
+    logInNow: "Přihlaste se nyní",
+    cancel: "Zrušit",
+    userName: "Uživatelské jméno",
+    password: "Heslo",
+    email: "Email",
+    invitationCode: "Pozvánkový kód",
+    noUser: "Nemáte účet? Zaregistrujte se zde >>",
+    yesUser: "Máte již účet? Přihlaste se zde >>",
+    rememberPsd: "Zapamatovat si heslo",
+    getAnInvitationCode: "Získejte pozvánkový kód",
+    Toast: {
+      upCannotBeEmpty: "Uživatelské jméno a heslo nesmí být prázdné",
+      uepCannotBeEmpty: "Uživatelské jméno, email a heslo nesmí být prázdné",
+      invitationCodeCannotBeEmpty: "Pozvánkový kód nesmí být prázdný",
+      usernameRestrictions:
+        "Uživatelské jméno může obsahovat pouze písmena a číslice a maximální délka je 30 znaků",
+      emailVerification: "Prosím, zadejte správný email",
+      pleaseEnterUe: "Prosím, zadejte uživatelské jméno/email",
+      pleaseEnterPwd: "Zadejte prosím heslo",
+      pleaseEnterUser: "Prosím, zadejte uživatelské jméno",
+      pleaseEnterEmail: "Zadejte e-mailovou adresu",
+      pleaseEnterInvitationCode: "Prosím, zadejte pozvánkový kód",
+      getAnInvitationCode:
+        "Funkce pozvánkového kódu byla spuštěna, ale během interního testování stále existují mnoho neznámých faktorů, veřejný pozvánkový kód nebyl zveřejněn v testovacím prostředí Prosím, použijte pozvánkový kód vygenerovaný jiným registrovaným uživatelem.",
+      error: "Chyba sítě, zkuste to znovu",
+    },
+  },
 };
 
 export default cs;

@@ -232,6 +232,36 @@ const tw: LocaleType = {
     Create: "新建",
     Edit: "编辑",
   },
+  authModel: {
+    register: "註冊",
+    login: "登錄",
+    signUpNow: "立刻註冊",
+    logInNow: "立刻登錄",
+    cancel: "取消",
+    userName: "用戶名稱",
+    password: "密      碼",
+    email: "郵     箱",
+    invitationCode: "邀請碼",
+    noUser: "還沒有帳號？註冊帳號 >>",
+    yesUser: "已經有帳號，直接登陸 >>",
+    rememberPsd: "記住密碼",
+    getAnInvitationCode: "獲取邀請碼",
+    Toast: {
+      upCannotBeEmpty: "用戶名稱和密碼不能為空",
+      uepCannotBeEmpty: "用戶名稱、郵箱和密碼不能為空",
+      invitationCodeCannotBeEmpty: "邀請碼不能為空",
+      usernameRestrictions: "用戶名稱只能包含英文字母和數字，長度不能超過30",
+      emailVerification: "請輸入正確的郵箱地址",
+      pleaseEnterUe: "請輸入用戶名稱/郵箱",
+      pleaseEnterPwd: "請輸入密碼",
+      pleaseEnterUser: "請輸入用戶名稱",
+      pleaseEnterEmail: "請輸入電子郵件",
+      pleaseEnterInvitationCode: "請輸入邀請碼",
+      getAnInvitationCode:
+        "邀請碼機制已上線，因系統內測存在許多未知因素，內測期間公共邀請碼暫不發布，請使用其他已註冊用戶生成的邀請碼",
+      error: "網絡請求出錯，請重試",
+    },
+  },
 };
 
 export default tw;
