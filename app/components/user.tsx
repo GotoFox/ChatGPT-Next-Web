@@ -67,6 +67,9 @@ export function Users() {
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
   const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
     useState(false);
+  const [subTitleInfo, setSubTitleInfo] = useState(
+    "当前已使用 1000 字符，套餐总额 10000 字符",
+  );
 
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -112,6 +115,22 @@ export function Users() {
     // 保存密码逻辑
     console.log("saving password");
     setShowEditPasswordModal(false);
+  };
+
+  const handleCheck = async () => {
+    setSubTitleInfo("正在检查...");
+    try {
+      const params = { username: user.username };
+      const res = await PostUser(params);
+      if (res.status === 200) {
+        setSubTitleInfo("当前已使用 ? 字符，套餐总额 不限制 字符");
+      } else {
+        setSubTitleInfo("检查失败，请稍后再试");
+      }
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.msg ?? "网络请求出错，请重试";
+      setSubTitleInfo("检查失败，请稍后再试");
+    }
   };
 
   return (
@@ -184,15 +203,12 @@ export function Users() {
           <ListItem title={"当前套餐"} subTitle={"已开通的套餐"}>
             <div className={styles.font12}>免费计划</div>
           </ListItem>
-          <ListItem
-            title={"套餐查询"}
-            subTitle={"当前已使用 1000 字符，套餐总额 10000 字符"}
-          >
+          <ListItem title={"套餐查询"} subTitle={subTitleInfo}>
             <div className={styles.font12}>
               <IconButton
                 icon={<ResetIcon></ResetIcon>}
                 text={"重新检查"}
-                onClick={() => showToast("该功能仍在开发中……")}
+                onClick={handleCheck}
               />
             </div>
           </ListItem>
