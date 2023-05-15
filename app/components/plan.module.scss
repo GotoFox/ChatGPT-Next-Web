@@ -1,0 +1,144 @@
+.plans {
+  padding: 20px;
+  overflow: auto;
+  font-size: 14px;
+
+  .plans_introduce{
+    min-height: 130px;
+    border-bottom: var(--border-in-light);
+    padding: 20px 20px;
+    box-sizing: border-box;
+    animation: slide-in ease 0.6s;
+    border: 0;
+  }
+
+  .plans_cami{
+    margin-bottom: 50px;
+    margin-top: 50px;
+
+    .cami_class{
+      display: flex;
+      justify-content: left;
+      .cami_input{
+        flex-grow: 1;
+        max-width: 40%;
+        min-width: 0;
+        text-align: left;
+        margin-right: 20px;
+      }
+      .cami_button{
+        margin-right: 20px;
+      }
+    }
+
+  }
+
+  .plan_region{
+    margin-bottom: 14px;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    .plan_region_text{
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      align-content: center;
+
+    }
+  }
+
+  .plans_all{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .plans_all .plan {
+    width: 18%;
+    min-height: 200px;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    border: 2px solid #eee;
+    position: relative;
+  }
+  .plan_hot_act{
+    border: 2px solid #1d93ab !important;
+    background: #e7f8ff;
+  }
+
+
+  .plan_hot{
+    position: absolute;
+    left: -1px;
+    background: #1d93ab;
+    top: -1px;
+    color: #fff;
+    padding: 6px 10px 6px 10px;
+    border-radius: 10px 0 10px 0;
+  }
+
+  .plans_all .plan_title,
+  .plans_all .plan_price {
+    width: 100%;
+    position: absolute;
+    top: 44%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease-in-out;
+  }
+
+  .plans_all .plan_title {
+    font-size: 24px;
+  }
+
+  .plans_all .plan_price {
+    font-size: 18px;
+    color: #1d93ab;
+    top: 54%;
+    .plan_price_text{
+      font-size: 26px;
+    }
+  }
+
+  .plans_all .plan_button {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    background-color: #1d93ab;
+    color:#ffff;
+    border:none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .plans_all .plan:hover {
+    background-color: #E7F8FF;
+    border: 2px solid #1d93ab;
+  }
+
+  .plans_all .plan:hover .plan_title{
+    top: 30%;
+  }
+  .plans_all .plan:hover .plan_price {
+    top: 40%;
+  }
+
+  .plans_all .plan:hover .plan_button {
+    top: 74%;
+    opacity: 1;
+  }
+
+}
+
+
+.plan_footer{
+  margin-top: 50px;
+}

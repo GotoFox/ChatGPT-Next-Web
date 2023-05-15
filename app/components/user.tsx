@@ -215,10 +215,7 @@ export function Users() {
           <ListItem title={"所有套餐"} subTitle={""}>
             <div className={styles.font12}>
               {" "}
-              <IconButton
-                text={"升级"}
-                onClick={() => showToast("该功能仍在开发中……")}
-              />
+              <IconButton text={"升级"} onClick={() => navigate(Path.Plan)} />
             </div>
           </ListItem>
         </List>

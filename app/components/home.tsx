@@ -53,6 +53,10 @@ const UserPage = dynamic(async () => (await import("./user")).Users, {
   loading: () => <Loading noLogo />,
 });
 
+const PlanPage = dynamic(async () => (await import("./plan")).Plan, {
+  loading: () => <Loading noLogo />,
+});
+
 export function useSwitchTheme() {
   const config = useAppConfig();
 
@@ -127,6 +131,7 @@ function Screen() {
           <Route path={Path.Chat} element={<Chat />} />
           <Route path={Path.Settings} element={<Settings />} />
           <Route path={Path.User} element={<UserPage />} />
+          <Route path={Path.Plan} element={<PlanPage />} />
         </Routes>
       </div>
     </div>
