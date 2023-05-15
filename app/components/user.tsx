@@ -68,7 +68,7 @@ export function Users() {
   const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
     useState(false);
   const [subTitleInfo, setSubTitleInfo] = useState(
-    "当前已使用 1000 字符，套餐总额 10000 字符",
+    "当前已使用 ? 字符，套餐总额 不限制 字符",
   );
 
   function checkUsage(force = false) {
