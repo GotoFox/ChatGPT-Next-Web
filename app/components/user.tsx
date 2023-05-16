@@ -260,7 +260,7 @@ export function Users() {
         </List>
 
         <List>
-          <ListItem title={"退出"} subTitle={"退出当前登录的账号"}>
+          <ListItem title={"退出登录"}>
             <div className={styles.font12}>
               {" "}
               <IconButton
