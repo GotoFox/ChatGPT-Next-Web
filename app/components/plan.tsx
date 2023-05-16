@@ -103,7 +103,17 @@ export function Plan() {
           </div>
         </div>
 
-        <div className={styles["plan_footer"]}></div>
+        <div className={styles["plan_footer"]}>
+          <div className={styles["plan_region"]}>
+            <div>购买说明</div>
+          </div>
+          <div>
+            <p>1、若购买付款之后套餐及关联权益未到账，请及时联系客服；</p>
+            <p>
+              2、购买即视为您同意《用户协议》，因产品特殊性，确认购买支付后不支持退款。
+            </p>
+          </div>
+        </div>
       </div>
     </ErrorBoundary>
   );
