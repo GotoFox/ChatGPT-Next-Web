@@ -54,7 +54,7 @@ export function Plan() {
             <IconButton
               className={styles["cami_button"]}
               bordered
-              text={"核销"}
+              text={"兑换"}
               icon={<AddIcon />}
             />
             <IconButton bordered text={"购买卡密"} icon={<BuyIcon />} />
@@ -75,7 +75,7 @@ export function Plan() {
             <p className={styles["plan_price"]}>
               ￥<span className={styles["plan_price_text"]}>399</span>
             </p>
-            <div className={styles["plan_button"]}>立即升级</div>
+            <div className={styles["plan_button"]}>立即购买</div>
           </div>
 
           <div className={styles["plan"]}>
@@ -83,7 +83,7 @@ export function Plan() {
             <p className={styles["plan_price"]}>
               ￥<span className={styles["plan_price_text"]}>10</span>
             </p>
-            <div className={styles["plan_button"]}>立即升级</div>
+            <div className={styles["plan_button"]}>立即购买</div>
           </div>
 
           <div className={styles["plan"]}>
@@ -91,7 +91,7 @@ export function Plan() {
             <p className={styles["plan_price"]}>
               ￥<span className={styles["plan_price_text"]}>39</span>
             </p>
-            <div className={styles["plan_button"]}>立即升级</div>
+            <div className={styles["plan_button"]}>立即购买</div>
           </div>
 
           <div className={styles["plan"]}>
@@ -99,7 +99,7 @@ export function Plan() {
             <p className={styles["plan_price"]}>
               ￥<span className={styles["plan_price_text"]}>89</span>
             </p>
-            <div className={styles["plan_button"]}>立即升级</div>
+            <div className={styles["plan_button"]}>立即购买</div>
           </div>
         </div>
 

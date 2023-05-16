@@ -28,28 +28,16 @@ import {
   Popover,
   showToast,
 } from "./ui-lib";
-import { ModelConfigList } from "./model-config";
 
 import { IconButton } from "./button";
-import {
-  SubmitKey,
-  useChatStore,
-  Theme,
-  useUpdateStore,
-  useAccessStore,
-  useAppConfig,
-} from "../store";
+import { useUpdateStore, useAppConfig } from "../store";
 
-import Locale, { AllLangs, changeLang, getLang } from "../locales";
+import Locale from "../locales";
 import { copyToClipboard } from "../utils";
-import Link from "next/link";
-import { Path, UPDATE_URL } from "../constant";
-import { Prompt, SearchService, usePromptStore } from "../store/prompt";
+import { Path } from "../constant";
 import { ErrorBoundary } from "./error";
-import { InputRange } from "./input-range";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarPicker } from "./emoji";
-import UserIcon from "@/app/icons/user.svg";
 import DeleteIcon from "@/app/icons/delete.svg";
 import LoadingIcon from "@/app/icons/three-dots.svg";
 
@@ -87,7 +75,7 @@ export function Users() {
       } else {
         handleNavigationError();
       }
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage = error.response?.data?.msg ?? "网络请求出错，请重试";
       console.error(errorMessage);
       showToast(errorMessage);
@@ -103,7 +91,9 @@ export function Users() {
   }
 
   useEffect(() => {
-    ClickUser(); // 页面渲染时自动请求用户信息
+    (async () => {
+      await ClickUser();
+    })();
   }, []);
 
   if (loading) {
@@ -127,8 +117,9 @@ export function Users() {
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
       }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.msg ?? "网络请求出错，请重试";
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
       setSubTitleInfo("检查失败，请稍后再试");
     }
   };
@@ -215,7 +206,7 @@ export function Users() {
           <ListItem title={"所有套餐"} subTitle={""}>
             <div className={styles.font12}>
               {" "}
-              <IconButton text={"升级"} onClick={() => navigate(Path.Plan)} />
+              <IconButton text={"购买"} onClick={() => navigate(Path.Plan)} />
             </div>
           </ListItem>
         </List>
@@ -404,7 +395,9 @@ function InvitationRecordsModal(props: { onClose?: () => void }) {
   }>({ list: [] });
 
   useEffect(() => {
-    doClickInvitationRecords();
+    (async () => {
+      await doClickInvitationRecords();
+    })();
   }, []);
 
   // 查询邀请记录
