@@ -163,6 +163,10 @@ export function AuthModel(props: {
       showToast("邮箱不能为空");
       return;
     }
+    if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(user.email)) {
+      showToast(Locale.authModel.Toast.emailVerification);
+      return;
+    }
     try {
       setLoading(true);
       let params = { email: user.email };
