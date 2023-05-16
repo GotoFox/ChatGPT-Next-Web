@@ -76,7 +76,8 @@ export function Users() {
         handleNavigationError();
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.msg ?? "网络请求出错，请重试";
+      const errorMessage =
+        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
       console.error(errorMessage);
       showToast(errorMessage);
       setLoading(false); // 请求出错时设置 loading 为 false
