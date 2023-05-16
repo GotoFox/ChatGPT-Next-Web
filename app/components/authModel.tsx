@@ -6,8 +6,14 @@ import DeleteIcon from "@/app/icons/delete.svg";
 import ClearIcon from "../icons/clear.svg";
 import LoginIcon from "../icons/login.svg";
 import LoadingIcon from "../icons/three-dots.svg";
+import ReloadIcon from "../icons/reload.svg";
 import { Path } from "@/app/constant";
-import { PostLogin, PostRegister, PostUser } from "@/app/http/user";
+import {
+  PostLogin,
+  PostRegister,
+  PostSendCode,
+  PostUser,
+} from "@/app/http/user";
 import { useNavigate } from "react-router-dom";
 import Locale from "../locales";
 
@@ -23,11 +29,14 @@ export function AuthModel(props: {
     password: "",
     email: "",
     inviteCode: "",
+    code: "",
   });
   const [loading, setLoading] = useState(false);
   const accountUser = JSON.parse(
     localStorage.getItem("account_user") ?? "null",
   );
+  const [countdown, setCountdown] = useState(0); // 倒计时时间
+  const [disabled, setDisabled] = useState(false); // 按钮是否可点击
 
   useEffect(() => {
     setUserInput({
@@ -35,6 +44,7 @@ export function AuthModel(props: {
       password: "",
       email: "",
       inviteCode: "",
+      code: "",
     });
   }, [props.showModal]);
 
@@ -44,6 +54,7 @@ export function AuthModel(props: {
       password: "",
       email: "",
       inviteCode: "",
+      code: "",
     });
 
     if (!isRegistering) {
@@ -53,6 +64,7 @@ export function AuthModel(props: {
           password: accountUser.password,
           email: "",
           inviteCode: "",
+          code: "",
         });
         setCheckbox(true);
       }
@@ -104,7 +116,7 @@ export function AuthModel(props: {
   }
 
   async function registerSubmit() {
-    const { username, email, password, inviteCode } = user;
+    const { username, email, password, inviteCode, code } = user;
     if (!username || !email || !password) {
       showToast(Locale.authModel.Toast.uepCannotBeEmpty);
       return;
@@ -121,6 +133,10 @@ export function AuthModel(props: {
       showToast(Locale.authModel.Toast.emailVerification);
       return;
     }
+    if (!code) {
+      showToast("邮箱验证码不能为空");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -128,6 +144,7 @@ export function AuthModel(props: {
       if (res.status === 200) {
         showToast(res && (res as any).msg);
         setIsRegistering(false);
+        setCountdown(0);
       } else {
         showToast(res && (res as any).msg);
       }
@@ -139,6 +156,53 @@ export function AuthModel(props: {
       setLoading(false);
     }
   }
+
+  // 点击获取验证码按钮
+  const handleGetCode = async () => {
+    if (!user.email) {
+      showToast("邮箱不能为空");
+      return;
+    }
+    try {
+      setLoading(true);
+      let params = { email: user.email };
+      let res = await PostSendCode(params);
+      if (res.status === 200) {
+        setCountdown(90);
+        setDisabled(true);
+        showToast(res && (res as any).msg);
+      } else {
+        showToast(res && (res as any).msg);
+      }
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 倒计时结束
+  const handleCountdownEnd = () => {
+    setCountdown(0);
+    setDisabled(false);
+  };
+
+  // 每秒钟减少倒计时时间
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (countdown > 0) {
+      timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+      console.log(countdown, "190");
+    } else {
+      handleCountdownEnd();
+      console.log(countdown, "countdown193");
+    }
+    return () => clearTimeout(timer);
+  }, [countdown]);
 
   let Title = isRegistering
     ? Locale.authModel.register
@@ -240,6 +304,7 @@ export function AuthModel(props: {
                               password: "",
                               email: "",
                               inviteCode: "",
+                              code: "",
                             });
                           }}
                         >
@@ -298,7 +363,7 @@ export function AuthModel(props: {
                       <input
                         type="text"
                         value={user.email}
-                        className={styles["auth-input"]}
+                        className={styles["auth-input-email"]}
                         placeholder={Locale.authModel.Toast.pleaseEnterEmail}
                         onChange={(e) =>
                           setUserInput({
@@ -307,9 +372,33 @@ export function AuthModel(props: {
                           })
                         }
                       />
+                      <input
+                        type="text"
+                        value={user.code}
+                        className={styles["auth-input-code"]}
+                        placeholder={"请输入邮箱验证码"}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...user,
+                            code: e.target.value,
+                          })
+                        }
+                      />
                       <IconButton
                         bordered
-                        onClick={() => setUserInput({ ...user, email: "" })}
+                        className={styles["auth-getCode"]}
+                        text={
+                          countdown > 0 ? `${countdown}秒后重试` : "获取验证码"
+                        }
+                        onClick={handleGetCode}
+                        icon={<ReloadIcon />}
+                        disabled={disabled}
+                      />
+                      <IconButton
+                        bordered
+                        onClick={() =>
+                          setUserInput({ ...user, email: "", code: "" })
+                        }
                         icon={<ClearIcon />}
                       />
                     </div>
@@ -372,6 +461,7 @@ export function AuthModel(props: {
                               password: "",
                               email: "",
                               inviteCode: "",
+                              code: "",
                             });
                             if (isChecked) {
                               if (accountUser) {
@@ -380,6 +470,7 @@ export function AuthModel(props: {
                                   password: accountUser.password,
                                   email: "",
                                   inviteCode: "",
+                                  code: "",
                                 });
                               }
                             }

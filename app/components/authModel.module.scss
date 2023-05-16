@@ -27,6 +27,28 @@
       text-align: left;
       margin-right: 20px;
     }
+
+    .auth-input-email {
+      flex-grow: 1;
+      max-width: 100%;
+      width: 40%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 20px;
+    }
+
+    .auth-input-code {
+      flex-grow: 1;
+      width: 20%;
+      max-width: 100%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 20px;
+    }
+
+    .auth-getCode{
+      margin-right: 20px;
+    }
   }
 }
 
