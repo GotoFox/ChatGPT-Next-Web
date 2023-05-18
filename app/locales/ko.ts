@@ -89,9 +89,9 @@ const ko: LocaleType = {
     },
     Avatar: "아바타",
     FontSize: {
-    Title: "글꼴 크기",
-    SubTitle: "채팅 내용의 글꼴 크기 조정",
-  },
+      Title: "글꼴 크기",
+      SubTitle: "채팅 내용의 글꼴 크기 조정",
+    },
     Update: {
       Version: (x: string) => `버전: ${x}`,
       IsLatest: "최신 버전",
@@ -135,8 +135,7 @@ const ko: LocaleType = {
     },
     CompressThreshold: {
       Title: "기록 압축 임계값",
-      SubTitle:
-        "미압축 메시지 길이가 임계값을 초과하면 압축됨",
+      SubTitle: "미압축 메시지 길이가 임계값을 초과하면 압축됨",
     },
     Token: {
       Title: "API 키",
@@ -165,11 +164,10 @@ const ko: LocaleType = {
     MaxTokens: {
       Title: "최대 토큰 수 (max_tokens)",
       SubTitle: "입력 토큰과 생성된 토큰의 최대 길이",
-    },  
+    },
     PresencePenalty: {
       Title: "존재 페널티 (presence_penalty)",
-      SubTitle:
-        "값이 클수록 새로운 주제에 대해 대화할 가능성이 높아집니다.",
+      SubTitle: "값이 클수록 새로운 주제에 대해 대화할 가능성이 높아집니다.",
     },
   },
   Store: {
@@ -178,8 +176,7 @@ const ko: LocaleType = {
     Error: "문제가 발생했습니다. 나중에 다시 시도해주세요.",
     Prompt: {
       History: (content: string) =>
-        "이것은 AI와 사용자 간의 대화 기록을 요약한 내용입니다: " +
-        content,
+        "이것은 AI와 사용자 간의 대화 기록을 요약한 내용입니다: " + content,
       Topic:
         "다음과 같이 대화 내용을 요약하는 4~5단어 제목을 생성해주세요. 따옴표, 구두점, 인용부호, 기호 또는 추가 텍스트를 제거하십시오. 따옴표로 감싸진 부분을 제거하십시오.",
       Summarize:
@@ -232,7 +229,8 @@ const ko: LocaleType = {
     SubTitle: "마스크 뒤의 영혼과 대화하세요",
     More: "더 보기",
     NotShow: "다시 표시하지 않음",
-    ConfirmNoShow: "비활성화하시겠습니까? 나중에 설정에서 다시 활성화할 수 있습니다.",
+    ConfirmNoShow:
+      "비활성화하시겠습니까? 나중에 설정에서 다시 활성화할 수 있습니다.",
   },
 
   UI: {
@@ -242,6 +240,37 @@ const ko: LocaleType = {
     Create: "생성",
     Edit: "편집",
   },
-  };
+  authModel: {
+    register: "등록",
+    login: "로그인",
+    signUpNow: "지금 가입하기",
+    logInNow: "지금 로그인하기",
+    cancel: "취소",
+    userName: "사용자 이름",
+    password: "암호",
+    email: "이메일",
+    invitationCode: "초대 코드",
+    noUser: "계정이 없으신가요? 계정 등록하기>>",
+    yesUser: "계정이 이미 있으신가요? 계정 로그인하기>>",
+    rememberPsd: "암호 기억하기",
+    getAnInvitationCode: "초대 코드 받기",
+    Toast: {
+      upCannotBeEmpty: "사용자 이름과 암호를 입력해주세요",
+      uepCannotBeEmpty: "사용자 이름, 이메일, 암호를 입력해주세요",
+      invitationCodeCannotBeEmpty: "초대 코드를 입력해주세요",
+      usernameRestrictions:
+        "사용자 이름은 영문자와 숫자만 사용 가능하며, 30자 이하여야 합니다",
+      emailVerification: "올바른 이메일 주소를 입력해주세요",
+      pleaseEnterUe: "사용자 이름/이메일을 입력해주세요",
+      pleaseEnterPwd: "암호를 입력해주세요",
+      pleaseEnterUser: "사용자 이름을 입력해주세요",
+      pleaseEnterEmail: "이메일을 입력해주세요",
+      pleaseEnterInvitationCode: "초대 코드를 입력해주세요",
+      getAnInvitationCode:
+        "초대 코드 메커니즘이 온라인으로 되었습니다. 그러나 시스템 내부 테스트에는 많은 알려지지 않은 요인이 있으므로, 내부 테스트 기간 동안 공개 초대 코드는 발표하지 않습니다. 대신 이미 등록된 사용자가 생성한 초대 코드를 사용해주세요",
+      error: "네트워크 요청 오류입니다. 다시 시도해주세요",
+    },
+  },
+};
 
 export default ko;
