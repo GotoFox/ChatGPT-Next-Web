@@ -119,6 +119,35 @@ export function SideBar(props: { className?: string }) {
   const config = useAppConfig();
   const token = localStorage.getItem("access_token");
 
+  function checkLoginTimeAndToken() {
+    const loginTime = JSON.parse(localStorage.getItem("access_user") as string);
+    if (loginTime) {
+      const loginTimestamp = new Date(loginTime.login_time).getTime();
+      const twelveHoursLater = loginTimestamp + 12 * 60 * 60 * 1000; // 12个小时
+      // const twelveHoursLater = loginTimestamp + 10 * 1000;
+      const currentTime = new Date().getTime();
+      if (currentTime >= twelveHoursLater) {
+        const isUser = location.pathname === Path.User;
+        if (isUser) {
+          navigate(Path.Home);
+        }
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("access_user");
+      }
+    }
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      showToast("访问令牌已过期或无效，请重新登录");
+      const isUser = location.pathname === Path.User;
+      if (isUser) {
+        navigate(Path.Home);
+      }
+      setShowModal(true);
+      return false;
+    }
+    return true;
+  }
+
   useHotKey();
 
   return (
@@ -187,11 +216,9 @@ export function SideBar(props: { className?: string }) {
               icon={<UserIcon />}
               shadow
               onClick={async () => {
-                if (!token) {
-                  setShowModal(true);
-                  return;
+                if (checkLoginTimeAndToken()) {
+                  navigate(Path.User);
                 }
-                navigate(Path.User);
               }}
             />
             <AuthModel showModal={showModal} setShowModal={setShowModal} />
@@ -202,15 +229,13 @@ export function SideBar(props: { className?: string }) {
             icon={<AddIcon />}
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
             onClick={() => {
-              if (!token) {
-                setShowModal(true);
-                return;
-              }
-              if (config.dontShowMaskSplashScreen) {
-                chatStore.newSession();
-                navigate(Path.Chat);
-              } else {
-                navigate(Path.NewChat);
+              if (checkLoginTimeAndToken()) {
+                if (config.dontShowMaskSplashScreen) {
+                  chatStore.newSession();
+                  navigate(Path.Chat);
+                } else {
+                  navigate(Path.NewChat);
+                }
               }
             }}
             shadow
