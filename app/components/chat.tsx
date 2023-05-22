@@ -62,6 +62,7 @@ import { useCommand } from "../command";
 import { AuthModel } from "@/app/components/authModel";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
+import { showToast } from "./ui-lib";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
