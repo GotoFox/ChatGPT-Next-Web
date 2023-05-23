@@ -9,9 +9,11 @@ import LoadingIcon from "../icons/three-dots.svg";
 import ReloadIcon from "../icons/reload.svg";
 import { Path } from "@/app/constant";
 import {
+  PostForgotPassword,
   PostLogin,
   PostRegister,
   PostSendCode,
+  PostSendResetPasswordCode,
   PostUser,
 } from "@/app/http/user";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +23,9 @@ export function AuthModel(props: {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
 }) {
+  const [isLogin, setIsLogin] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [isChecked, setCheckbox] = useState(false);
   const navigate = useNavigate();
   const [user, setUserInput] = useState({
@@ -39,6 +43,9 @@ export function AuthModel(props: {
   const [disabled, setDisabled] = useState(false); // 按钮是否可点击
 
   useEffect(() => {
+    setIsLogin(true);
+    setIsForgotPassword(false);
+    setIsRegistering(false);
     setUserInput({
       username: "",
       password: "",
@@ -57,7 +64,7 @@ export function AuthModel(props: {
       code: "",
     });
 
-    if (!isRegistering) {
+    if (isLogin) {
       if (accountUser) {
         setUserInput({
           username: accountUser.username,
@@ -157,6 +164,42 @@ export function AuthModel(props: {
     }
   }
 
+  async function forgotPasswordSubmit() {
+    const { email, code } = user;
+    if (!email) {
+      showToast(Locale.authModel.Toast.pleaseEnterEmail);
+      return;
+    }
+    if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email)) {
+      showToast(Locale.authModel.Toast.emailVerification);
+      return;
+    }
+    if (!code) {
+      showToast("邮箱验证码不能为空");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      let res = await PostForgotPassword(user);
+      if (res.status === 200) {
+        showToast(res && (res as any).msg);
+        setIsForgotPassword(false);
+        setIsLogin(true);
+        setIsRegistering(false);
+        setCountdown(0);
+      } else {
+        showToast(res && (res as any).msg);
+      }
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // 点击获取验证码按钮
   const handleGetCode = async () => {
     if (!user.email) {
@@ -170,7 +213,16 @@ export function AuthModel(props: {
     try {
       setLoading(true);
       let params = { email: user.email };
-      let res = await PostSendCode(params);
+      let res: any = {};
+      if (isRegistering) {
+        res = await PostSendCode(params);
+      }
+      if (isForgotPassword) {
+        res = await PostSendResetPasswordCode({
+          email: user.email,
+          code: user.code,
+        });
+      }
       if (res.status === 200) {
         setCountdown(90);
         setDisabled(true);
@@ -203,14 +255,15 @@ export function AuthModel(props: {
       console.log(countdown, "190");
     } else {
       handleCountdownEnd();
-      console.log(countdown, "countdown193");
     }
     return () => clearTimeout(timer);
   }, [countdown]);
 
-  let Title = isRegistering
+  const Title = isRegistering
     ? Locale.authModel.register
-    : Locale.authModel.login;
+    : isLogin
+    ? Locale.authModel.login
+    : "找回密码";
 
   return (
     <div>
@@ -230,9 +283,19 @@ export function AuthModel(props: {
                 text={
                   isRegistering
                     ? Locale.authModel.signUpNow
-                    : Locale.authModel.logInNow
+                    : isLogin
+                    ? Locale.authModel.logInNow
+                    : isForgotPassword
+                    ? "立即找回"
+                    : ""
                 }
-                onClick={isRegistering ? registerSubmit : loginSubmit}
+                onClick={
+                  isRegistering
+                    ? registerSubmit
+                    : isLogin
+                    ? loginSubmit
+                    : forgotPasswordSubmit
+                }
                 disabled={loading}
               />,
               <IconButton
@@ -242,6 +305,8 @@ export function AuthModel(props: {
                 icon={<DeleteIcon />}
                 onClick={() => {
                   props.setShowModal(false);
+                  setIsForgotPassword(false);
+                  setIsLogin(false);
                   setIsRegistering(false);
                 }}
                 // disabled={loading}
@@ -251,7 +316,7 @@ export function AuthModel(props: {
             <div>
               <div>
                 {/* 登录 */}
-                {!isRegistering && (
+                {isLogin && (
                   <div className={styles["auth-modal"]}>
                     <div className={styles["auth-filter"]}>
                       <div className={styles["auth-filter-title"]}>
@@ -297,11 +362,13 @@ export function AuthModel(props: {
                         icon={<ClearIcon />}
                       />
                     </div>
-                    {!isRegistering && (
+                    {isLogin && (
                       <div className={styles["auth-writing"]}>
                         <span
                           className={styles["auth-font"]}
                           onClick={() => {
+                            setIsForgotPassword(false);
+                            setIsLogin(false);
                             setIsRegistering(true);
                             setUserInput({
                               username: "",
@@ -317,19 +384,38 @@ export function AuthModel(props: {
                         <span className={styles["auth-loading"]}>
                           {loading && <LoadingIcon />}
                         </span>
-                        <span
-                          className={styles["auth-font-no"]}
-                          onClick={() => {
-                            setCheckbox(!isChecked);
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => {}}
-                          />
-                          <label>{Locale.authModel.rememberPsd}</label>
-                        </span>
+                        <div className={styles["auth-loading"]}>
+                          <span
+                            className={styles["auth-font-no"]}
+                            onClick={() => {
+                              setCheckbox(!isChecked);
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => {}}
+                            />
+                            <label>{Locale.authModel.rememberPsd}</label>
+                          </span>
+                          <span
+                            className={styles["auth-font-no"]}
+                            onClick={() => {
+                              setIsForgotPassword(true);
+                              setIsLogin(false);
+                              setIsRegistering(false);
+                              setUserInput({
+                                username: "",
+                                password: "",
+                                email: "",
+                                inviteCode: "",
+                                code: "",
+                              });
+                            }}
+                          >
+                            <label>找回密码</label>
+                          </span>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -459,6 +545,8 @@ export function AuthModel(props: {
                         <span
                           className={styles["auth-font"]}
                           onClick={() => {
+                            setIsForgotPassword(false);
+                            setIsLogin(true);
                             setIsRegistering(false);
                             setUserInput({
                               username: "",
@@ -494,6 +582,104 @@ export function AuthModel(props: {
                           }}
                         >
                           <label>{Locale.authModel.getAnInvitationCode}</label>
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 找回密码 */}
+                {isForgotPassword && (
+                  <div className={styles["auth-modal"]}>
+                    <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>
+                        {Locale.authModel.email}
+                      </div>
+                      <input
+                        type="text"
+                        value={user.email}
+                        className={styles["auth-input-email"]}
+                        placeholder={"请输入注册邮箱"}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...user,
+                            email: e.target.value,
+                          })
+                        }
+                      />
+                      <input
+                        type="text"
+                        value={user.code}
+                        className={styles["auth-input-code"]}
+                        placeholder={"请输入邮箱验证码"}
+                        onChange={(e) =>
+                          setUserInput({
+                            ...user,
+                            code: e.target.value,
+                          })
+                        }
+                      />
+                      <IconButton
+                        bordered
+                        className={styles["auth-getCode"]}
+                        text={
+                          countdown > 0 ? `${countdown}秒后重试` : "获取验证码"
+                        }
+                        onClick={handleGetCode}
+                        icon={<ReloadIcon />}
+                        disabled={disabled}
+                      />
+                      <IconButton
+                        bordered
+                        onClick={() =>
+                          setUserInput({ ...user, email: "", code: "" })
+                        }
+                        icon={<ClearIcon />}
+                      />
+                    </div>
+
+                    {isForgotPassword && (
+                      <div className={styles["auth-writing"]}>
+                        <span
+                          className={styles["auth-font"]}
+                          onClick={() => {
+                            setIsForgotPassword(false);
+                            setIsLogin(true);
+                            setIsRegistering(false);
+                            setUserInput({
+                              username: "",
+                              password: "",
+                              email: "",
+                              inviteCode: "",
+                              code: "",
+                            });
+                            if (isChecked) {
+                              if (accountUser) {
+                                setUserInput({
+                                  username: accountUser.username,
+                                  password: accountUser.password,
+                                  email: "",
+                                  inviteCode: "",
+                                  code: "",
+                                });
+                              }
+                            }
+                          }}
+                        >
+                          {Locale.authModel.yesUser}
+                        </span>
+                        <span className={styles["auth-loading"]}>
+                          {loading && <LoadingIcon />}
+                        </span>
+                        <span
+                          className={styles["auth-font-no"]}
+                          onClick={() => {
+                            showToast(
+                              "需要验证真实注册的邮箱，如果邮箱未注册或虚假邮箱则无法找回密码",
+                            );
+                          }}
+                        >
+                          <label>友情提示</label>
                         </span>
                       </div>
                     )}
