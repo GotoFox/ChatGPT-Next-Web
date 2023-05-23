@@ -6,13 +6,48 @@ import Locale from "../locales";
 import { Path } from "../constant";
 import { ErrorBoundary } from "./error";
 import { useNavigate } from "react-router-dom";
-import { List, ListItem } from "./ui-lib";
+import { List, ListItem, showToast } from "./ui-lib";
 import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
+import { GetPlan } from "@/app/http/plan";
 
 export function Plan() {
   const navigate = useNavigate();
+  const [planData, setPlanData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function getPlanData() {
+      setLoading(true); // 开始请求时设置 loading 为 true
+      try {
+        const res = await GetPlan();
+        if (res.status === 200) {
+          setPlanData(res.data);
+          console.log(planData, 27);
+        } else {
+          // handleNavigationError();
+        }
+      } catch (error) {
+        const errorMessage =
+          (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+        console.error(errorMessage);
+        showToast(errorMessage);
+        // handleNavigationError();
+      } finally {
+        setLoading(false); // 请求结束时设置 loading 为 false
+      }
+    }
+
+    getPlanData();
+  }, []);
+
+  interface PlanData {
+    code: string;
+    id: number;
+    name: string;
+    price: number;
+  }
 
   return (
     <ErrorBoundary>
@@ -69,38 +104,26 @@ export function Plan() {
           </div>
         </div>
         <div className={styles["plans_all"]}>
-          <div className={`${styles["plan"]} ${styles["plan_hot_act"]}`}>
-            <div className={styles["plan_hot"]}>限时特价</div>
-            <div className={styles["plan_title"]}>500万字符</div>
-            <p className={styles["plan_price"]}>
-              ￥<span className={styles["plan_price_text"]}>399</span>
-            </p>
-            <div className={styles["plan_button"]}>立即购买</div>
-          </div>
-
-          <div className={styles["plan"]}>
-            <div className={styles["plan_title"]}>10万字符</div>
-            <p className={styles["plan_price"]}>
-              ￥<span className={styles["plan_price_text"]}>10</span>
-            </p>
-            <div className={styles["plan_button"]}>立即购买</div>
-          </div>
-
-          <div className={styles["plan"]}>
-            <div className={styles["plan_title"]}>50万字符</div>
-            <p className={styles["plan_price"]}>
-              ￥<span className={styles["plan_price_text"]}>39</span>
-            </p>
-            <div className={styles["plan_button"]}>立即购买</div>
-          </div>
-
-          <div className={styles["plan"]}>
-            <div className={styles["plan_title"]}>100万字符</div>
-            <p className={styles["plan_price"]}>
-              ￥<span className={styles["plan_price_text"]}>89</span>
-            </p>
-            <div className={styles["plan_button"]}>立即购买</div>
-          </div>
+          {planData.map((plan: PlanData) => (
+            <div
+              className={
+                plan.code === "hot"
+                  ? `${styles["plan"]} ${styles["plan_hot_act"]}`
+                  : styles["plan"]
+              }
+              key={plan.id}
+            >
+              {plan.code === "hot" ? (
+                <div className={styles["plan_hot"]}>限时特价</div>
+              ) : null}
+              <div className={styles["plan_title"]}>{plan.name}</div>
+              <p className={styles["plan_price"]}>
+                ￥
+                <span className={styles["plan_price_text"]}>{plan.price}</span>
+              </p>
+              <div className={styles["plan_button"]}>立即购买</div>
+            </div>
+          ))}
         </div>
 
         <div className={styles["plan_footer"]}>
