@@ -489,27 +489,37 @@ export function Chat() {
   const doSubmit = (userInput: string) => {
     if (userInput.trim() === "") return;
 
-    // Get the login time from localStorage
+    const token = localStorage.getItem("access_token");
+    console.log(token, 493);
+    if (!token) {
+      showToast("访问令牌已过期或无效，请重新登录");
+      const isUser = location.pathname === Path.User;
+      if (isUser) {
+        navigate(Path.Home);
+      }
+      setShowModal(true);
+      return;
+    }
+
     const loginTime = JSON.parse(localStorage.getItem("access_user") as string);
     if (loginTime) {
       const loginTimestamp = new Date(loginTime.login_time).getTime();
       const twelveHoursLater = loginTimestamp + 12 * 60 * 60 * 1000; // 12个小时
-      // const twelveHoursLater = loginTimestamp + 10 * 1000;
+      // const twelveHoursLater = loginTimestamp + 30 * 1000;
       const currentTime = new Date().getTime();
-      if (currentTime >= twelveHoursLater) {
-        // If it has been 12 hours since login, remove access_token and access_user from localStorage
+      if (currentTime > twelveHoursLater) {
+        const isUser = location.pathname === Path.User;
+        if (isUser) {
+          navigate(Path.Home);
+        }
         localStorage.removeItem("access_token");
         localStorage.removeItem("access_user");
+        showToast("访问令牌已过期或无效，请重新登录");
+        setShowModal(true);
+        return;
       }
     }
 
-    // Check whether you are logged in. If you are not logged in, the login box will pop up.
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-      showToast("访问令牌已过期或无效，请重新登录");
-      setShowModal(true);
-      return;
-    }
     setIsLoading(true);
     chatStore.onUserInput(userInput).then(() => setIsLoading(false));
     localStorage.setItem(LAST_INPUT_KEY, userInput);

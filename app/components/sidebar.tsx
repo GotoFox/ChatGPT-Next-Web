@@ -120,21 +120,6 @@ export function SideBar(props: { className?: string }) {
   const token = localStorage.getItem("access_token");
 
   function checkLoginTimeAndToken() {
-    const loginTime = JSON.parse(localStorage.getItem("access_user") as string);
-    if (loginTime) {
-      const loginTimestamp = new Date(loginTime.login_time).getTime();
-      const twelveHoursLater = loginTimestamp + 12 * 60 * 60 * 1000; // 12个小时
-      // const twelveHoursLater = loginTimestamp + 10 * 1000;
-      const currentTime = new Date().getTime();
-      if (currentTime >= twelveHoursLater) {
-        const isUser = location.pathname === Path.User;
-        if (isUser) {
-          navigate(Path.Home);
-        }
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("access_user");
-      }
-    }
     const token = localStorage.getItem("access_token");
     if (!token) {
       showToast("访问令牌已过期或无效，请重新登录");
@@ -144,6 +129,25 @@ export function SideBar(props: { className?: string }) {
       }
       setShowModal(true);
       return false;
+    }
+
+    const loginTime = JSON.parse(localStorage.getItem("access_user") as string);
+    if (loginTime) {
+      const loginTimestamp = new Date(loginTime.login_time).getTime();
+      const twelveHoursLater = loginTimestamp + 12 * 60 * 60 * 1000; // 12个小时
+      // const twelveHoursLater = loginTimestamp + 30 * 1000;
+      const currentTime = new Date().getTime();
+      if (currentTime > twelveHoursLater) {
+        const isUser = location.pathname === Path.User;
+        if (isUser) {
+          navigate(Path.Home);
+        }
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("access_user");
+        showToast("访问令牌已过期或无效，请重新登录");
+        setShowModal(true);
+        return false;
+      }
     }
     return true;
   }
