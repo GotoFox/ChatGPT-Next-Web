@@ -104,26 +104,29 @@ export function Plan() {
           </div>
         </div>
         <div className={styles["plans_all"]}>
-          {planData.map((plan: PlanData) => (
-            <div
-              className={
-                plan.code === "hot"
-                  ? `${styles["plan"]} ${styles["plan_hot_act"]}`
-                  : styles["plan"]
-              }
-              key={plan.id}
-            >
-              {plan.code === "hot" ? (
-                <div className={styles["plan_hot"]}>限时特价</div>
-              ) : null}
-              <div className={styles["plan_title"]}>{plan.name}</div>
-              <p className={styles["plan_price"]}>
-                ￥
-                <span className={styles["plan_price_text"]}>{plan.price}</span>
-              </p>
-              <div className={styles["plan_button"]}>立即购买</div>
-            </div>
-          ))}
+          {planData &&
+            planData.map((plan: PlanData) => (
+              <div
+                className={
+                  plan.code === "hot"
+                    ? `${styles["plan"]} ${styles["plan_hot_act"]}`
+                    : styles["plan"]
+                }
+                key={plan.id}
+              >
+                {plan.code === "hot" ? (
+                  <div className={styles["plan_hot"]}>限时特价</div>
+                ) : null}
+                <div className={styles["plan_title"]}>{plan.name}</div>
+                <p className={styles["plan_price"]}>
+                  ￥
+                  <span className={styles["plan_price_text"]}>
+                    {plan.price}
+                  </span>
+                </p>
+                <div className={styles["plan_button"]}>立即购买</div>
+              </div>
+            ))}
         </div>
 
         <div className={styles["plan_footer"]}>
