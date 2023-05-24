@@ -150,6 +150,8 @@ export function AuthModel(props: {
       let res = await PostRegister(user);
       if (res.status === 200) {
         showToast(res && (res as any).msg);
+        setIsForgotPassword(false);
+        setIsLogin(true);
         setIsRegistering(false);
         setCountdown(0);
       } else {
