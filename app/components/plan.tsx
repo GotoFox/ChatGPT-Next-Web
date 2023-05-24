@@ -11,6 +11,7 @@ import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
 import { GetPlan } from "@/app/http/plan";
+import LoadingIcon from "@/app/icons/three-dots.svg";
 
 export function Plan() {
   const navigate = useNavigate();
@@ -19,21 +20,18 @@ export function Plan() {
 
   useEffect(() => {
     async function getPlanData() {
-      setLoading(true); // 开始请求时设置 loading 为 true
+      setLoading(true);
       try {
         const res = await GetPlan();
         if (res.status === 200) {
           setPlanData(res.data);
-          console.log(planData, 27);
         } else {
-          // handleNavigationError();
+          showToast(res && (res as any).msg);
         }
       } catch (error) {
         const errorMessage =
           (error as any).response?.data?.msg ?? "网络请求出错，请重试";
-        console.error(errorMessage);
         showToast(errorMessage);
-        // handleNavigationError();
       } finally {
         setLoading(false); // 请求结束时设置 loading 为 false
       }
@@ -103,30 +101,36 @@ export function Plan() {
             <span> 不同的套餐次数可以累加</span>
           </div>
         </div>
-        <div className={styles["plans_all"]}>
-          {planData &&
-            planData.map((plan: PlanData) => (
-              <div
-                className={
-                  plan.code === "hot"
-                    ? `${styles["plan"]} ${styles["plan_hot_act"]}`
-                    : styles["plan"]
-                }
-                key={plan.id}
-              >
-                {plan.code === "hot" ? (
-                  <div className={styles["plan_hot"]}>限时特价</div>
-                ) : null}
-                <div className={styles["plan_title"]}>{plan.name}</div>
-                <p className={styles["plan_price"]}>
-                  ￥
-                  <span className={styles["plan_price_text"]}>
-                    {plan.price}
-                  </span>
-                </p>
-                <div className={styles["plan_button"]}>立即购买</div>
-              </div>
-            ))}
+        {!loading && (
+          <div className={styles["plans_all"]}>
+            {planData &&
+              planData.map((plan: PlanData) => (
+                <div
+                  className={
+                    plan.code === "hot"
+                      ? `${styles["plan"]} ${styles["plan_hot_act"]}`
+                      : styles["plan"]
+                  }
+                  key={plan.id}
+                >
+                  {plan.code === "hot" ? (
+                    <div className={styles["plan_hot"]}>限时特价</div>
+                  ) : null}
+                  <div className={styles["plan_title"]}>{plan.name}</div>
+                  <p className={styles["plan_price"]}>
+                    ￥
+                    <span className={styles["plan_price_text"]}>
+                      {plan.price}
+                    </span>
+                  </p>
+                  <div className={styles["plan_button"]}>立即购买</div>
+                </div>
+              ))}
+          </div>
+        )}
+
+        <div className={styles["plan-loading"]}>
+          <div className={styles["loading"]}>{loading && <LoadingIcon />}</div>
         </div>
 
         <div className={styles["plan_footer"]}>
