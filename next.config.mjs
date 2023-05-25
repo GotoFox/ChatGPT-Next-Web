@@ -7,6 +7,10 @@ const nextConfig = {
         source: "/api/proxy/:path*",
         destination: "https://api.openai.com/:path*",
       },
+      {
+        source: "/sharegpt",
+        destination: "https://sharegpt.com/api/conversations",
+      },
     ];
 
     const apiUrl = process.env.API_URL;
