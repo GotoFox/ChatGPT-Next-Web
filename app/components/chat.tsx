@@ -63,6 +63,7 @@ import { AuthModel } from "@/app/components/authModel";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
 import { showToast } from "./ui-lib";
+import { PostUserLimit } from "@/app/http/user";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -486,12 +487,12 @@ export function Chat() {
     }
   };
 
-  const doSubmit = (userInput: string) => {
+  const doSubmit = async (userInput: string) => {
     if (userInput.trim() === "") return;
 
     const token = localStorage.getItem("access_token");
-    console.log(token, 493);
-    if (!token) {
+    const access_user = localStorage.getItem("access_user");
+    if (!token || !access_user) {
       showToast("访问令牌已过期或无效，请重新登录");
       const isUser = location.pathname === Path.User;
       if (isUser) {
@@ -499,6 +500,25 @@ export function Chat() {
       }
       setShowModal(true);
       return;
+    }
+
+    if (access_user !== null) {
+      const parsed_access_user = JSON.parse(access_user);
+      try {
+        let res = await PostUserLimit({
+          username: parsed_access_user.username,
+        });
+        console.log(res);
+        if (res.status !== 200) {
+          showToast(res && (res as any).msg);
+          return;
+        }
+      } catch (error) {
+        const errorMessage =
+          (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+        showToast(errorMessage);
+        return;
+      }
     }
 
     const loginTime = JSON.parse(localStorage.getItem("access_user") as string);

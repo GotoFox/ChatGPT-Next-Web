@@ -10,3 +10,4 @@ export const PostSendCode = (data) => post("/api/sendCode", data);
 export const PostSendResetPasswordCode = (data) =>
   post("/api/sendResetPasswordCode", data);
 export const PostForgotPassword = (data) => post("/api/forgotPassword", data);
+export const PostUserLimit = (data) => post("/api/userLimit", data);
