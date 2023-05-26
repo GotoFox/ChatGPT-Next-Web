@@ -95,7 +95,6 @@ export function Plan() {
         </div>
 
         <div className={styles["plan_region"]}>
-          <div>字符包套餐</div>
           <div className={styles["plan_region_text"]}>
             <TipsIcon className={styles["tips-icon"]} />
             <span> 不同的套餐次数可以累加</span>
