@@ -8,6 +8,7 @@ import {
   fetchEventSource,
 } from "@fortaine/fetch-event-source";
 import { prettyObject } from "@/app/utils/format";
+import { PostUserLimit } from "@/app/http/user";
 
 export class ChatGPTApi implements LLMApi {
   public ChatPath = "v1/chat/completions";
@@ -81,6 +82,26 @@ export class ChatGPTApi implements LLMApi {
         };
 
         controller.signal.onabort = finish;
+
+        const access_user = localStorage.getItem("access_user");
+        if (access_user !== null) {
+          const parsed_access_user = JSON.parse(access_user);
+          try {
+            let res = await PostUserLimit({
+              username: parsed_access_user.username,
+            });
+            if (res.status !== 200) {
+              options.onUpdate?.("访问令牌已过期或无效，请重新登录！", "");
+              return finish();
+            }
+          } catch (error) {
+            const errorMessage =
+              (error as any).response?.data?.msg ??
+              Locale.authModel.Toast.error;
+            options.onUpdate?.(errorMessage, "");
+            return finish();
+          }
+        }
 
         fetchEventSource(chatPath, {
           ...chatPayload,
