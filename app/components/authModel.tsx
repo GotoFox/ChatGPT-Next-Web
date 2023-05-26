@@ -89,8 +89,8 @@ export function AuthModel(props: {
       const params = {
         [username.includes("@") ? "email" : "username"]: username,
         password,
+        login_time: new Date().toISOString(),
       };
-
       let res = await PostLogin(params);
       if (res.status === 200) {
         showToast(res && (res as any).msg);
