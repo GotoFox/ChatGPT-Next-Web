@@ -47,6 +47,7 @@ export function Users() {
   const config = useAppConfig();
   const updateConfig = config.update;
   const user = JSON.parse(localStorage.getItem("access_user") as string);
+  const [USER, setUSER] = useState({});
 
   const updateStore = useUpdateStore();
   const [checkingUpdate, setCheckingUpdate] = useState(false);
@@ -55,9 +56,7 @@ export function Users() {
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
   const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
     useState(false);
-  const [subTitleInfo, setSubTitleInfo] = useState(
-    "当前已使用 ? 字符，套餐总额 不限制 字符",
-  );
+  const [subTitleInfo, setSubTitleInfo] = useState("");
 
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -72,6 +71,8 @@ export function Users() {
       const res = await PostUser(params);
       if (res.status === 200) {
         setLoading(false); // 成功返回时设置 loading 为 false
+        setUSER(res.user);
+        setSubTitleInfo(`当前剩余 ${res.user.current_limit} 次对话`);
       } else {
         handleNavigationError();
       }
@@ -114,7 +115,7 @@ export function Users() {
       const params = { username: user.username };
       const res = await PostUser(params);
       if (res.status === 200) {
-        setSubTitleInfo("当前已使用 ? 字符，套餐总额 不限制 字符");
+        setSubTitleInfo(`当前剩余 ${USER.current_limit} 次对话`);
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
       }
@@ -172,10 +173,10 @@ export function Users() {
             </Popover>
           </ListItem>
           <ListItem title={"账号"}>
-            <div className={styles.font12}>{user && user.username}</div>
+            <div className={styles.font12}>{USER && USER.username}</div>
           </ListItem>
           <ListItem title={"邮箱"}>
-            <div className={styles.font12}>{user && user.email}</div>
+            <div className={styles.font12}>{USER && USER.email}</div>
           </ListItem>
         </List>
 
@@ -192,8 +193,10 @@ export function Users() {
           </ListItem>
         </List>
         <List>
-          <ListItem title={"当前套餐"} subTitle={"已开通的套餐"}>
-            <div className={styles.font12}>免费计划</div>
+          <ListItem title={"当前套餐"}>
+            <div className={styles.font12}>
+              {(USER && USER.plan.name) || "未开通"}
+            </div>
           </ListItem>
           <ListItem title={"套餐查询"} subTitle={subTitleInfo}>
             <div className={styles.font12}>
@@ -215,9 +218,7 @@ export function Users() {
         <List>
           <ListItem
             title={"邀请码"}
-            subTitle={
-              "邀请新用户注册将获得 500 字符，邀请用户和注册用户都将获得奖励"
-            }
+            subTitle={"邀请新用户注册双方都将获得 100 次对话奖励"}
           >
             <div className={styles.font12}>
               {" "}
