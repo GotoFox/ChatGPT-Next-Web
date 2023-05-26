@@ -71,8 +71,8 @@ export function Users() {
       const res = await PostUser(params);
       if (res.status === 200) {
         setLoading(false); // 成功返回时设置 loading 为 false
-        setUSER(res.user);
-        setSubTitleInfo(`当前剩余 ${res.user.current_limit} 次对话`);
+        setUSER((res as any).user);
+        setSubTitleInfo(`当前剩余 ${(res as any).user.current_limit} 次对话`);
       } else {
         handleNavigationError();
       }
@@ -115,7 +115,7 @@ export function Users() {
       const params = { username: user.username };
       const res = await PostUser(params);
       if (res.status === 200) {
-        setSubTitleInfo(`当前剩余 ${USER.current_limit} 次对话`);
+        setSubTitleInfo(`当前剩余 ${(USER as any).current_limit} 次对话`);
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
       }
@@ -173,10 +173,12 @@ export function Users() {
             </Popover>
           </ListItem>
           <ListItem title={"账号"}>
-            <div className={styles.font12}>{USER && USER.username}</div>
+            <div className={styles.font12}>
+              {USER && (USER as any).username}
+            </div>
           </ListItem>
           <ListItem title={"邮箱"}>
-            <div className={styles.font12}>{USER && USER.email}</div>
+            <div className={styles.font12}>{USER && (USER as any).email}</div>
           </ListItem>
         </List>
 
@@ -195,7 +197,7 @@ export function Users() {
         <List>
           <ListItem title={"当前套餐"}>
             <div className={styles.font12}>
-              {(USER && USER.plan.name) || "未开通"}
+              {(USER && (USER as any).plan.name) || "未开通"}
             </div>
           </ListItem>
           <ListItem title={"套餐查询"} subTitle={subTitleInfo}>

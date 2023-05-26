@@ -22,7 +22,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { SideBar } from "./sidebar";
-import { useAppConfig } from "../store/config";
+import { useAppConfig } from "@/app/store";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
