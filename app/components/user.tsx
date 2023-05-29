@@ -72,7 +72,10 @@ export function Users() {
       if (res.status === 200) {
         setLoading(false); // 成功返回时设置 loading 为 false
         setUSER((res as any).user);
-        setSubTitleInfo(`当前剩余 ${(res as any).user.current_limit} 次对话`);
+        const limit = (res as any)?.user?.current_limit;
+        const subtitle =
+          limit === -1 ? `当前剩余 不限 次对话` : `当前剩余 ${limit} 次对话`;
+        setSubTitleInfo(subtitle);
       } else {
         handleNavigationError();
       }
@@ -115,7 +118,10 @@ export function Users() {
       const params = { username: user.username };
       const res = await PostUser(params);
       if (res.status === 200) {
-        setSubTitleInfo(`当前剩余 ${(USER as any).current_limit} 次对话`);
+        const limit = (res as any)?.user?.current_limit;
+        const subtitle =
+          limit === -1 ? `当前剩余 不限 次对话` : `当前剩余 ${limit} 次对话`;
+        setSubTitleInfo(subtitle);
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
       }
