@@ -87,8 +87,26 @@
     transition: all 0.5s ease-in-out;
   }
 
+  .plan_equity {
+    width: 100%;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease-in-out;
+    font-size: 12px;
+    background: #eee;
+    padding: 4px 0 4px 0;
+    color: #1d93ab;
+    box-sizing: border-box;
+    opacity: 0.2;
+  }
+
   .plans_all .plan_title {
     font-size: 24px;
+  }
+  .plans_all .plan_equity {
+    font-size: 12px;
   }
 
   .plans_all .plan_price {
@@ -123,6 +141,11 @@
 
   .plans_all .plan:hover .plan_title {
     top: 30%;
+  }
+
+  .plans_all .plan:hover .plan_equity {
+    top: 90%;
+    opacity: 1;
   }
   .plans_all .plan:hover .plan_price {
     top: 40%;

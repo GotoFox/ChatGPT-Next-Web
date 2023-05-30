@@ -45,6 +45,7 @@ export function Plan() {
     id: number;
     name: string;
     price: number;
+    usage_limit: number;
   }
 
   return (
@@ -116,6 +117,13 @@ export function Plan() {
                     <div className={styles["plan_hot"]}>限时特价</div>
                   ) : null}
                   <div className={styles["plan_title"]}>{plan.name}</div>
+                  <div className={styles["plan_equity"]}>
+                    {" "}
+                    尊享 {plan.usage_limit === -1
+                      ? "不限"
+                      : plan.usage_limit}{" "}
+                    次对话请求{" "}
+                  </div>
                   <p className={styles["plan_price"]}>
                     ￥
                     <span className={styles["plan_price_text"]}>
