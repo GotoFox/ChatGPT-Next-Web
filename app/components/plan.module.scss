@@ -58,7 +58,6 @@
     padding: 20px;
     text-align: center;
     transition: all 0.3s ease-in-out;
-    cursor: pointer;
     border: 2px solid #eee;
     position: relative;
   }
@@ -105,6 +104,11 @@
   .plans_all .plan_title {
     font-size: 24px;
   }
+
+  .plans_all .plan_title span {
+    cursor: pointer;
+  }
+
   .plans_all .plan_equity {
     font-size: 12px;
   }
@@ -148,6 +152,7 @@
   }
 
   .plans_all .plan:hover .plan_equity {
+    cursor: pointer;
     top: 90%;
     opacity: 1;
   }
@@ -167,6 +172,11 @@
 .plan-loading {
   text-align: center;
   line-height: 230px;
+}
+.plan-loadingIn {
+  top: 64%;
+  left: 60%;
+  position: absolute;
 }
 .loading {
   text-align: center;
