@@ -10,13 +10,14 @@ import { List, ListItem, showToast } from "./ui-lib";
 import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
-import { GetPlan } from "@/app/http/plan";
+import { GetPlan, PostPurchase } from "@/app/http/plan";
 import LoadingIcon from "@/app/icons/three-dots.svg";
 
 export function Plan() {
   const navigate = useNavigate();
   const [planData, setPlanData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem("access_user") as string);
 
   useEffect(() => {
     async function getPlanData() {
@@ -40,10 +41,27 @@ export function Plan() {
     getPlanData();
   }, []);
 
+  async function doPurchase(plan: PlanData) {
+    try {
+      let params = {
+        username: user.username,
+        planCode: plan.code,
+      };
+      const res = await PostPurchase(params);
+      showToast(res && (res as any).msg);
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    } finally {
+    }
+  }
+
   interface PlanData {
     code: string;
     id: number;
     name: string;
+    model: string;
     price: number;
     usage_limit: number;
   }
@@ -119,18 +137,26 @@ export function Plan() {
                   <div className={styles["plan_title"]}>{plan.name}</div>
                   <div className={styles["plan_equity"]}>
                     {" "}
-                    尊享 {plan.usage_limit === -1
-                      ? "不限"
-                      : plan.usage_limit}{" "}
-                    次对话请求{" "}
+                    每天尊享{" "}
+                    {plan.usage_limit === -1 ? "不限" : plan.usage_limit} 次对话
+                    + {plan.model}
                   </div>
                   <p className={styles["plan_price"]}>
                     ￥
                     <span className={styles["plan_price_text"]}>
                       {plan.price}
                     </span>
+                    <span className={styles["plan_price_text_cycle"]}>
+                      {" "}
+                      /月
+                    </span>
                   </p>
-                  <div className={styles["plan_button"]}>立即购买</div>
+                  <div
+                    className={styles["plan_button"]}
+                    onClick={() => doPurchase(plan)}
+                  >
+                    立即购买
+                  </div>
                 </div>
               ))}
           </div>
