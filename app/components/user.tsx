@@ -73,8 +73,11 @@ export function Users() {
         setLoading(false); // 成功返回时设置 loading 为 false
         setUSER((res as any).user);
         const limit = (res as any)?.user?.current_limit;
+        const maxLimit = (res as any)?.user?.max_limit;
         const subtitle =
-          limit === -1 ? `当前剩余 不限 次对话` : `当前剩余 ${limit} 次对话`;
+          limit === -1
+            ? `今日剩余 不限 次对话，套餐今日总额 不限 次对话`
+            : `今日剩余 ${limit} 次对话，套餐今日总额 ${maxLimit} 次对话`;
         setSubTitleInfo(subtitle);
       } else {
         handleNavigationError();
@@ -119,8 +122,11 @@ export function Users() {
       const res = await PostUser(params);
       if (res.status === 200) {
         const limit = (res as any)?.user?.current_limit;
+        const maxLimit = (res as any)?.user?.max_limit;
         const subtitle =
-          limit === -1 ? `当前剩余 不限 次对话` : `当前剩余 ${limit} 次对话`;
+          limit === -1
+            ? `今日剩余 不限 次对话，套餐今日总额 不限 次对话`
+            : `今日剩余 ${limit} 次对话，套餐今日总额 ${maxLimit} 次对话`;
         setSubTitleInfo(subtitle);
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
