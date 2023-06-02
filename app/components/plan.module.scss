@@ -94,8 +94,6 @@
     transform: translate(-50%, -50%);
     transition: all 0.5s ease-in-out;
     font-size: 12px;
-    background: #eee;
-    padding: 4px 0 4px 0;
     color: #1d93ab;
     box-sizing: border-box;
     opacity: 0.2;
@@ -103,10 +101,6 @@
 
   .plans_all .plan_title {
     font-size: 24px;
-  }
-
-  .plans_all .plan_title span {
-    cursor: pointer;
   }
 
   .plans_all .plan_equity {
@@ -128,7 +122,7 @@
 
   .plans_all .plan_button {
     position: absolute;
-    top: 100%;
+    top: 94%;
     left: 50%;
     transform: translate(-50%, -60%);
     background-color: #1d93ab;
@@ -152,7 +146,6 @@
   }
 
   .plans_all .plan:hover .plan_equity {
-    cursor: pointer;
     top: 90%;
     opacity: 1;
   }
@@ -180,4 +173,19 @@
 }
 .loading {
   text-align: center;
+}
+
+.plan_cycle {
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease-in-out;
+  font-size: 14px;
+  opacity: 0.1;
+
+  .text {
+    cursor: pointer;
+  }
+}
+
+.plan_cycle:hover {
+  opacity: 1;
 }

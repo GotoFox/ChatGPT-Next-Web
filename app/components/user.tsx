@@ -76,8 +76,8 @@ export function Users() {
         const maxLimit = (res as any)?.user?.max_limit;
         const subtitle =
           limit === -1
-            ? `今日剩余 不限 次对话，套餐每日总额 不限 次对话`
-            : `今日剩余 ${limit} 次对话，套餐每日总额 ${maxLimit} 次对话`;
+            ? `今日剩余 不限 次对话，每日总额 不限 次对话`
+            : `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
         setSubTitleInfo(subtitle);
       } else {
         handleNavigationError();
@@ -125,8 +125,8 @@ export function Users() {
         const maxLimit = (res as any)?.user?.max_limit;
         const subtitle =
           limit === -1
-            ? `今日剩余 不限 次对话，套餐每日总额 不限 次对话`
-            : `今日剩余 ${limit} 次对话，套餐每日总额 ${maxLimit} 次对话`;
+            ? `今日剩余 不限 次对话，每日总额 不限 次对话`
+            : `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
         setSubTitleInfo(subtitle);
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
@@ -207,9 +207,13 @@ export function Users() {
           </ListItem>
         </List>
         <List>
-          <ListItem title={"当前套餐"}>
+          <ListItem
+            title={"当前套餐"}
+            subTitle={`到期时间：${USER && (USER as any).plan.expire}`}
+          >
             <div className={styles.font12}>
-              {(USER && (USER as any).plan.name) || "未开通"}
+              {(USER && (USER as any).plan.name) || "未开通"}（
+              {USER && (USER as any).plan.cycleText}）
             </div>
           </ListItem>
           <ListItem title={"套餐查询"} subTitle={subTitleInfo}>

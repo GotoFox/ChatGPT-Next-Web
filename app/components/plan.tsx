@@ -16,6 +16,7 @@ import LoadingIcon from "@/app/icons/three-dots.svg";
 export function Plan() {
   const navigate = useNavigate();
   const [planData, setPlanData] = useState([]);
+  const [planDataInfo, setPlanDataInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingIn, setLoadingIn] = useState(false);
   const user = JSON.parse(localStorage.getItem("access_user") as string);
@@ -26,7 +27,8 @@ export function Plan() {
       try {
         const res = await GetPlan();
         if (res.status === 200) {
-          setPlanData(res.data);
+          setPlanDataInfo(res.data);
+          setPlanData(res.data.filter((item) => item.period === 1));
         } else {
           showToast(res && (res as any).msg);
         }
@@ -47,7 +49,7 @@ export function Plan() {
     try {
       let params = {
         username: user.username,
-        planCode: plan.code,
+        planId: plan.id,
       };
       const res = await PostPurchase(params);
       showToast(res && (res as any).msg);
@@ -60,8 +62,19 @@ export function Plan() {
     }
   }
 
+  async function selectCycle(type) {
+    if (type === "season") {
+      setPlanData(planDataInfo.filter((item) => item.period === 3));
+    } else if (type === "year") {
+      setPlanData(planDataInfo.filter((item) => item.period === 12));
+    } else {
+      setPlanData(planDataInfo.filter((item) => item.period === 1));
+    }
+  }
+
   interface PlanData {
     code: string;
+    cycleText: string;
     id: number;
     name: string;
     model: string;
@@ -121,6 +134,34 @@ export function Plan() {
             <TipsIcon className={styles["tips-icon"]} />
             <span> 不同的套餐次数可以累加</span>
           </div>
+          <div className={styles["plan_cycle"]}>
+            <span
+              className={styles["text"]}
+              onClick={() => {
+                selectCycle("month");
+              }}
+            >
+              月
+            </span>
+            <span> / </span>
+            <span
+              className={styles["text"]}
+              onClick={() => {
+                selectCycle("season");
+              }}
+            >
+              季
+            </span>
+            <span> / </span>
+            <span
+              className={styles["text"]}
+              onClick={() => {
+                selectCycle("year");
+              }}
+            >
+              年
+            </span>
+          </div>
         </div>
         {!loading && (
           <div className={styles["plans_all"]}>
@@ -145,7 +186,7 @@ export function Plan() {
                       每日 {plan.usage_limit === -1 ? "不限" : plan.usage_limit}{" "}
                       次对话，
                     </span>
-                    <span>更多权益</span>
+                    <span>{plan.model}</span>
                   </div>
                   <p className={styles["plan_price"]}>
                     ￥
@@ -154,7 +195,7 @@ export function Plan() {
                     </span>
                     <span className={styles["plan_price_text_cycle"]}>
                       {" "}
-                      /月
+                      /{plan.cycleText}
                     </span>
                   </p>
 
