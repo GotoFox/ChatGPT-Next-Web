@@ -64,11 +64,11 @@ export function Plan() {
 
   async function selectCycle(type) {
     if (type === "season") {
-      setPlanData(planDataInfo.filter((item) => item.period === 3));
+      setPlanData(planDataInfo.filter((item: any) => item.period === 3));
     } else if (type === "year") {
-      setPlanData(planDataInfo.filter((item) => item.period === 12));
+      setPlanData(planDataInfo.filter((item: any) => item.period === 12));
     } else {
-      setPlanData(planDataInfo.filter((item) => item.period === 1));
+      setPlanData(planDataInfo.filter((item: any) => item.period === 1));
     }
   }
 
