@@ -62,7 +62,7 @@ export function Plan() {
     }
   }
 
-  async function selectCycle(type) {
+  async function selectCycle(type: string) {
     if (type === "season") {
       setPlanData(planDataInfo.filter((item: any) => item.period === 3));
     } else if (type === "year") {
