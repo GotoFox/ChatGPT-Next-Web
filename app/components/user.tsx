@@ -209,13 +209,20 @@ export function Users() {
         <List>
           <ListItem
             title={"当前套餐"}
-            subTitle={`到期时间：${USER && (USER as any).plan.expire}`}
+            subTitle={
+              USER && (USER as any).plan.expire
+                ? `到期时间：${(USER as any).plan.expire}`
+                : ""
+            }
           >
             <div className={styles.font12}>
-              {(USER && (USER as any).plan.name) || "未开通"}（
-              {USER && (USER as any).plan.cycleText}）
+              {(USER && (USER as any).plan.name) || "未开通"}
+              {USER && (USER as any).plan.cycleText
+                ? `（${(USER as any).plan.cycleText}）`
+                : ""}
             </div>
           </ListItem>
+
           <ListItem title={"套餐查询"} subTitle={subTitleInfo}>
             <div className={styles.font12}>
               <IconButton
