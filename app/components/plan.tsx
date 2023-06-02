@@ -28,7 +28,7 @@ export function Plan() {
         const res = await GetPlan();
         if (res.status === 200) {
           setPlanDataInfo(res.data);
-          setPlanData(res.data.filter((item) => item.period === 1));
+          setPlanData(res.data.filter((item: any) => item.period === 1));
         } else {
           showToast(res && (res as any).msg);
         }
