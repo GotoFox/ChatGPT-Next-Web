@@ -114,7 +114,9 @@ export function AuthModel(props: {
       }
     } catch (error) {
       const errorMessage =
-        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
       showToast(errorMessage);
     } finally {
       setLoading(false);
@@ -158,7 +160,9 @@ export function AuthModel(props: {
       }
     } catch (error) {
       const errorMessage =
-        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
       showToast(errorMessage);
     } finally {
       setLoading(false);
@@ -194,7 +198,9 @@ export function AuthModel(props: {
       }
     } catch (error) {
       const errorMessage =
-        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
       showToast(errorMessage);
     } finally {
       setLoading(false);

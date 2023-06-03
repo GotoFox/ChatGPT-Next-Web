@@ -10,7 +10,7 @@ import { List, ListItem, showToast } from "./ui-lib";
 import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
-import { GetPlan, PostPurchase } from "@/app/http/plan";
+import { GetPlan, PostPurchase, PostUseCard } from "@/app/http/plan";
 import LoadingIcon from "@/app/icons/three-dots.svg";
 
 export function Plan() {
@@ -19,6 +19,7 @@ export function Plan() {
   const [planDataInfo, setPlanDataInfo] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingIn, setLoadingIn] = useState(false);
+  const [card_no, setCard_no] = useState("");
   const user = JSON.parse(localStorage.getItem("access_user") as string);
 
   useEffect(() => {
@@ -72,6 +73,37 @@ export function Plan() {
     }
   }
 
+  async function useCard() {
+    if (!card_no) {
+      showToast("卡密不能为空");
+      return;
+    }
+    setLoadingIn(true);
+    try {
+      const params = {
+        card_no: card_no,
+        username: user.username,
+      };
+      const res = await PostUseCard(params);
+      if (res.status === 200) {
+        setCard_no("");
+      }
+      showToast(res && (res as any).msg);
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    } finally {
+      setLoadingIn(false);
+    }
+  }
+
+  async function goCard() {
+    showToast("我们暂未指定销售平台，请耐心等待");
+  }
+
   interface PlanData {
     code: string;
     cycleText: string;
@@ -117,15 +149,24 @@ export function Plan() {
             <input
               className={styles["cami_input"]}
               type="text"
+              value={card_no}
               placeholder={"请输入卡密"}
+              onChange={(e) => setCard_no(e.target.value)}
             />
             <IconButton
               className={styles["cami_button"]}
               bordered
               text={"兑换"}
+              disabled={loadingIn}
+              onClick={useCard}
               icon={<AddIcon />}
             />
-            <IconButton bordered text={"购买卡密"} icon={<BuyIcon />} />
+            <IconButton
+              bordered
+              onClick={goCard}
+              text={"购买卡密"}
+              icon={<BuyIcon />}
+            />
           </div>
         </div>
 
