@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
+import QRCode from "qrcode.react";
 import styles from "./plan.module.scss";
 import CloseIcon from "../icons/close.svg";
 import { IconButton } from "./button";
@@ -6,7 +7,7 @@ import Locale from "../locales";
 import { Path } from "../constant";
 import { ErrorBoundary } from "./error";
 import { useNavigate } from "react-router-dom";
-import { List, ListItem, showToast } from "./ui-lib";
+import { List, ListItem, Modal, Popover, showToast } from "./ui-lib";
 import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
@@ -17,6 +18,14 @@ import {
   PostUseCard,
 } from "@/app/http/plan";
 import LoadingIcon from "@/app/icons/three-dots.svg";
+import { PostChangePassword, PostInvitationRecords } from "@/app/http/user";
+import DeleteIcon from "@/app/icons/delete.svg";
+import { Avatar, AvatarPicker } from "@/app/components/emoji";
+import QqIcon from "@/app/icons/map/qq.svg";
+import WeiXinIcon from "@/app/icons/map/weixin.svg";
+import AlipayIcon from "@/app/icons/map/alipay.svg";
+import GithubIcon from "@/app/icons/map/github.svg";
+import WeiboIcon from "@/app/icons/map/weibo.svg";
 
 export function Plan() {
   const navigate = useNavigate();
@@ -29,6 +38,9 @@ export function Plan() {
   const [loadingIn, setLoadingIn] = useState(false);
   const [card_no, setCard_no] = useState("");
   const user = JSON.parse(localStorage.getItem("access_user") as string);
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
+    useState(false);
+  const [currentPlan, setCurrentPlan] = useState({});
 
   useEffect(() => {
     async function fetchData() {
@@ -63,23 +75,23 @@ export function Plan() {
     fetchData();
   }, []);
 
-  async function doPurchase(plan: PlanData) {
-    setLoadingIn(true);
-    try {
-      let params = {
-        username: user.username,
-        planId: plan.id,
-      };
-      const res = await PostPurchase(params);
-      showToast(res && (res as any).msg);
-    } catch (error) {
-      const errorMessage =
-        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
-      showToast(errorMessage);
-    } finally {
-      setLoadingIn(false);
-    }
-  }
+  // async function doPurchase(plan: PlanData) {
+  //   setLoadingIn(true);
+  //   try {
+  //     let params = {
+  //       username: user.username,
+  //       planId: plan.id,
+  //     };
+  //     const res = await PostPurchase(params);
+  //     showToast(res && (res as any).msg);
+  //   } catch (error) {
+  //     const errorMessage =
+  //       (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+  //     showToast(errorMessage);
+  //   } finally {
+  //     setLoadingIn(false);
+  //   }
+  // }
 
   async function selectCycle(type: string) {
     if (type === "season") {
@@ -259,10 +271,22 @@ export function Plan() {
                     </span>
                   </p>
 
-                  {!loadingIn && (
+                  {/*{!loadingIn && (
                     <div
                       className={styles["plan_button"]}
                       onClick={() => doPurchase(plan)}
+                    >
+                      立即购买
+                    </div>
+                  )}*/}
+
+                  {!loadingIn && (
+                    <div
+                      className={styles["plan_button"]}
+                      onClick={() => {
+                        setShowInvitationRecordsModal(true);
+                        setCurrentPlan(plan);
+                      }}
                     >
                       立即购买
                     </div>
@@ -294,6 +318,115 @@ export function Plan() {
           </div>
         </div>
       </div>
+      {showInvitationRecordsModal && (
+        <InvitationRecordsModal
+          currentPlan={currentPlan}
+          onClose={() => setShowInvitationRecordsModal(false)}
+        />
+      )}
     </ErrorBoundary>
+  );
+}
+
+function InvitationRecordsModal(props: {
+  currentPlan: any;
+  onClose?: () => void;
+}) {
+  const { currentPlan, onClose } = props;
+  const [loading, setLoading] = useState(false);
+  const user = JSON.parse(localStorage.getItem("access_user") as string);
+  const [qrCode, setQrCode] = useState("");
+
+  async function paymentCode(type: string) {
+    setLoading(true);
+    try {
+      let params = {
+        username: user.username,
+        planId: currentPlan.id,
+      };
+      const res = await PostPurchase(params);
+      if (res && (res as any).qrCode) {
+        setQrCode((res as any).qrCode);
+      }
+      // showToast(res && (res as any).msg);
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="modal-mask">
+      <Modal
+        title={"在线支付"}
+        onClose={() => props.onClose?.()}
+        actions={[
+          <IconButton
+            key="add"
+            icon={<AddIcon />}
+            bordered
+            text={"支付完成"}
+            onClick={() => {
+              props.onClose?.();
+            }}
+          />,
+          <IconButton
+            key="cancel"
+            bordered
+            text={"关闭"}
+            icon={<DeleteIcon />}
+            onClick={() => {
+              props.onClose?.();
+            }}
+          />,
+        ]}
+      >
+        <div className={styles["plan_pay"]}>
+          <List>
+            <ListItem title={"支付渠道"}>
+              <div className={styles["fixBox"]}>
+                <div className={styles["plan_pay-left"]}>
+                  <IconButton
+                    icon={<WeiXinIcon />}
+                    onClick={() => {
+                      paymentCode("weixin");
+                    }}
+                    shadow
+                  />
+                </div>
+                <div className={styles["plan_pay-left"]}>
+                  <IconButton
+                    icon={<AlipayIcon />}
+                    onClick={() => {
+                      paymentCode("alipay");
+                    }}
+                    shadow
+                  />
+                </div>
+              </div>
+            </ListItem>
+
+            <ListItem title={"扫码支付"}>
+              <div className={styles["fixBox_qr"]}>
+                <div className={styles["fixBox_qr"]}>
+                  {qrCode ? (
+                    <QRCode value={qrCode} size={200} />
+                  ) : (
+                    <div>请选择上方的支付渠道</div>
+                  )}
+                </div>
+              </div>
+            </ListItem>
+          </List>
+
+          <div className={styles["plan_pay-loading-center"]}>
+            {loading && <LoadingIcon />}
+          </div>
+        </div>
+      </Modal>
+    </div>
   );
 }

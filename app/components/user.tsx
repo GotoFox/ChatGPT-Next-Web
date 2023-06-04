@@ -295,7 +295,7 @@ export function Users() {
 
         <List>
           <ListItem title={"快捷登录"} subTitle={"已绑定的第三方平台"}>
-            <div className={styles.fixBox}>
+            <div className={styles["fixBox"]}>
               <div className={styles["user-left"]}>
                 <IconButton icon={<QqIcon />} shadow />
               </div>
