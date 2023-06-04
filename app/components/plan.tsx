@@ -17,10 +17,8 @@ import {
   PostUseCard,
 } from "@/app/http/plan";
 import LoadingIcon from "@/app/icons/three-dots.svg";
-import dynamic from "_next@13.4.3@next/dynamic";
 
 export function Plan() {
-  const Markdown = dynamic(async () => (await import("./markdown")).Markdown);
   const navigate = useNavigate();
   const [planData, setPlanData] = useState([]);
   const [planDataInfo, setPlanDataInfo] = useState([]);
