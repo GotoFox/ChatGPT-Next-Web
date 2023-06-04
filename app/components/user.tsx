@@ -57,6 +57,8 @@ export function Users() {
   const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
     useState(false);
   const [subTitleInfo, setSubTitleInfo] = useState("");
+  const [cycleText, setCycleText] = useState("");
+  const [expireText, setExpireText] = useState("");
 
   function checkUsage(force = false) {
     setLoadingUsage(true);
@@ -72,13 +74,31 @@ export function Users() {
       if (res.status === 200) {
         setLoading(false); // 成功返回时设置 loading 为 false
         setUSER((res as any).user);
-        const limit = (res as any)?.user?.current_limit;
-        const maxLimit = (res as any)?.user?.max_limit;
-        const subtitle =
-          limit === -1
-            ? `今日剩余 不限 次对话，每日总额 不限 次对话`
-            : `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+        let limit = (res as any)?.user?.current_limit;
+        let maxLimit = (res as any)?.user?.max_limit;
+        let subtitle = "";
+
+        if (limit === -1 && maxLimit === -1) {
+          subtitle = "今日剩余 不限 次对话，每日总额 不限 次对话";
+        } else if (limit === -1) {
+          subtitle = `今日剩余 不限 次对话，每日总额 ${maxLimit} 次对话`;
+        } else if (maxLimit === -1) {
+          subtitle = `今日剩余 ${limit} 次对话，每日总额 不限 次对话`;
+        } else {
+          subtitle = `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+        }
         setSubTitleInfo(subtitle);
+
+        const planName = (res as any).user?.plan?.name;
+        const cycleText = (res as any).user?.plan?.cycleText;
+        const cycleTextInfo =
+          planName && cycleText ? `${planName}（${cycleText}）` : "未开通";
+        setCycleText(cycleTextInfo);
+
+        const expireTextInfo = (res as any).user?.plan?.expire
+          ? `到期时间：${(res as any).user?.plan?.expire}`
+          : "";
+        setExpireText(expireTextInfo);
       } else {
         handleNavigationError();
       }
@@ -116,18 +136,37 @@ export function Users() {
   };
 
   const handleCheck = async () => {
+    setExpireText("正在检查...");
     setSubTitleInfo("正在检查...");
     try {
       const params = { username: user.username };
       const res = await PostUser(params);
       if (res.status === 200) {
-        const limit = (res as any)?.user?.current_limit;
-        const maxLimit = (res as any)?.user?.max_limit;
-        const subtitle =
-          limit === -1
-            ? `今日剩余 不限 次对话，每日总额 不限 次对话`
-            : `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+        let limit = (res as any)?.user?.current_limit;
+        let maxLimit = (res as any)?.user?.max_limit;
+        let subtitle = "";
+
+        if (limit === -1 && maxLimit === -1) {
+          subtitle = "今日剩余 不限 次对话，每日总额 不限 次对话";
+        } else if (limit === -1) {
+          subtitle = `今日剩余 不限 次对话，每日总额 ${maxLimit} 次对话`;
+        } else if (maxLimit === -1) {
+          subtitle = `今日剩余 ${limit} 次对话，每日总额 不限 次对话`;
+        } else {
+          subtitle = `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+        }
         setSubTitleInfo(subtitle);
+
+        const planName = (res as any).user?.plan?.name;
+        const cycleText = (res as any).user?.plan?.cycleText;
+        const cycleTextInfo =
+          planName && cycleText ? `${planName}（${cycleText}）` : "未开通";
+        setCycleText(cycleTextInfo);
+
+        const expireTextInfo = (res as any).user?.plan?.expire
+          ? `到期时间：${(res as any).user?.plan?.expire}`
+          : "";
+        setExpireText(expireTextInfo);
       } else {
         setSubTitleInfo("检查失败，请稍后再试");
       }
@@ -207,20 +246,8 @@ export function Users() {
           </ListItem>
         </List>
         <List>
-          <ListItem
-            title={"当前套餐"}
-            subTitle={
-              USER && (USER as any).plan.expire
-                ? `到期时间：${(USER as any).plan.expire}`
-                : ""
-            }
-          >
-            <div className={styles.font12}>
-              {(USER && (USER as any).plan.name) || "未开通"}
-              {USER && (USER as any).plan.cycleText
-                ? `（${(USER as any).plan.cycleText}）`
-                : ""}
-            </div>
+          <ListItem title={"当前套餐"} subTitle={expireText}>
+            <div className={styles.font12}>{cycleText}</div>
           </ListItem>
 
           <ListItem title={"套餐查询"} subTitle={subTitleInfo}>
