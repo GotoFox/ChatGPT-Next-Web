@@ -10,28 +10,48 @@ import { List, ListItem, showToast } from "./ui-lib";
 import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
-import { GetPlan, PostPurchase, PostUseCard } from "@/app/http/plan";
+import {
+  GetPlan,
+  GetPlanAnnouncementList,
+  PostPurchase,
+  PostUseCard,
+} from "@/app/http/plan";
 import LoadingIcon from "@/app/icons/three-dots.svg";
+import dynamic from "_next@13.4.3@next/dynamic";
 
 export function Plan() {
+  const Markdown = dynamic(async () => (await import("./markdown")).Markdown);
   const navigate = useNavigate();
   const [planData, setPlanData] = useState([]);
   const [planDataInfo, setPlanDataInfo] = useState([]);
+  const [planAnnouncementInfo, setPlanAnnouncementInfo] = useState<{
+    content: string;
+  }>({ content: "" });
   const [loading, setLoading] = useState(false);
   const [loadingIn, setLoadingIn] = useState(false);
   const [card_no, setCard_no] = useState("");
   const user = JSON.parse(localStorage.getItem("access_user") as string);
 
   useEffect(() => {
-    async function getPlanData() {
+    async function fetchData() {
       setLoading(true);
       try {
-        const res = await GetPlan();
-        if (res.status === 200) {
-          setPlanDataInfo(res.data);
-          setPlanData(res.data.filter((item: any) => item.period === 1));
+        const [planRes, announcementRes] = await Promise.all([
+          GetPlan(),
+          GetPlanAnnouncementList(),
+        ]);
+        if (planRes.status === 200) {
+          setPlanDataInfo(planRes.data);
+          setPlanData(planRes.data.filter((item: any) => item.period === 1));
         } else {
-          showToast(res && (res as any).msg);
+          showToast(planRes && (planRes as any).msg);
+        }
+        if (announcementRes.status === 200) {
+          setPlanAnnouncementInfo(
+            announcementRes.data[announcementRes.data.length - 1],
+          );
+        } else {
+          showToast(announcementRes && (announcementRes as any).msg);
         }
       } catch (error) {
         const errorMessage =
@@ -42,7 +62,7 @@ export function Plan() {
       }
     }
 
-    getPlanData();
+    fetchData();
   }, []);
 
   async function doPurchase(plan: PlanData) {
@@ -139,9 +159,10 @@ export function Plan() {
       </div>
       <div className={styles["plans"]}>
         <List>
-          <div className={styles["plans_introduce"]}>
-            <div>套餐计划介绍：内测中，暂不支持购买</div>
-          </div>
+          <div
+            className={styles["plans_introduce"]}
+            dangerouslySetInnerHTML={{ __html: planAnnouncementInfo.content }}
+          ></div>
         </List>
 
         <div className={styles["plans_cami"]}>
