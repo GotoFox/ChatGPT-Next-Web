@@ -413,7 +413,7 @@ function InvitationRecordsModal(props: {
               <div className={styles["fixBox_qr"]}>
                 <div className={styles["fixBox_qr"]}>
                   {qrCode ? (
-                    <QRCode value={qrCode} size={200} />
+                    <QRCode value={qrCode} size={128} />
                   ) : (
                     <div>请选择上方的支付渠道</div>
                   )}
