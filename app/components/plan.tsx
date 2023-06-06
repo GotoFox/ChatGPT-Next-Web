@@ -336,6 +336,8 @@ function InvitationRecordsModal(props: {
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("access_user") as string);
   const [qrCode, setQrCode] = useState("");
+  const API_BASE_URL =
+    process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_WS ?? "ws://localhost:8848";
 
   async function paymentCode(type: string) {
     setLoading(true);
@@ -345,8 +347,9 @@ function InvitationRecordsModal(props: {
         planId: currentPlan.id,
       };
       const res = await PostPurchase(params);
-      if (res && (res as any).qrCode) {
-        setQrCode((res as any).qrCode);
+      if (res && (res as any).data) {
+        setQrCode((res as any).data.qrCode);
+        await checkTheStatusOfYourOrder((res as any).data.out_trade_no);
       }
       // showToast(res && (res as any).msg);
     } catch (error) {
@@ -356,6 +359,30 @@ function InvitationRecordsModal(props: {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function checkTheStatusOfYourOrder(data: string) {
+    const ws = new WebSocket(API_BASE_URL);
+    ws.onopen = () => {
+      console.log("WebSocket connected");
+      ws.send(JSON.stringify({ out_trade_no: data, type: "orderInquiry" }));
+    };
+    await new Promise((resolve) => {
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log("WebSocket received data: ", data);
+        if (data.type === "orderInquiry" && data.payload.status === 200) {
+          // 执行某一事件或赋值
+          console.log("订单状态已更新");
+          ws.close();
+        } else {
+          console.log("订单状态未更新，继续等待");
+        }
+      };
+    });
+    ws.onclose = () => {
+      console.log("WebSocket disconnected");
+    };
   }
 
   return (
