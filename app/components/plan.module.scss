@@ -143,6 +143,7 @@
 
   .plans_all .plan:hover .plan_title {
     top: 30%;
+    color: #1d93ab;
   }
 
   .plans_all .plan:hover .plan_equity {
@@ -189,26 +190,25 @@
   opacity: 1;
 }
 
-.plan_pay{
+.plan_pay {
   font-size: 12px;
-
 
   .fixBox {
     display: flex;
 
-    .plan_pay-left{
+    .plan_pay-left {
       margin-left: 10px;
     }
   }
 }
 
-.fixBox_qr{
+.fixBox_qr {
   //min-height: 100px;
   //display: flex;
   //align-items: center;
 }
 
-.plan_pay-loading-center{
+.plan_pay-loading-center {
   position: absolute;
   top: 50.8%;
   left: 50%;

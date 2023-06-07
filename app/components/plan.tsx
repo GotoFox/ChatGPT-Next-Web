@@ -38,8 +38,9 @@ export function Plan() {
   const [loadingIn, setLoadingIn] = useState(false);
   const [card_no, setCard_no] = useState("");
   const user = JSON.parse(localStorage.getItem("access_user") as string);
-  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
-    useState(false);
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] = useState(
+    false,
+  );
   const [currentPlan, setCurrentPlan] = useState({});
 
   useEffect(() => {
@@ -354,8 +355,11 @@ function InvitationRecordsModal(props: {
       // showToast(res && (res as any).msg);
     } catch (error) {
       const errorMessage =
-        (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
       showToast(errorMessage);
+      setQrCode("");
     } finally {
       setLoading(false);
     }
