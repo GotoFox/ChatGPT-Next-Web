@@ -366,7 +366,7 @@ function InvitationRecordsModal(props: {
   }
 
   async function checkTheStatusOfYourOrder(data: string) {
-    const ws = new WebSocket(API_BASE_URL);
+    const ws = new WebSocket(API_BASE_URL, "protocolOne");
     ws.onopen = () => {
       console.log("WebSocket connected");
       ws.send(JSON.stringify({ out_trade_no: data, type: "orderInquiry" }));
