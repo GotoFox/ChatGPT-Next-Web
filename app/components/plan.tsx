@@ -15,6 +15,7 @@ import {
   GetOrderInquiry,
   GetPlan,
   GetPlanAnnouncementList,
+  PostOrderInquiry,
   PostPurchase,
   PostUseCard,
 } from "@/app/http/plan";
@@ -339,8 +340,6 @@ function InvitationRecordsModal(props: {
   const user = JSON.parse(localStorage.getItem("access_user") as string);
   const [qrCode, setQrCode] = useState("");
 
-  let eventSource: EventSource | null = null;
-
   async function paymentCode(type: string) {
     setLoading(true);
     try {
@@ -349,21 +348,9 @@ function InvitationRecordsModal(props: {
         planId: currentPlan.id,
       };
       const res = await PostPurchase(params);
-      if (res && (res as any).data) {
-        setQrCode((res as any).data.qrCode);
-        if (eventSource) {
-          eventSource.close();
-        }
-        const url = GetOrderInquiry({ out_trade_no: res.data.out_trade_no });
-        console.log(url, 358);
-        eventSource = new EventSource(url);
-        eventSource.onmessage = (event) => {
-          const data = JSON.parse(event.data);
-          if (data.status === 200) {
-            showToast(data.msg);
-            eventSource?.close();
-          }
-        };
+      if (res && res.data) {
+        setQrCode(res.data.qrCode);
+        await queryOrderStatus(res.data.out_trade_no);
       }
     } catch (error) {
       const errorMessage =
@@ -374,6 +361,23 @@ function InvitationRecordsModal(props: {
       setQrCode("");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function queryOrderStatus(data: string) {
+    try {
+      const res = await PostOrderInquiry({
+        out_trade_no: data,
+        username: user.username,
+      });
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    } finally {
+      // setLoading(false);
     }
   }
 
