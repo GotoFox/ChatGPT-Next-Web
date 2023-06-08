@@ -339,8 +339,18 @@ function InvitationRecordsModal(props: {
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("access_user") as string);
   const [qrCode, setQrCode] = useState("");
+  const [countDownText, setCountDownText] = useState(0);
+  const [unpaidText, setUnpaidText] = useState("");
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
+
+  useEffect(() => {
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [intervalId]);
 
   async function paymentCode(type: string) {
+    setUnpaidText("");
     setLoading(true);
     try {
       let params = {
@@ -350,7 +360,11 @@ function InvitationRecordsModal(props: {
       const res = await PostPurchase(params);
       if (res && res.data) {
         setQrCode(res.data.qrCode);
-        await queryOrderStatus(res.data.out_trade_no);
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+        const newIntervalId = await queryOrderStatus(res.data.out_trade_no);
+        setIntervalId(newIntervalId);
       }
     } catch (error) {
       const errorMessage =
@@ -365,34 +379,72 @@ function InvitationRecordsModal(props: {
   }
 
   async function queryOrderStatus(data: string) {
-    try {
-      const res = await PostOrderInquiry({
-        out_trade_no: data,
-        username: user.username,
-      });
-    } catch (error) {
-      const errorMessage =
-        (error as any).response?.data?.msg ||
-        (error as any).response?.data ||
-        Locale.authModel.Toast.error;
-      showToast(errorMessage);
-    } finally {
-      // setLoading(false);
-    }
+    let countDown = 120;
+    const maxAttempts = 120;
+    let attempts = 0;
+    let errorMessage: string | undefined;
+    setCountDownText(countDown);
+
+    const newIntervalId = setInterval(async () => {
+      if (countDown <= 0) {
+        clearInterval(newIntervalId);
+        showToast("查询超时，请稍后再试");
+        return;
+      }
+      try {
+        const res = await PostOrderInquiry({
+          out_trade_no: data,
+          username: user.username,
+        });
+        if (res.status === 200) {
+          setQrCode("");
+          showToast("支付成功");
+          clearInterval(newIntervalId);
+          setUnpaidText("已支付");
+          setCountDownText(0);
+        }
+      } catch (error) {
+        attempts++;
+        errorMessage =
+          (error as any).response?.data?.msg ||
+          (error as any).response?.data ||
+          Locale.authModel.Toast.error;
+        if (attempts >= maxAttempts) {
+          clearInterval(newIntervalId);
+        }
+      } finally {
+        countDown--;
+        if (countDown > 0 && errorMessage) {
+          setCountDownText(countDown);
+        } else if (countDown === 0) {
+          setQrCode("");
+          setCountDownText(0);
+          setUnpaidText("未支付，请重新选择上方的支付渠道");
+        }
+      }
+    }, 1000);
+
+    return newIntervalId;
   }
 
   return (
     <div className="modal-mask">
       <Modal
         title={"在线支付"}
-        onClose={() => props.onClose?.()}
+        onClose={() => {
+          clearInterval(intervalId);
+          props.onClose?.();
+        }}
         actions={[
           <IconButton
             key="add"
             icon={<AddIcon />}
             bordered
             text={"支付完成"}
-            onClick={() => {
+            onClick={async () => {
+              if (intervalId) {
+                clearInterval(intervalId);
+              }
               props.onClose?.();
             }}
           />,
@@ -401,7 +453,10 @@ function InvitationRecordsModal(props: {
             bordered
             text={"关闭"}
             icon={<DeleteIcon />}
-            onClick={() => {
+            onClick={async () => {
+              if (intervalId) {
+                clearInterval(intervalId);
+              }
               props.onClose?.();
             }}
           />,
@@ -432,15 +487,26 @@ function InvitationRecordsModal(props: {
               </div>
             </ListItem>
 
-            <ListItem title={"扫码支付"}>
+            <ListItem
+              title={"扫码支付"}
+              subTitle={
+                countDownText !== 0 && !unpaidText
+                  ? `剩余时间：${countDownText}秒`
+                  : undefined
+              }
+            >
               <div className={styles["fixBox_qr"]}>
-                <div className={styles["fixBox_qr"]}>
-                  {qrCode ? (
-                    <QRCode value={qrCode} size={128} />
-                  ) : (
-                    <div>请选择上方的支付渠道</div>
-                  )}
-                </div>
+                {qrCode ? (
+                  <QRCode value={qrCode} size={128} />
+                ) : (
+                  <div>
+                    {unpaidText === "已支付"
+                      ? "已支付"
+                      : unpaidText
+                      ? "未支付，请重新选择上方的支付渠道"
+                      : "请选择上方的支付渠道"}
+                  </div>
+                )}
               </div>
             </ListItem>
           </List>
