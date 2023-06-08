@@ -397,7 +397,7 @@ function InvitationRecordsModal(props: {
         });
         if (res.status === 200) {
           setQrCode("");
-          showToast("支付成功");
+          // showToast("支付成功");
           clearInterval(newIntervalId);
           setUnpaidText("已支付");
           setCountDownText(0);
