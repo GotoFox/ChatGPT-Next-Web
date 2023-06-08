@@ -12,7 +12,6 @@ import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
 import {
-  GetOrderInquiry,
   GetPlan,
   GetPlanAnnouncementList,
   PostOrderInquiry,
