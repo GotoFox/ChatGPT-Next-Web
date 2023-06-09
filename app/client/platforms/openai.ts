@@ -85,19 +85,22 @@ export class ChatGPTApi implements LLMApi {
 
         const access_user = localStorage.getItem("access_user");
         const parsed_access_user = access_user ? JSON.parse(access_user) : null;
-        try {
-          let res = await PostUserLimit({
-            username: parsed_access_user?.username ?? "",
-          });
-          if (res.status !== 200) {
-            options.onUpdate?.("访问令牌已过期或无效，请重新登录！", "");
+        if (parsed_access_user?.role !== "manage") {
+          try {
+            let res = await PostUserLimit({
+              username: parsed_access_user?.username ?? "",
+            });
+            if (res.status !== 200) {
+              options.onUpdate?.("访问令牌已过期或无效，请重新登录！", "");
+              return finish();
+            }
+          } catch (error) {
+            const errorMessage =
+              (error as any).response?.data?.msg ??
+              Locale.authModel.Toast.error;
+            options.onUpdate?.(errorMessage, "");
             return finish();
           }
-        } catch (error) {
-          const errorMessage =
-            (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
-          options.onUpdate?.(errorMessage, "");
-          return finish();
         }
 
         fetchEventSource(chatPath, {
@@ -182,10 +185,9 @@ export class ChatGPTApi implements LLMApi {
   }
   async usage() {
     const formatDate = (d: Date) =>
-      `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
-        .getDate()
+      `${d.getFullYear()}-${(d.getMonth() + 1)
         .toString()
-        .padStart(2, "0")}`;
+        .padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
     const ONE_DAY = 1 * 24 * 60 * 60 * 1000;
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
