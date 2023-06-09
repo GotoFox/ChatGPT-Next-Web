@@ -213,3 +213,11 @@
   top: 50.8%;
   left: 50%;
 }
+
+.plans_introduce-loading {
+  min-height: 130px;
+  .loading {
+    line-height: 130px;
+    text-align: center;
+  }
+}

@@ -77,24 +77,6 @@ export function Plan() {
     fetchData();
   }, []);
 
-  // async function doPurchase(plan: PlanData) {
-  //   setLoadingIn(true);
-  //   try {
-  //     let params = {
-  //       username: user.username,
-  //       planId: plan.id,
-  //     };
-  //     const res = await PostPurchase(params);
-  //     showToast(res && (res as any).msg);
-  //   } catch (error) {
-  //     const errorMessage =
-  //       (error as any).response?.data?.msg ?? Locale.authModel.Toast.error;
-  //     showToast(errorMessage);
-  //   } finally {
-  //     setLoadingIn(false);
-  //   }
-  // }
-
   async function selectCycle(type: string) {
     if (type === "season") {
       setPlanData(planDataInfo.filter((item: any) => item.period === 3));
@@ -171,10 +153,18 @@ export function Plan() {
       </div>
       <div className={styles["plans"]}>
         <List>
-          <div
-            className={styles["plans_introduce"]}
-            dangerouslySetInnerHTML={{ __html: planAnnouncementInfo.content }}
-          ></div>
+          {loading ? (
+            <div className={styles["plans_introduce-loading"]}>
+              <div className={styles["loading"]}>
+                <LoadingIcon />
+              </div>
+            </div>
+          ) : (
+            <div
+              className={styles["plans_introduce"]}
+              dangerouslySetInnerHTML={{ __html: planAnnouncementInfo.content }}
+            ></div>
+          )}
         </List>
 
         <div className={styles["plans_cami"]}>
@@ -338,6 +328,7 @@ function InvitationRecordsModal(props: {
   const [loading, setLoading] = useState(false);
   const user = JSON.parse(localStorage.getItem("access_user") as string);
   const [qrCode, setQrCode] = useState("");
+  const [isQrCode, setIsQrCode] = useState(false);
   const [countDownText, setCountDownText] = useState(0);
   const [unpaidText, setUnpaidText] = useState("");
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout>();
@@ -362,6 +353,7 @@ function InvitationRecordsModal(props: {
         if (intervalId) {
           clearInterval(intervalId);
         }
+        setIsQrCode(true);
         const newIntervalId = await queryOrderStatus(res.data.out_trade_no);
         setIntervalId(newIntervalId);
       }
@@ -396,8 +388,8 @@ function InvitationRecordsModal(props: {
           username: user.username,
         });
         if (res.status === 200) {
+          setIsQrCode(false);
           setQrCode("");
-          // showToast("支付成功");
           clearInterval(newIntervalId);
           setUnpaidText("已支付");
           setCountDownText(0);
@@ -465,7 +457,7 @@ function InvitationRecordsModal(props: {
           <List>
             <ListItem title={"支付渠道"}>
               <div className={styles["fixBox"]}>
-                <div className={styles["plan_pay-left"]}>
+                {/*<div className={styles["plan_pay-left"]}>
                   <IconButton
                     icon={<WeiXinIcon />}
                     onClick={() => {
@@ -473,10 +465,11 @@ function InvitationRecordsModal(props: {
                     }}
                     shadow
                   />
-                </div>
+                </div>*/}
                 <div className={styles["plan_pay-left"]}>
                   <IconButton
                     icon={<AlipayIcon />}
+                    disabled={isQrCode}
                     onClick={() => {
                       paymentCode("alipay");
                     }}
