@@ -54,8 +54,9 @@ export function Users() {
   const [loading, setLoading] = useState(true); // 添加 loading 状态
   const [loadingUsage, setLoadingUsage] = useState(false);
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
-  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
-    useState(false);
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] = useState(
+    false,
+  );
   const [subTitleInfo, setSubTitleInfo] = useState("");
   const [cycleText, setCycleText] = useState("");
   const [expireText, setExpireText] = useState("");
@@ -68,46 +69,51 @@ export function Users() {
   }
   async function ClickUser() {
     setLoading(true); // 开始请求时设置 loading 为 true
-    const params = { username: user.username };
-    try {
-      const res = await PostUser(params);
-      if (res.status === 200) {
-        setLoading(false); // 成功返回时设置 loading 为 false
-        setUSER((res as any).user);
-        let limit = (res as any)?.user?.current_limit;
-        let maxLimit = (res as any)?.user?.max_limit;
-        let subtitle = "";
+    if (user) {
+      try {
+        const params = { username: user.username };
+        const res = await PostUser(params);
+        if (res.status === 200) {
+          setLoading(false); // 成功返回时设置 loading 为 false
+          setUSER((res as any).user);
+          let limit = (res as any)?.user?.current_limit;
+          let maxLimit = (res as any)?.user?.max_limit;
+          let subtitle = "";
 
-        if (limit === -1 && maxLimit === -1) {
-          subtitle = "今日剩余 不限 次对话，每日总额 不限 次对话";
-        } else if (limit === -1) {
-          subtitle = `今日剩余 不限 次对话，每日总额 ${maxLimit} 次对话`;
-        } else if (maxLimit === -1) {
-          subtitle = `今日剩余 ${limit} 次对话，每日总额 不限 次对话`;
+          if (limit === -1 && maxLimit === -1) {
+            subtitle = "今日剩余 不限 次对话，每日总额 不限 次对话";
+          } else if (limit === -1) {
+            subtitle = `今日剩余 不限 次对话，每日总额 ${maxLimit} 次对话`;
+          } else if (maxLimit === -1) {
+            subtitle = `今日剩余 ${limit} 次对话，每日总额 不限 次对话`;
+          } else {
+            subtitle = `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+          }
+          setSubTitleInfo(subtitle);
+
+          const planName = (res as any).user?.plan?.name;
+          const cycleText = (res as any).user?.plan?.cycleText;
+          const cycleTextInfo =
+            planName && cycleText ? `${planName}（${cycleText}）` : "未开通";
+          setCycleText(cycleTextInfo);
+
+          const expireTextInfo = (res as any).user?.plan?.expire
+            ? `到期时间：${(res as any).user?.plan?.expire}`
+            : "";
+          setExpireText(expireTextInfo);
         } else {
-          subtitle = `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+          handleNavigationError();
         }
-        setSubTitleInfo(subtitle);
-
-        const planName = (res as any).user?.plan?.name;
-        const cycleText = (res as any).user?.plan?.cycleText;
-        const cycleTextInfo =
-          planName && cycleText ? `${planName}（${cycleText}）` : "未开通";
-        setCycleText(cycleTextInfo);
-
-        const expireTextInfo = (res as any).user?.plan?.expire
-          ? `到期时间：${(res as any).user?.plan?.expire}`
-          : "";
-        setExpireText(expireTextInfo);
-      } else {
+      } catch (error) {
+        console.log(error, 106);
+        const errorMessage =
+          (error as any).response?.data?.msg ?? "网络请求出错，请重试";
+        console.error(errorMessage);
+        showToast(errorMessage);
+        setLoading(false); // 请求出错时设置 loading 为 false
         handleNavigationError();
       }
-    } catch (error) {
-      const errorMessage =
-        (error as any).response?.data?.msg ?? "网络请求出错，请重试";
-      console.error(errorMessage);
-      showToast(errorMessage);
-      setLoading(false); // 请求出错时设置 loading 为 false
+    } else {
       handleNavigationError();
     }
   }
