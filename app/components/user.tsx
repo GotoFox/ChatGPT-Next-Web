@@ -300,16 +300,32 @@ export function Users() {
           <ListItem title={"快捷登录"} subTitle={"已绑定的第三方平台"}>
             <div className={styles["fixBox"]}>
               <div className={styles["user-left"]}>
-                <IconButton icon={<QqIcon />} shadow />
+                <IconButton
+                  icon={<QqIcon />}
+                  shadow
+                  onClick={() => window.open("https://qq.com")}
+                />
               </div>
               <div className={styles["user-left"]}>
-                <IconButton icon={<WeiXinIcon />} shadow />
+                <IconButton
+                  icon={<WeiXinIcon />}
+                  shadow
+                  onClick={() => window.open("https://weixin.com")}
+                />
               </div>
               <div className={styles["user-left"]}>
-                <IconButton icon={<GithubIcon />} shadow />
+                <IconButton
+                  icon={<GithubIcon />}
+                  shadow
+                  onClick={() => window.open("https://github.com")}
+                />
               </div>
               <div className={styles["user-left"]}>
-                <IconButton icon={<WeiboIcon />} shadow />
+                <IconButton
+                  icon={<WeiboIcon />}
+                  shadow
+                  onClick={() => window.open("https://weibo.com")}
+                />
               </div>
             </div>
           </ListItem>
