@@ -54,9 +54,8 @@ export function Users() {
   const [loading, setLoading] = useState(true); // 添加 loading 状态
   const [loadingUsage, setLoadingUsage] = useState(false);
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
-  const [showInvitationRecordsModal, setShowInvitationRecordsModal] = useState(
-    false,
-  );
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
+    useState(false);
   const [subTitleInfo, setSubTitleInfo] = useState("");
   const [cycleText, setCycleText] = useState("");
   const [expireText, setExpireText] = useState("");
@@ -71,8 +70,7 @@ export function Users() {
     setLoading(true); // 开始请求时设置 loading 为 true
     if (user) {
       try {
-        const params = { username: user.username };
-        const res = await PostUser(params);
+        const res = await PostUser();
         if (res.status === 200) {
           setLoading(false); // 成功返回时设置 loading 为 false
           setUSER((res as any).user);
@@ -145,8 +143,7 @@ export function Users() {
     setExpireText("正在检查...");
     setSubTitleInfo("正在检查...");
     try {
-      const params = { username: user.username };
-      const res = await PostUser(params);
+      const res = await PostUser();
       if (res.status === 200) {
         let limit = (res as any)?.user?.current_limit;
         let maxLimit = (res as any)?.user?.max_limit;
