@@ -39,9 +39,8 @@ export function Plan() {
   const [loadingIn, setLoadingIn] = useState(false);
   const [card_no, setCard_no] = useState("");
   const user = JSON.parse(localStorage.getItem("access_user") as string);
-  const [showInvitationRecordsModal, setShowInvitationRecordsModal] = useState(
-    false,
-  );
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
+    useState(false);
   const [currentPlan, setCurrentPlan] = useState({});
 
   useEffect(() => {
@@ -300,13 +299,13 @@ export function Plan() {
 
         <div className={styles["plan_footer"]}>
           <div className={styles["plan_region"]}>
-            <div>购买说明</div>
+            <div>会员畅享特权</div>
           </div>
-          <div>
-            <p>1、若购买付款之后套餐及关联权益未到账，请及时联系客服；</p>
-            <p>
-              2、购买即视为您同意《用户协议》，因产品特殊性，确认购买支付后不支持退款。
-            </p>
+          <div className={styles["plan_footer_item"]}>
+            <p>无需翻墙</p>
+            <p>超低延迟</p>
+            <p>云端同步</p>
+            <p>极速体验</p>
           </div>
         </div>
       </div>

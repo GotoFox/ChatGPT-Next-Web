@@ -296,7 +296,7 @@ export function Users() {
           </ListItem>
         </List>
 
-        <List>
+        {/*<List>
           <ListItem title={"快捷登录"} subTitle={"已绑定的第三方平台"}>
             <div className={styles["fixBox"]}>
               <div className={styles["user-left"]}>
@@ -329,7 +329,7 @@ export function Users() {
               </div>
             </div>
           </ListItem>
-        </List>
+        </List>*/}
 
         <List>
           <ListItem title={"退出登录"}>
