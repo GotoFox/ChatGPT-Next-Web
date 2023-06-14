@@ -129,10 +129,10 @@ export function AuthModel(props: {
       showToast(Locale.authModel.Toast.uepCannotBeEmpty);
       return;
     }
-    if (!inviteCode) {
-      showToast(Locale.authModel.Toast.invitationCodeCannotBeEmpty);
-      return;
-    }
+    // if (!inviteCode) {
+    //   showToast(Locale.authModel.Toast.invitationCodeCannotBeEmpty);
+    //   return;
+    // }
     if (!/^[a-zA-Z0-9]{1,30}$/.test(user.username)) {
       showToast(Locale.authModel.Toast.usernameRestrictions);
       return;
