@@ -201,7 +201,7 @@ const cn = {
   Store: {
     DefaultTopic: "新的聊天",
     BotHello:
-      "支持无限制免费实用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！GPT-4.0-Turbo系列模型暂不可用，未找到解决方案。先用3.5替代吧",
+      "支持无限制免费使用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！GPT-4.0-Turbo系列模型暂不可用，未找到解决方案。先用3.5替代吧",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,
