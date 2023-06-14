@@ -53,7 +53,11 @@ export function Plan() {
         ]);
         if (planRes.status === 200) {
           setPlanDataInfo(planRes.data);
-          setPlanData(planRes.data.filter((item: any) => item.period === 1));
+          setPlanData(
+            planRes.data.filter(
+              (item: any) => item.period === 1 && item.is_displayed === 1,
+            ),
+          );
         } else {
           showToast(planRes && (planRes as any).msg);
         }
