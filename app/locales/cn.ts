@@ -302,7 +302,7 @@ const cn = {
       pleaseEnterPwd: "请输入密码",
       pleaseEnterUser: "请输入用户名",
       pleaseEnterEmail: "请输入邮箱",
-      pleaseEnterInvitationCode: "请输入邀请码",
+      pleaseEnterInvitationCode: "如果有邀请码请输入，非必填",
       getAnInvitationCode: "请使用其他用户的邀请码",
       error: "网络请求出错，请重试",
     },
