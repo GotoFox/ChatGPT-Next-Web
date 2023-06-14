@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, HTMLProps, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import styles from "./settings.module.scss";
 
@@ -44,6 +44,7 @@ import { ErrorBoundary } from "./error";
 import { InputRange } from "./input-range";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarPicker } from "./emoji";
+import { getClientConfig } from "../config/client";
 
 function EditPromptModal(props: { id: number; onClose: () => void }) {
   const promptStore = usePromptStore();
@@ -480,69 +481,80 @@ export function Settings() {
           </ListItem>
         </List>
 
-        {parsed_access_user &&
-          (parsed_access_user.role === "manage" ||
-            parsed_access_user.role === "special") && (
-            <List>
-              {enabledAccessControl ? (
-                <ListItem
-                  title={Locale.Settings.AccessCode.Title}
-                  subTitle={Locale.Settings.AccessCode.SubTitle}
-                >
-                  <PasswordInput
-                    value={accessStore.accessCode}
-                    type="text"
-                    placeholder={Locale.Settings.AccessCode.Placeholder}
-                    onChange={(e) => {
-                      accessStore.updateCode(e.currentTarget.value);
-                    }}
-                  />
-                </ListItem>
-              ) : (
-                <></>
-              )}
-
-              {!accessStore.hideUserApiKey ? (
-                <ListItem
-                  title={Locale.Settings.Token.Title}
-                  subTitle={Locale.Settings.Token.SubTitle}
-                >
-                  <PasswordInput
-                    value={accessStore.token}
-                    type="text"
-                    placeholder={Locale.Settings.Token.Placeholder}
-                    onChange={(e) => {
-                      accessStore.updateToken(e.currentTarget.value);
-                    }}
-                  />
-                </ListItem>
-              ) : null}
-
-              <ListItem
-                title={Locale.Settings.Usage.Title}
-                subTitle={
-                  showUsage
-                    ? loadingUsage
-                      ? Locale.Settings.Usage.IsChecking
-                      : Locale.Settings.Usage.SubTitle(
-                          usage?.used ?? "[?]",
-                          usage?.subscription ?? "[?]",
-                        )
-                    : Locale.Settings.Usage.NoAccess
-                }
-              >
-                {!showUsage || loadingUsage ? (
-                  <div />
-                ) : (
-                  <IconButton
-                    icon={<ResetIcon></ResetIcon>}
-                    text={Locale.Settings.Usage.Check}
-                    onClick={() => checkUsage(true)}
-                  />
-                )}
-              </ListItem>
-            </List>
+        <List>
+          {enabledAccessControl ? (
+            <ListItem
+              title={Locale.Settings.AccessCode.Title}
+              subTitle={Locale.Settings.AccessCode.SubTitle}
+            >
+              <PasswordInput
+                value={accessStore.accessCode}
+                type="text"
+                placeholder={Locale.Settings.AccessCode.Placeholder}
+                onChange={(e) => {
+                  accessStore.updateCode(e.currentTarget.value);
+                }}
+              />
+            </ListItem>
+          ) : (
+            <></>
           )}
+
+          {!accessStore.hideUserApiKey ? (
+            <ListItem
+              title={Locale.Settings.Token.Title}
+              subTitle={Locale.Settings.Token.SubTitle}
+            >
+              <PasswordInput
+                value={accessStore.token}
+                type="text"
+                placeholder={Locale.Settings.Token.Placeholder}
+                onChange={(e) => {
+                  accessStore.updateToken(e.currentTarget.value);
+                }}
+              />
+            </ListItem>
+          ) : null}
+
+          <ListItem
+            title={Locale.Settings.Usage.Title}
+            subTitle={
+              showUsage
+                ? loadingUsage
+                  ? Locale.Settings.Usage.IsChecking
+                  : Locale.Settings.Usage.SubTitle(
+                      usage?.used ?? "[?]",
+                      usage?.subscription ?? "[?]",
+                    )
+                : Locale.Settings.Usage.NoAccess
+            }
+          >
+            {!showUsage || loadingUsage ? (
+              <div />
+            ) : (
+              <IconButton
+                icon={<ResetIcon></ResetIcon>}
+                text={Locale.Settings.Usage.Check}
+                onClick={() => checkUsage(true)}
+              />
+            )}
+          </ListItem>
+
+          {!accessStore.hideUserApiKey ? (
+            <ListItem
+              title={Locale.Settings.Endpoint.Title}
+              subTitle={Locale.Settings.Endpoint.SubTitle}
+            >
+              <input
+                type="text"
+                value={accessStore.openaiUrl}
+                onChange={(e) =>
+                  accessStore.updateOpenAiUrl(e.currentTarget.value)
+                }
+              ></input>
+            </ListItem>
+          ) : null}
+        </List>
 
         <List>
           <ListItem
