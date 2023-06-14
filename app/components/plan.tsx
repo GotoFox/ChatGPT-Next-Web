@@ -82,11 +82,23 @@ export function Plan() {
 
   async function selectCycle(type: string) {
     if (type === "season") {
-      setPlanData(planDataInfo.filter((item: any) => item.period === 3));
+      setPlanData(
+        planDataInfo.filter(
+          (item: any) => item.period === 3 && item.is_displayed === 1,
+        ),
+      );
     } else if (type === "year") {
-      setPlanData(planDataInfo.filter((item: any) => item.period === 12));
+      setPlanData(
+        planDataInfo.filter(
+          (item: any) => item.period === 12 && item.is_displayed === 1,
+        ),
+      );
     } else {
-      setPlanData(planDataInfo.filter((item: any) => item.period === 1));
+      setPlanData(
+        planDataInfo.filter(
+          (item: any) => item.period === 1 && item.is_displayed === 1,
+        ),
+      );
     }
   }
 
