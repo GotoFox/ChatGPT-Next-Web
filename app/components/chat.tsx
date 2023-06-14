@@ -540,7 +540,6 @@ export function Chat() {
     const token = localStorage.getItem("access_token");
     const access_user = localStorage.getItem("access_user");
     if (!token || !access_user) {
-      showToast("访问令牌已过期或无效，请重新登录");
       const isUser = location.pathname === Path.User;
       if (isUser) {
         navigate(Path.Home);
@@ -562,7 +561,6 @@ export function Chat() {
         }
         localStorage.removeItem("access_token");
         localStorage.removeItem("access_user");
-        showToast("访问令牌已过期或无效，请重新登录");
         setShowModal(true);
         return;
       }

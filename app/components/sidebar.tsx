@@ -122,7 +122,6 @@ export function SideBar(props: { className?: string }) {
   function checkLoginTimeAndToken() {
     const token = localStorage.getItem("access_token");
     if (!token) {
-      showToast("访问令牌已过期或无效，请重新登录");
       const isUser = location.pathname === Path.User;
       if (isUser) {
         navigate(Path.Home);
@@ -144,7 +143,6 @@ export function SideBar(props: { className?: string }) {
         }
         localStorage.removeItem("access_token");
         localStorage.removeItem("access_user");
-        showToast("访问令牌已过期或无效，请重新登录");
         setShowModal(true);
         return false;
       }
@@ -161,10 +159,8 @@ export function SideBar(props: { className?: string }) {
       }`}
     >
       <div className={styles["sidebar-header"]}>
-        <div className={styles["sidebar-title"]}>ChatGPT-Client</div>
-        <div className={styles["sidebar-sub-title"]}>
-          Build Your Own Intelligent AI.
-        </div>
+        <div className={styles["sidebar-title"]}>TryChat</div>
+        <div className={styles["sidebar-sub-title"]}>极速 / 免墙 / 智能Ai</div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
         </div>

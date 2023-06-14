@@ -200,7 +200,8 @@ const cn = {
   },
   Store: {
     DefaultTopic: "新的聊天",
-    BotHello: "有什么可以帮你的吗",
+    BotHello:
+      "支持无限制免费实用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！GPT-4.0-Turbo系列模型暂不可用，未找到解决方案。先用3.5替代吧",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,
@@ -287,8 +288,8 @@ const cn = {
     password: "密   码",
     email: "邮   箱",
     invitationCode: "邀请码",
-    noUser: "没有账号？注册账号>>",
-    yesUser: "已有账号，登录账号>>",
+    noUser: "没有账号？注册账号",
+    yesUser: "已有账号，登录账号",
     rememberPsd: "记住密码",
     getAnInvitationCode: "获取邀请码",
     Toast: {
@@ -302,8 +303,7 @@ const cn = {
       pleaseEnterUser: "请输入用户名",
       pleaseEnterEmail: "请输入邮箱",
       pleaseEnterInvitationCode: "请输入邀请码",
-      getAnInvitationCode:
-        "邀请码机制已上线，因系统内测存在许多未知因素，内测期间公共邀请码暂不发布，请使用其他已注册用户生成的邀请码",
+      getAnInvitationCode: "请使用其他用户的邀请码",
       error: "网络请求出错，请重试",
     },
   },

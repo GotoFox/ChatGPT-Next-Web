@@ -237,7 +237,7 @@ export function Users() {
         </List>
 
         <List>
-          <ListItem title={"登录密码"} subTitle={"修改账号登录密码"}>
+          <ListItem title={"登录密码"}>
             <div className={styles.font12}>
               {" "}
               <IconButton
@@ -248,7 +248,7 @@ export function Users() {
             </div>
           </ListItem>
         </List>
-        <List>
+        {/*   <List>
           <ListItem title={"当前套餐"} subTitle={expireText}>
             <div className={styles.font12}>{cycleText}</div>
           </ListItem>
@@ -268,13 +268,10 @@ export function Users() {
               <IconButton text={"购买"} onClick={() => navigate(Path.Plan)} />
             </div>
           </ListItem>
-        </List>
+        </List>*/}
 
         <List>
-          <ListItem
-            title={"邀请码"}
-            subTitle={"邀请新用户注册将获得 10 次对话奖励"}
-          >
+          <ListItem title={"邀请码"}>
             <div className={styles.font12}>
               {" "}
               <IconButton
@@ -295,41 +292,6 @@ export function Users() {
             </div>
           </ListItem>
         </List>
-
-        {/*<List>
-          <ListItem title={"快捷登录"} subTitle={"已绑定的第三方平台"}>
-            <div className={styles["fixBox"]}>
-              <div className={styles["user-left"]}>
-                <IconButton
-                  icon={<QqIcon />}
-                  shadow
-                  onClick={() => window.open("https://qq.com")}
-                />
-              </div>
-              <div className={styles["user-left"]}>
-                <IconButton
-                  icon={<WeiXinIcon />}
-                  shadow
-                  onClick={() => window.open("https://weixin.com")}
-                />
-              </div>
-              <div className={styles["user-left"]}>
-                <IconButton
-                  icon={<GithubIcon />}
-                  shadow
-                  onClick={() => window.open("https://github.com")}
-                />
-              </div>
-              <div className={styles["user-left"]}>
-                <IconButton
-                  icon={<WeiboIcon />}
-                  shadow
-                  onClick={() => window.open("https://weibo.com")}
-                />
-              </div>
-            </div>
-          </ListItem>
-        </List>*/}
 
         <List>
           <ListItem title={"退出登录"}>

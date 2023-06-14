@@ -85,7 +85,7 @@ export class ClientApi {
       .concat([
         {
           from: "human",
-          value: "Share from [ChatGPT-Client]: https://foxint.eu.org/",
+          value: "Share from [TryChat]: https://TryChat/",
         },
       ]);
     console.log("[Share]", msgs);
