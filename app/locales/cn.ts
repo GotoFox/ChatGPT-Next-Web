@@ -203,7 +203,7 @@ const cn = {
   Store: {
     DefaultTopic: "新的聊天",
     BotHello:
-      "支持无限制免费使用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！稍后推出网页端、Mac端、移动端",
+      "支持无限制免费使用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！稍后推出网页端、Mac端、移动端，目前是小范围公测，建了个QQ群（856858371），有任何问题可在群里反馈。",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,
