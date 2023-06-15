@@ -205,7 +205,7 @@ const en: RequiredLocaleType = {
   Store: {
     DefaultTopic: "New Conversation",
     BotHello:
-      "Support unlimited free use of GPT-3.5-Turbo series model, registered users can enjoy free! Later, the web page, Mac and mobile terminals will be launched. Currently, it is a small-scale public test. A QQ group (856858371) has been set up. Any questions can be fed back in the group.",
+      "Support unlimited free use of GPT-3.5-Turbo series model, registered users can enjoy free! ",
     Error: "Something went wrong, please try again later.",
     Prompt: {
       History: (content: string) =>
