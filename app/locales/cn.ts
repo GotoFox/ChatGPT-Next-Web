@@ -167,10 +167,12 @@ const cn = {
     },
 
     Usage: {
-      Title: "余额查询",
-      SubTitle(used: any, total: any) {
-        return `本月已使用 $${used}，订阅总额 $${total}`;
+      Title: "Key状态查询",
+      SubTitle(total: any) {
+        return `${total}`;
       },
+      successTitle: "正常",
+      failedTitle: "无效，请更换其他Key",
       IsChecking: "正在检查…",
       Check: "重新检查",
       NoAccess: "输入 API Key 或访问密码查看余额",
@@ -201,7 +203,7 @@ const cn = {
   Store: {
     DefaultTopic: "新的聊天",
     BotHello:
-      "支持无限制免费使用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！GPT-4.0-Turbo系列模型暂不可用，未找到解决方案。先用3.5替代吧",
+      "支持无限制免费使用GPT-3.5-Turbo系列模型，注册用户之后即可免费畅享！稍后推出网页端、Mac端、移动端",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,

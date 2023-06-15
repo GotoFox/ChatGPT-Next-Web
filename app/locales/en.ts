@@ -168,10 +168,12 @@ const en: RequiredLocaleType = {
       Placeholder: "OpenAI API Key",
     },
     Usage: {
-      Title: "Account Balance",
+      Title: "Key Status",
       SubTitle(used: any, total: any) {
         return `Used this month $${used}, subscription $${total}`;
       },
+      successTitle: "success",
+      failedTitle: "Failed，Please change another key",
       IsChecking: "Checking...",
       Check: "Check",
       NoAccess: "Enter API Key to check balance",
@@ -202,7 +204,8 @@ const en: RequiredLocaleType = {
   },
   Store: {
     DefaultTopic: "New Conversation",
-    BotHello: "Hello! How can I assist you today?",
+    BotHello:
+      "Support unlimited free use of GPT-3.5-Turbo series model, registered users can enjoy free! Later, the web side, Mac side and mobile side will be launched.",
     Error: "Something went wrong, please try again later.",
     Prompt: {
       History: (content: string) =>

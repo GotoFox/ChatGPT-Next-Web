@@ -523,8 +523,9 @@ export function Settings() {
                 ? loadingUsage
                   ? Locale.Settings.Usage.IsChecking
                   : Locale.Settings.Usage.SubTitle(
-                      usage?.used ?? "[?]",
-                      usage?.subscription ?? "[?]",
+                      usage?.used
+                        ? Locale.Settings.Usage.successTitle
+                        : Locale.Settings.Usage.failedTitle,
                     )
                 : Locale.Settings.Usage.NoAccess
             }
