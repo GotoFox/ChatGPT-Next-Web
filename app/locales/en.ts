@@ -169,8 +169,8 @@ const en: RequiredLocaleType = {
     },
     Usage: {
       Title: "Key Status",
-      SubTitle(used: any, total: any) {
-        return `Used this month $${used}, subscription $${total}`;
+      SubTitle(total: any) {
+        return `${total}`;
       },
       successTitle: "success",
       failedTitle: "Failed，Please change another key",
