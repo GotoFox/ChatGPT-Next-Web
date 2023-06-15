@@ -287,6 +287,10 @@ export function Settings() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function handleRefresh() {
+    window.location.reload();
+  }
+
   return (
     <ErrorBoundary>
       <div className="window-header">
@@ -366,7 +370,11 @@ export function Settings() {
             {checkingUpdate ? (
               <div />
             ) : hasNewVersion ? (
-              <Link href={UPDATE_SITE_URL} target="_blank" className="link">
+              <Link
+                href={UPDATE_SITE_URL}
+                onClick={handleRefresh}
+                className="link"
+              >
                 {Locale.Settings.Update.GoToUpdate}
               </Link>
             ) : (
