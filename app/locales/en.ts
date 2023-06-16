@@ -205,7 +205,7 @@ const en: RequiredLocaleType = {
   Store: {
     DefaultTopic: "New Conversation",
     BotHello:
-      "Support unlimited free use of GPT-3.5-Turbo series model, registered users can enjoy free! ",
+      "Support unlimited free use of GPT-3.5-Turbo series model, registered users can enjoy free! A QQ group has been set up: 856858371. If you have any questions, you can communicate in the group.",
     Error: "Something went wrong, please try again later.",
     Prompt: {
       History: (content: string) =>
