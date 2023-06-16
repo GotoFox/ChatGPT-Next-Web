@@ -205,7 +205,7 @@ const en: RequiredLocaleType = {
   Store: {
     DefaultTopic: "New Conversation",
     BotHello:
-      "通知不及时，有问题请加qq群：856858371，防止域名或网址被污染导致无法及时获取 \n 支持无限制免费使用ChatGPT系列模型，注册用户之后即可免费畅享！\n\n   网页端网址：https://chat.ifasto.eu.org （移动端浏览器已适配） \n \n  客户端下载：https://wwyw.lanzoum.com/ikVaQ0zb7b3i\n",
+      "通知不及时，有问题请加qq群：856858371，防止域名被污染导致无法及时获取，加群谨防失联！ \n 支持无限制免费使用ChatGPT系列模型，注册用户之后即可免费畅享！\n\n   网页端网址：[https://chat.ifasto.eu.org](/) （移动端浏览器已适配） \n \n  客户端下载：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)\n",
     Error: "Something went wrong, please try again later.",
     Prompt: {
       History: (content: string) =>
