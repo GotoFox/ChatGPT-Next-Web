@@ -158,9 +158,13 @@ export function SideBar(props: { className?: string }) {
         shouldNarrow && styles["narrow-sidebar"]
       }`}
     >
-      <div className={styles["sidebar-header"]}>
-        <div className={styles["sidebar-title"]}>TryChat</div>
-        <div className={styles["sidebar-sub-title"]}>极速 / 免墙 / 智能Ai</div>
+      <div className={styles["sidebar-header"]} data-tauri-drag-region>
+        <div className={styles["sidebar-title"]} data-tauri-drag-region>
+          TryChat
+        </div>
+        <div className={styles["sidebar-sub-title"]}>
+          极速 / 免墙 / 智能Ai
+        </div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
         </div>
