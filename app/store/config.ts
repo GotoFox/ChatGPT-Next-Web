@@ -22,8 +22,8 @@ export const DEFAULT_CONFIG = {
   avatar: "1f603",
   fontSize: 14,
   theme: Theme.Auto as Theme,
-  tightBorder: !!getClientConfig()?.isApp,
-  sendPreviewBubble: true,
+  tightBorder: true,
+  sendPreviewBubble: false,
   sidebarWidth: 300,
 
   disablePromptHint: false,
@@ -97,26 +97,26 @@ export const ALL_MODELS = [
     name: "gpt-3.5-turbo-16k-0613",
     available: true,
   },
-  {
-    name: "qwen-v1", // 通义千问
-    available: false,
-  },
-  {
-    name: "ernie", // 文心一言
-    available: false,
-  },
-  {
-    name: "spark", // 讯飞星火
-    available: false,
-  },
-  {
-    name: "llama", // llama
-    available: false,
-  },
-  {
-    name: "chatglm", // chatglm-6b
-    available: false,
-  },
+  // {
+  //   name: "qwen-v1", // 通义千问
+  //   available: false,
+  // },
+  // {
+  //   name: "ernie", // 文心一言
+  //   available: false,
+  // },
+  // {
+  //   name: "spark", // 讯飞星火
+  //   available: false,
+  // },
+  // {
+  //   name: "llama", // llama
+  //   available: false,
+  // },
+  // {
+  //   name: "chatglm", // chatglm-6b
+  //   available: false,
+  // },
 ] as const;
 
 export type ModelType = (typeof ALL_MODELS)[number]["name"];
