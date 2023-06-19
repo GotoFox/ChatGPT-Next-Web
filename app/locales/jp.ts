@@ -1,7 +1,7 @@
 import { SubmitKey } from "../store/config";
-import type { LocaleType } from "./index";
+import type { PartialLocaleType } from "./index";
 
-const jp: LocaleType = {
+const jp: PartialLocaleType = {
   WIP: "この機能は開発中です",
   Error: {
     Unauthorized:
@@ -157,6 +157,10 @@ const jp: LocaleType = {
     PresencePenalty: {
       Title: "トピックの新鮮度 (presence_penalty)",
       SubTitle: "値が大きいほど、新しいトピックへの展開が可能になります。",
+    },
+    FrequencyPenalty: {
+      Title: "話題の頻度 (frequency_penalty)",
+      SubTitle: "値が大きいほど、重複語を低減する可能性が高くなります",
     },
   },
   Store: {
