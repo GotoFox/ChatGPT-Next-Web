@@ -117,9 +117,11 @@ export const api = new ClientApi();
 
 export function getHeaders() {
   const accessStore = useAccessStore.getState();
+  const token = localStorage.getItem("access_token");
   let headers: Record<string, string> = {
     "Content-Type": "application/json",
     "x-requested-with": "XMLHttpRequest",
+    "x-access-token": token || "",
   };
 
   const makeBearer = (token: string) => `Bearer ${token.trim()}`;
