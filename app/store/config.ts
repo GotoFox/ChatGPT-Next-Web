@@ -98,14 +98,14 @@ export const ALL_MODELS = [
     name: "gpt-3.5-turbo-16k-0613",
     available: true,
   },
-  {
-    name: "TryChat-gpt-4-1",
-    available: false,
-  },
-  {
-    name: "TryChat-gpt-4-2",
-    available: false,
-  },
+  // {
+  //   name: "TryChat-gpt-4-1",
+  //   available: false,
+  // },
+  // {
+  //   name: "TryChat-gpt-4-2",
+  //   available: false,
+  // },
   // {
   //   name: "qwen-v1", // 通义千问
   //   available: false,
