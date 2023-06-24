@@ -229,36 +229,11 @@ const vi: PartialLocaleType = {
     Create: "Tạo",
     Edit: "Chỉnh sửa",
   },
-  authModel: {
-    register: "Đăng ký",
-    login: "Đăng nhập",
-    signUpNow: "Đăng ký ngay",
-    logInNow: "Đăng nhập ngay",
-    cancel: "Hủy",
-    userName: "Tên đăng nhập",
-    password: "Mật khẩu",
-    email: "Email",
-    invitationCode: "Mã giới thiệu",
-    noUser: "Chưa có tài khoản? Đăng ký ngay >>",
-    yesUser: "Đã có tài khoản? Đăng nhập ngay >>",
-    rememberPsd: "Ghi nhớ mật khẩu",
-    getAnInvitationCode: "Nhận mã giới thiệu",
-    Toast: {
-      upCannotBeEmpty: "Tên đăng nhập và mật khẩu không được để trống",
-      uepCannotBeEmpty: "Tên đăng nhập, email và mật khẩu không được để trống",
-      invitationCodeCannotBeEmpty: "Mã giới thiệu không được để trống",
-      usernameRestrictions:
-        "Tên đăng nhập chỉ có thể chứa chữ cái và số, và không được vượt quá 30 ký tự",
-      emailVerification: "Vui lòng nhập địa chỉ email chính xác",
-      pleaseEnterUe: "Vui lòng nhập tên đăng nhập hoặc email",
-      pleaseEnterPwd: "Vui lòng nhập mật khẩu",
-      pleaseEnterUser: "Vui lòng nhập tên đăng nhập",
-      pleaseEnterEmail: "Vui lòng nhập địa chỉ email của bạn",
-      pleaseEnterInvitationCode: "Vui lòng nhập mã giới thiệu",
-      getAnInvitationCode:
-        "Cơ chế mã giới thiệu đã được triển khai, do còn nhiều yếu tố chưa biết trong thời gian thử nghiệm, mã giới thiệu công khai tạm thời không được phát hành, vui lòng sử dụng mã giới thiệu được tạo bởi người dùng đã đăng ký khác.",
-      error: "Lỗi yêu cầu mạng, vui lòng thử lại",
-    },
+  Exporter: {
+    Model: "Mô hình",
+    Messages: "Thông điệp",
+    Topic: "Chủ đề",
+    Time: "Thời gian",
   },
 };
 

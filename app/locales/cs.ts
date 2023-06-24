@@ -262,6 +262,12 @@ const cs: PartialLocaleType = {
       error: "Chyba sítě, zkuste to znovu",
     },
   },
+  Exporter: {
+    Model: "Model",
+    Messages: "Zprávy",
+    Topic: "Téma",
+    Time: "Čas",
+  },
 };
 
 export default cs;

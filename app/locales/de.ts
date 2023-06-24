@@ -236,38 +236,11 @@ const de: PartialLocaleType = {
     Create: "Create",
     Edit: "Edit",
   },
-  authModel: {
-    register: "Registrieren",
-    login: "Anmelden",
-    signUpNow: "Jetzt registrieren",
-    logInNow: "Jetzt anmelden",
-    cancel: "Stornieren",
-    userName: "Benutzername",
-    password: "Passwort",
-    email: "Email",
-    invitationCode: "Einladungscode",
-    noUser: "Noch kein Konto? Konto registrieren >>",
-    yesUser: "Bereits ein Konto? Einloggen >>",
-    rememberPsd: "Passwort merken",
-    getAnInvitationCode: "Einladungscode erhalten",
-    Toast: {
-      upCannotBeEmpty: "Benutzername und Passwort dürfen nicht leer sein",
-      uepCannotBeEmpty:
-        "Benutzername, E-Mail und Passwort dürfen nicht leer sein",
-      invitationCodeCannotBeEmpty: "Einladungscode darf nicht leer sein",
-      usernameRestrictions:
-        "Der Benutzername darf nur Buchstaben und Zahlen enthalten und darf nicht länger als 30 Zeichen sein",
-      emailVerification: "Bitte geben Sie eine gültige E-Mail-Adresse ein",
-      pleaseEnterUe: "Bitte Benutzername/E-Mail eingeben",
-      pleaseEnterPwd: "Bitte Passwort eingeben",
-      pleaseEnterUser: "Bitte Benutzername eingeben",
-      pleaseEnterEmail: "Bitte geben Sie Ihre E-Mail-Adresse ein",
-      pleaseEnterInvitationCode: "Bitte Einladungscode eingeben",
-      getAnInvitationCode:
-        "Die Einladungscode-Mechanismus ist nun online. Da es während der internen Testphase viele unbekannte Faktoren gibt, werden öffentliche Einladungscodes während des Testzeitraums nicht veröffentlicht. Verwenden Sie stattdessen Einladungscodes, die von anderen registrierten Benutzern generiert wurden.",
-      error:
-        "Es ist ein Fehler bei der Netzwerkanforderung aufgetreten. Bitte versuchen Sie es erneut",
-    },
+  Exporter: {
+    Model: "Modell",
+    Messages: "Nachrichten",
+    Topic: "Thema",
+    Time: "Zeit",
   },
 };
 

@@ -229,36 +229,11 @@ const ko: PartialLocaleType = {
     Create: "생성",
     Edit: "편집",
   },
-  authModel: {
-    register: "등록",
-    login: "로그인",
-    signUpNow: "지금 가입하기",
-    logInNow: "지금 로그인하기",
-    cancel: "취소",
-    userName: "사용자 이름",
-    password: "암호",
-    email: "이메일",
-    invitationCode: "초대 코드",
-    noUser: "계정이 없으신가요? 계정 등록하기>>",
-    yesUser: "계정이 이미 있으신가요? 계정 로그인하기>>",
-    rememberPsd: "암호 기억하기",
-    getAnInvitationCode: "초대 코드 받기",
-    Toast: {
-      upCannotBeEmpty: "사용자 이름과 암호를 입력해주세요",
-      uepCannotBeEmpty: "사용자 이름, 이메일, 암호를 입력해주세요",
-      invitationCodeCannotBeEmpty: "초대 코드를 입력해주세요",
-      usernameRestrictions:
-        "사용자 이름은 영문자와 숫자만 사용 가능하며, 30자 이하여야 합니다",
-      emailVerification: "올바른 이메일 주소를 입력해주세요",
-      pleaseEnterUe: "사용자 이름/이메일을 입력해주세요",
-      pleaseEnterPwd: "암호를 입력해주세요",
-      pleaseEnterUser: "사용자 이름을 입력해주세요",
-      pleaseEnterEmail: "이메일을 입력해주세요",
-      pleaseEnterInvitationCode: "초대 코드를 입력해주세요",
-      getAnInvitationCode:
-        "초대 코드 메커니즘이 온라인으로 되었습니다. 그러나 시스템 내부 테스트에는 많은 알려지지 않은 요인이 있으므로, 내부 테스트 기간 동안 공개 초대 코드는 발표하지 않습니다. 대신 이미 등록된 사용자가 생성한 초대 코드를 사용해주세요",
-      error: "네트워크 요청 오류입니다. 다시 시도해주세요",
-    },
+  Exporter: {
+    Model: "모델",
+    Messages: "메시지",
+    Topic: "주제",
+    Time: "시간",
   },
 };
 

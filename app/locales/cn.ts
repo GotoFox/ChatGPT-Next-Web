@@ -115,6 +115,11 @@ const cn = {
       SubTitle: "聊天内容的字体大小",
     },
 
+    InputTemplate: {
+      Title: "用户输入预处理",
+      SubTitle: "用户最新的一条消息会填充到此模板",
+    },
+
     Update: {
       Version: (x: string) => `当前版本：${x}`,
       IsLatest: "已是最新版本",
@@ -312,6 +317,12 @@ const cn = {
       getAnInvitationCode: "请使用其他用户的邀请码",
       error: "网络请求出错，请重试",
     },
+  },
+  Exporter: {
+    Model: "模型",
+    Messages: "消息",
+    Topic: "主题",
+    Time: "时间",
   },
 };
 

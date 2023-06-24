@@ -241,38 +241,11 @@ const jp: PartialLocaleType = {
     Create: "新規",
     Edit: "編集",
   },
-  authModel: {
-    register: "登録",
-    login: "ログイン",
-    signUpNow: "今すぐ登録",
-    logInNow: "今すぐログイン",
-    cancel: "キャンセル",
-    userName: "ユーザー名",
-    password: "パスワード",
-    email: "メールアドレス",
-    invitationCode: "招待コード",
-    noUser: "アカウントがありませんか？ アカウントを登録する >>",
-    yesUser: "すでにアカウントを持っている場合、ログインしてください >>",
-    rememberPsd: "パスワードを記憶する",
-    getAnInvitationCode: "招待コードを取得する",
-    Toast: {
-      upCannotBeEmpty: "ユーザー名とパスワードを入力してください",
-      uepCannotBeEmpty:
-        "ユーザー名、メールアドレス、パスワードを入力してください",
-      invitationCodeCannotBeEmpty: "招待コードを入力してください",
-      usernameRestrictions:
-        "ユーザー名は英数文字のみ、長さは30以下にしてください",
-      emailVerification: "正しいメールアドレスを入力してください",
-      pleaseEnterUe: "ユーザー名/メールアドレスを入力してください",
-      pleaseEnterPwd: "パスワードを入力してください",
-      pleaseEnterUser: "ユーザー名を入力してください",
-      pleaseEnterEmail: "メールアドレスを入力してください",
-      pleaseEnterInvitationCode: "招待コードを入力してください",
-      getAnInvitationCode:
-        "招待コードのメカニズムがオンラインになりました。内部テストにはまだ多くの未知の要因があるため、テスト期間中に公開される公共招待コードはありません。他の既存ユーザーが生成した招待コードを使用してください。",
-      error:
-        "ネットワークリクエストエラーが発生しました。もう一度やり直してください",
-    },
+  Exporter: {
+    Model: "モデル",
+    Messages: "メッセージ",
+    Topic: "トピック",
+    Time: "時間",
   },
 };
 

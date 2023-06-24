@@ -233,43 +233,11 @@ const es: PartialLocaleType = {
     Create: "Create",
     Edit: "Edit",
   },
-  authModel: {
-    register: "Registro",
-    login: "Iniciar sesión",
-    signUpNow: "Regístrese ahora",
-    logInNow: "Inicie sesión ahora",
-    cancel: "Cancelar",
-    userName: "Nombre de usuario",
-    password: "Contraseña",
-    email: "Correo electrónico",
-    invitationCode: "Código de invitación",
-    noUser: "¿No tienes una cuenta? Registrarse >>",
-    yesUser: "¿Ya tienes una cuenta? Iniciar sesión >>",
-    rememberPsd: "Recordar contraseña",
-    getAnInvitationCode: "Obtener un código de invitación",
-    Toast: {
-      upCannotBeEmpty:
-        "El nombre de usuario y la contraseña no pueden estar vacíos",
-      uepCannotBeEmpty:
-        "El nombre de usuario, el correo electrónico y la contraseña no pueden estar vacíos",
-      invitationCodeCannotBeEmpty:
-        "El código de invitación no puede estar vacío",
-      usernameRestrictions:
-        "El nombre de usuario solo puede contener letras y números en inglés y su longitud no puede exceder los 30 caracteres",
-      emailVerification:
-        "Por favor ingrese una dirección de correo electrónico válida",
-      pleaseEnterUe:
-        "Por favor ingrese su nombre de usuario/correo electrónico",
-      pleaseEnterPwd: "Por favor ingrese su contraseña",
-      pleaseEnterUser: "Por favor ingrese su nombre de usuario",
-      pleaseEnterEmail:
-        "Por favor, introduzca su dirección de correo electrónico",
-      pleaseEnterInvitationCode: "Por favor ingrese el código de invitación",
-      getAnInvitationCode:
-        "El mecanismo de código de invitación ya está en línea, debido a que hay muchos factores desconocidos durante el período de prueba del sistema, el código de invitación público no será lanzado durante el período de prueba, por favor use el código de invitación generado por otros usuarios registrados",
-      error:
-        "Ha habido un error en la solicitud de red, por favor intente de nuevo",
-    },
+  Exporter: {
+    Model: "Modelo",
+    Messages: "Mensajes",
+    Topic: "Tema",
+    Time: "Time",
   },
 };
 

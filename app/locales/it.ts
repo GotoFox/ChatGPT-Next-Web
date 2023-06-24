@@ -234,37 +234,11 @@ const it: PartialLocaleType = {
     Create: "Create",
     Edit: "Edit",
   },
-  authModel: {
-    register: "Registrati",
-    login: "Accedi",
-    signUpNow: "Registrati ora",
-    logInNow: "Accedi ora",
-    cancel: "Annulla",
-    userName: "Nome utente",
-    password: "Password",
-    email: "Email",
-    invitationCode: "Codice di invito",
-    noUser: "Non hai un account? Registrati ora >>",
-    yesUser: "Hai già un account? Accedi >>",
-    rememberPsd: "Ricorda Password",
-    getAnInvitationCode: "Ottieni un codice di invito",
-    Toast: {
-      upCannotBeEmpty: "Nome utente e password non possono essere vuoti",
-      uepCannotBeEmpty:
-        "Nome utente, email e password non possono essere vuoti",
-      invitationCodeCannotBeEmpty: "Il codice di invito non può essere vuoto",
-      usernameRestrictions:
-        "Il nome utente può contenere solo lettere e numeri, ed essere lungo massimo 30 caratteri",
-      emailVerification: "Inserisci un indirizzo email valido",
-      pleaseEnterUe: "Inserisci il tuo nome utente / email",
-      pleaseEnterPwd: "Inserisci la password",
-      pleaseEnterUser: "Inserisci il tuo nome utente",
-      pleaseEnterEmail: "Si prega di inserire il proprio indirizzo email",
-      pleaseEnterInvitationCode: "Inserisci il codice di invito",
-      getAnInvitationCode:
-        "Il meccanismo del codice di invito è stato attivato. Durante il periodo di prova, il codice pubblico non verrà rilasciato. Usa il codice di invito generato da un utente già registrato.",
-      error: "Si è verificato un errore nella richiesta di rete. Riprova.",
-    },
+  Exporter: {
+    Model: "Modello",
+    Messages: "Messaggi",
+    Topic: "Argomento",
+    Time: "Tempo",
   },
 };
 
