@@ -42,13 +42,10 @@ function useHotKey() {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.metaKey || e.altKey || e.ctrlKey) {
-        const n = chatStore.sessions.length;
-        const limit = (x: number) => (x + n) % n;
-        const i = chatStore.currentSessionIndex;
         if (e.key === "ArrowUp") {
-          chatStore.selectSession(limit(i - 1));
+          chatStore.nextSession(-1);
         } else if (e.key === "ArrowDown") {
-          chatStore.selectSession(limit(i + 1));
+          chatStore.nextSession(1);
         }
       }
     };
@@ -162,9 +159,7 @@ export function SideBar(props: { className?: string }) {
         <div className={styles["sidebar-title"]} data-tauri-drag-region>
           TryChat
         </div>
-        <div className={styles["sidebar-sub-title"]}>
-          极速 / 免墙 / 智能Ai
-        </div>
+        <div className={styles["sidebar-sub-title"]}>极速 / 免墙 / 智能Ai</div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
         </div>
