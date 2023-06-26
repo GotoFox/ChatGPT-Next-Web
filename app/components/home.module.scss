@@ -123,7 +123,7 @@
 
 .sidebar-header {
   position: relative;
-  padding-top: 0;
+  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -185,7 +185,7 @@
 
 .chat-item-delete {
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 0;
   transition: all ease 0.3s;
   opacity: 0;
