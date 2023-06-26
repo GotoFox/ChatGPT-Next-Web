@@ -52,7 +52,7 @@ export type ChatConfigStore = ChatConfig & {
 
 export type ModelConfig = ChatConfig["modelConfig"];
 
-const ENABLE_GPT4 = true; // GPT4开关
+const ENABLE_GPT4 = false; // GPT4开关
 
 export const ALL_MODELS = [
   {
