@@ -1,0 +1,78 @@
+@import "../styles/animation.scss";
+.auth-modal {
+  user-select: text;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  overflow-y: auto;
+  font-size: 14px;
+
+  .auth-filter {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+    animation: slide-in ease 0.3s;
+    height: 40px;
+    display: flex;
+
+    .auth-filter-title {
+      width: 10%;
+      display: flex;
+      align-items: center;
+      white-space: pre;
+    }
+
+    .auth-input {
+      flex-grow: 1;
+      max-width: 100%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 20px;
+    }
+
+    .auth-input-email {
+      flex-grow: 1;
+      max-width: 100%;
+      width: 40%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 20px;
+    }
+
+    .auth-input-code {
+      flex-grow: 1;
+      width: 20%;
+      max-width: 100%;
+      min-width: 0;
+      text-align: left;
+      margin-right: 20px;
+    }
+
+    .auth-getCode {
+      margin-right: 20px;
+    }
+  }
+}
+
+.auth-font {
+  font-size: 14px;
+  color: #1d93ab;
+}
+
+.auth-font-no {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.auth-writing {
+  display: flex;
+  justify-content: space-between;
+}
+
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+}
