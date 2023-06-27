@@ -31,10 +31,6 @@ export async function requestOpenai(req: NextRequest) {
     controller.abort();
   }, 10 * 60 * 1000);
 
-  if (process.env.NEXT_PUBLIC_REACT_APP_GPT4_BASE_URL) {
-    baseUrl = process.env.NEXT_PUBLIC_REACT_APP_GPT4_BASE_URL;
-  }
-
   const fetchUrl = `${baseUrl}/${openaiPath}`;
 
   const fetchOptions: RequestInit = {

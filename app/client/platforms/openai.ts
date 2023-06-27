@@ -13,7 +13,19 @@ import { PostUserLimit } from "@/app/http/user";
 export class ChatGPTApi implements LLMApi {
   path(path: string): string {
     let openaiUrl: string;
-    openaiUrl = useAccessStore.getState().openaiUrl || "";
+    console.log(
+      useChatStore.getState().currentSession().mask.modelConfig.model,
+      16,
+    );
+    if (
+      useChatStore.getState().currentSession().mask.modelConfig.model ===
+      "TryChat-gpt-4.0"
+    ) {
+      openaiUrl = process.env.NEXT_PUBLIC_REACT_APP_GPT4_BASE_URL || "";
+    } else {
+      openaiUrl = useAccessStore.getState().openaiUrl || "";
+    }
+    // openaiUrl = useAccessStore.getState().openaiUrl || "";
     // let openaiUrl = useAccessStore.getState().openaiUrl;
     if (openaiUrl.endsWith("/")) {
       openaiUrl = openaiUrl.slice(0, openaiUrl.length - 1);
