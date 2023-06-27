@@ -14,16 +14,7 @@ export async function requestOpenai(req: NextRequest) {
     "",
   );
 
-  let baseUrl: string = "";
-  if (req.headers.get("X-Model-Type") === "TryChat-gpt-4.0") {
-    if (openaiPath.includes("v1/chat/completions")) {
-      baseUrl = process.env.NEXT_PUBLIC_REACT_APP_GPT4_BASE_URL!;
-    } else {
-      baseUrl = BASE_URL;
-    }
-  } else {
-    baseUrl = BASE_URL;
-  }
+  let baseUrl = BASE_URL;
 
   if (!baseUrl.startsWith("http")) {
     baseUrl = `${PROTOCOL}://${baseUrl}`;
