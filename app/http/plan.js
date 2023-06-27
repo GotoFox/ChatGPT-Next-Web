@@ -6,3 +6,6 @@ export const PostUseCard = (data) => post("/api/useCard", data);
 export const GetPlanAnnouncementList = (data) =>
   get("/api/planAnnouncementList", data);
 export const PostOrderInquiry = (data) => post("/api/orderInquiry", data);
+
+// 最新消息 home
+export const PostLatestNews = (data) => post("/api/announcement", data);

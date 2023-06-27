@@ -12,12 +12,14 @@ import CloseIcon from "../icons/close.svg";
 import MaskIcon from "../icons/mask.svg";
 import PluginIcon from "../icons/plugin.svg";
 import UserIcon from "../icons/user.svg";
+import RemindIcon from "../icons/remind.svg";
 
 import Locale from "../locales";
 
 import { useAppConfig, useChatStore } from "../store";
 
 import { AuthModel } from "./authModel";
+import { AnnouncementModel } from "./AnnouncementModel";
 
 import {
   MAX_SIDEBAR_WIDTH,
@@ -112,6 +114,7 @@ export function SideBar(props: { className?: string }) {
   const location = useLocation();
   const isUser = location.pathname === Path.User;
   const [showModal, setShowModal] = useState(false);
+  const [showAnnouncemnentModal, setShowAnnouncemnentModal] = useState(false);
 
   const config = useAppConfig();
   const token = localStorage.getItem("access_token");
@@ -221,6 +224,19 @@ export function SideBar(props: { className?: string }) {
               }}
             />
             <AuthModel showModal={showModal} setShowModal={setShowModal} />
+          </div>
+          <div className={styles["sidebar-action"]}>
+            <IconButton
+              icon={<RemindIcon />}
+              shadow
+              onClick={async () => {
+                setShowAnnouncemnentModal(true);
+              }}
+            />
+            <AnnouncementModel
+              showAnnouncemnentModal={showAnnouncemnentModal}
+              setShowAnnouncemnentModal={setShowAnnouncemnentModal}
+            />
           </div>
         </div>
         <div>
