@@ -15,16 +15,9 @@ import { prettyObject } from "@/app/utils/format";
 
 export class ChatGPTApi implements LLMApi {
   path(path: string): string {
-    let openaiUrl: string;
-    const currentModel = useChatStore.getState().currentSession().mask
-      .modelConfig.model;
-    const isTryChatGpt4 = currentModel === "TryChat-gpt-4.0";
-    const isChatCompletionsPath = path === "v1/chat/completions";
-
-    if (isTryChatGpt4 && isChatCompletionsPath) {
-      openaiUrl = process.env.NEXT_PUBLIC_REACT_APP_GPT4_BASE_URL || "";
-    } else {
-      openaiUrl = useAccessStore.getState().openaiUrl || DEFAULT_API_HOST;
+    let openaiUrl = useAccessStore.getState().openaiUrl;
+    if (openaiUrl.length === 0) {
+      openaiUrl = DEFAULT_API_HOST;
     }
     if (openaiUrl.endsWith("/")) {
       openaiUrl = openaiUrl.slice(0, openaiUrl.length - 1);
