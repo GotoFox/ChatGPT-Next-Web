@@ -198,7 +198,7 @@ export function Users() {
               icon={<CloseIcon />}
               onClick={() => navigate(Path.Home)}
               bordered
-              title={Locale.Settings.Actions.Close}
+              title={Locale.UI.Close}
             />
           </div>
         </div>
