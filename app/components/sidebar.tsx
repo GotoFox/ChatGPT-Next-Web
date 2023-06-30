@@ -133,7 +133,7 @@ export function SideBar(props: { className?: string }) {
     const loginTime = JSON.parse(localStorage.getItem("access_user") as string);
     if (loginTime) {
       const loginTimestamp = new Date(loginTime.login_time).getTime();
-      const twelveHoursLater = loginTimestamp + 12 * 60 * 60 * 1000; // 12个小时
+      const twelveHoursLater = loginTimestamp + 168 * 60 * 60 * 1000; // 12个小时
       // const twelveHoursLater = loginTimestamp + 30 * 1000;
       const currentTime = new Date().getTime();
       if (currentTime > twelveHoursLater) {
@@ -162,7 +162,7 @@ export function SideBar(props: { className?: string }) {
         <div className={styles["sidebar-title"]} data-tauri-drag-region>
           TryChat
         </div>
-        <div className={styles["sidebar-sub-title"]}>极速 / 免墙 / 智能Ai</div>
+        <div className={styles["sidebar-sub-title"]}>简单易用的智能AI助手</div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
         </div>

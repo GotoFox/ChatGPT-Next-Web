@@ -123,7 +123,7 @@
 
 .sidebar-header {
   position: relative;
-  padding-top: 20px;
+  //padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -342,10 +342,10 @@
 }
 
 .chat-body-title {
-  //cursor: pointer;
+  cursor: pointer;
 
   &:hover {
-    //text-decoration: underline;
+    text-decoration: underline;
   }
 }
 

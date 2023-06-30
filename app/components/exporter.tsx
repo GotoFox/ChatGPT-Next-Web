@@ -438,7 +438,7 @@ export function ImagePreviewer(props: {
 
           <div>
             <div className={styles["main-title"]}>TryChat</div>
-            <div className={styles["sub-title"]}>极速 / 免墙 / 智能Ai</div>
+            <div className={styles["sub-title"]}>简单易用的智能AI助手</div>
             <div className={styles["icons"]}>
               <ExportAvatar avatar={config.avatar} />
               <span className={styles["icon-space"]}>&</span>
