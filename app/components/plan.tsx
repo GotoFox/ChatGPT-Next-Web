@@ -11,6 +11,7 @@ import { List, ListItem, Modal, Popover, showToast } from "./ui-lib";
 import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
+import CheckOneIcon from "@/app/icons/check-one.svg";
 import {
   GetPlan,
   GetPlanAnnouncementList,
@@ -53,11 +54,7 @@ export function Plan() {
         ]);
         if (planRes.status === 200) {
           setPlanDataInfo(planRes.data);
-          setPlanData(
-            planRes.data.filter(
-              (item: any) => item.period === 1 && item.is_displayed === 1,
-            ),
-          );
+          setPlanData(planRes.data.filter((item: any) => item.period));
         } else {
           showToast(planRes && (planRes as any).msg);
         }
@@ -72,6 +69,7 @@ export function Plan() {
         const errorMessage =
           (error as any).response?.data?.msg ?? "网络请求出错，请重试";
         showToast(errorMessage);
+        navigate(Path.Home); // 跳转回 Home 页面
       } finally {
         setLoading(false); // 请求结束时设置 loading 为 false
       }
@@ -80,27 +78,27 @@ export function Plan() {
     fetchData();
   }, []);
 
-  async function selectCycle(type: string) {
-    if (type === "season") {
-      setPlanData(
-        planDataInfo.filter(
-          (item: any) => item.period === 3 && item.is_displayed === 1,
-        ),
-      );
-    } else if (type === "year") {
-      setPlanData(
-        planDataInfo.filter(
-          (item: any) => item.period === 12 && item.is_displayed === 1,
-        ),
-      );
-    } else {
-      setPlanData(
-        planDataInfo.filter(
-          (item: any) => item.period === 1 && item.is_displayed === 1,
-        ),
-      );
-    }
-  }
+  // async function selectCycle(type: string) {
+  //   if (type === "season") {
+  //     setPlanData(
+  //       planDataInfo.filter(
+  //         (item: any) => item.period === 3 && item.is_displayed === 1,
+  //       ),
+  //     );
+  //   } else if (type === "year") {
+  //     setPlanData(
+  //       planDataInfo.filter(
+  //         (item: any) => item.period === 12 && item.is_displayed === 1,
+  //       ),
+  //     );
+  //   } else {
+  //     setPlanData(
+  //       planDataInfo.filter(
+  //         (item: any) => item.period === 1 && item.is_displayed === 1,
+  //       ),
+  //     );
+  //   }
+  // }
 
   async function useCard() {
     if (!card_no) {
@@ -211,9 +209,9 @@ export function Plan() {
         <div className={styles["plan_region"]}>
           <div className={styles["plan_region_text"]}>
             <TipsIcon className={styles["tips-icon"]} />
-            <span> 不同的套餐次数可以累加</span>
+            <span>购买后可享受每日不限次数GPT4使用权限</span>
           </div>
-          <div className={styles["plan_cycle"]}>
+          {/*   <div className={styles["plan_cycle"]}>
             <span
               className={styles["text"]}
               onClick={() => {
@@ -240,7 +238,7 @@ export function Plan() {
             >
               年
             </span>
-          </div>
+          </div>*/}
         </div>
         {!loading && (
           <div className={styles["plans_all"]}>
@@ -255,7 +253,7 @@ export function Plan() {
                   key={plan.id}
                 >
                   {plan.code === "hot" ? (
-                    <div className={styles["plan_hot"]}>限时特价</div>
+                    <div className={styles["plan_hot"]}>最多人选择</div>
                   ) : null}
                   <div className={styles["plan_title"]}>
                     <span>{plan.name}</span>
@@ -315,13 +313,24 @@ export function Plan() {
 
         <div className={styles["plan_footer"]}>
           <div className={styles["plan_region"]}>
-            <div>会员畅享特权</div>
+            <div>畅享特权</div>
           </div>
           <div className={styles["plan_footer_item"]}>
-            <p>无需翻墙</p>
-            <p>超低延迟</p>
-            <p>云端同步</p>
-            <p>极速体验</p>
+            <p className={styles["items"]}>
+              <CheckOneIcon /> <span>无需翻墙</span>
+            </p>
+            <p className={styles["items"]}>
+              <CheckOneIcon /> <span>极速响应</span>
+            </p>
+            <p className={styles["items"]}>
+              <CheckOneIcon /> <span>无限畅聊</span>
+            </p>
+            <p className={styles["items"]}>
+              <CheckOneIcon /> <span>解锁GPT4</span>
+            </p>
+            <p className={styles["items"]}>
+              <CheckOneIcon /> <span>新功能优先体验</span>
+            </p>
           </div>
         </div>
       </div>
