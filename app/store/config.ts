@@ -55,10 +55,10 @@ export type ModelConfig = ChatConfig["modelConfig"];
 const ENABLE_GPT4 = false; // GPT4开关
 
 export const ALL_MODELS = [
-  // {
-  //   name: "gpt-4",
-  //   available: ENABLE_GPT4,
-  // },
+  {
+    name: "gpt-4",
+    available: ENABLE_GPT4,
+  },
   // {
   //   name: "gpt-4-0314",
   //   available: ENABLE_GPT4,
