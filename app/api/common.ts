@@ -28,7 +28,8 @@ export async function requestOpenai(req: NextRequest) {
   }
 
   if (
-    req.headers.get("x-model-type") === "GPT-4" &&
+    (req.headers.get("x-model-type") === "GPT-4" ||
+      req.headers.get("x-model-type") === "CLAUDE+") &&
     openaiPath.includes("v1/chat/completions")
   ) {
     baseUrl = process.env.NEXT_PUBLIC_REACT_APP_GPT4_BASE_URL ?? "";

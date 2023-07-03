@@ -84,6 +84,10 @@ export const ALL_MODELS = [
     available: true,
   },
   {
+    name: "CLAUDE+",
+    available: true,
+  },
+  {
     name: "gpt-3.5-turbo",
     available: true,
   },
