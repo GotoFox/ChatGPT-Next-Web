@@ -1061,6 +1061,13 @@ export function Chat() {
               fontSize: config.fontSize,
             }}
           />
+          <IconButton
+            icon={<SendWhiteIcon />}
+            text={Locale.Chat.Send}
+            className={styles["chat-input-send"]}
+            type="primary"
+            onClick={() => doSubmit(userInput)}
+          />
         </div>
       </div>
 

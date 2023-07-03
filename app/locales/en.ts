@@ -235,7 +235,7 @@ const en: LocaleType = {
   Store: {
     DefaultTopic: "New Conversation",
     BotHello:
-      "通知不及时，有问题请加qq群：856858371，防止域名被污染导致无法及时获取，加群谨防失联！ \n 支持无限制免费使用ChatGPT系列模型，注册用户之后即可免费畅享！\n\n   网页端网址：[https://chat.ifasto.eu.org](/) （移动端浏览器已适配） \n \n  客户端下载：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)\n",
+      "GPT-4、CLAUD+模型已上线，支持无限制免费使用，注册登录用户之后即可免费畅享！\n\n 通知不及时，有问题请加交流QQ群：856858371 & 趣软铺资源交流群：626821981，加群谨防失联！ \n \n  网页端网址：[https://chat.ifasto.eu.org](/) （移动端浏览器已适配） \n \n  客户端下载：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)",
     Error: "Something went wrong, please try again later.",
     Prompt: {
       History: (content: string) =>
