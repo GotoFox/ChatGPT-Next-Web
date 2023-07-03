@@ -337,8 +337,9 @@ const en: LocaleType = {
       pleaseEnterPwd: "请输入密码",
       pleaseEnterUser: "请输入用户名",
       pleaseEnterEmail: "请输入邮箱",
-      pleaseEnterInvitationCode: "如果有邀请码请输入，非必填",
-      getAnInvitationCode: "请使用其他用户的邀请码",
+      pleaseEnterInvitationCode: "非必填",
+      getAnInvitationCode:
+        "没有邀请码不用填写也可以正常注册，如果有可以添加其他用户的邀请码",
       error: "网络请求出错，请重试",
     },
   },
