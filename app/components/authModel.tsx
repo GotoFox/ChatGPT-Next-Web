@@ -470,7 +470,7 @@ export function AuthModel(props: {
                         }
                       />
                       <input
-                        type="text"
+                        type="number"
                         value={user.code}
                         className={styles["auth-input-code"]}
                         placeholder={"请输入邮箱验证码"}
@@ -615,7 +615,7 @@ export function AuthModel(props: {
                         }
                       />
                       <input
-                        type="text"
+                        type="number"
                         value={user.code}
                         className={styles["auth-input-code"]}
                         placeholder={"请输入邮箱验证码"}
