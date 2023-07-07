@@ -12,6 +12,7 @@ import AddIcon from "@/app/icons/add.svg";
 import BuyIcon from "@/app/icons/buy.svg";
 import TipsIcon from "@/app/icons/tips.svg";
 import CheckOneIcon from "@/app/icons/check-one.svg";
+import zPic from "@/app/picture/z.png";
 import {
   GetPlan,
   GetPlanAnnouncementList,
@@ -28,6 +29,7 @@ import WeiXinIcon from "@/app/icons/map/weixin.svg";
 import AlipayIcon from "@/app/icons/map/alipay.svg";
 import GithubIcon from "@/app/icons/map/github.svg";
 import WeiboIcon from "@/app/icons/map/weibo.svg";
+import Image from "next/image";
 
 export function Plan() {
   const navigate = useNavigate();
@@ -333,6 +335,9 @@ export function Plan() {
             </p>
           </div>
         </div>
+      </div>
+      <div>
+        <Image src={zPic} alt="Z Picture" />
       </div>
       {showInvitationRecordsModal && (
         <InvitationRecordsModal
