@@ -248,12 +248,13 @@ export function Users() {
             </div>
           </ListItem>
         </List>
-        {/*   <List>
-          <ListItem title={"当前套餐"} subTitle={expireText}>
+
+        {/*     <List>
+          <ListItem title={"当前计划"} subTitle={expireText}>
             <div className={styles.font12}>{cycleText}</div>
           </ListItem>
 
-          <ListItem title={"套餐查询"} subTitle={subTitleInfo}>
+          <ListItem title={"计划查询"} subTitle={subTitleInfo}>
             <div className={styles.font12}>
               <IconButton
                 icon={<ResetIcon></ResetIcon>}
@@ -262,10 +263,12 @@ export function Users() {
               />
             </div>
           </ListItem>
-          <ListItem title={"所有套餐"} subTitle={""}>
+          <ListItem title={"所有计划"} subTitle={""}>
             <div className={styles.font12}>
-              {" "}
-              <IconButton text={"购买"} onClick={() => navigate(Path.Plan)} />
+              <IconButton
+                text={"前往捐赠"}
+                onClick={() => navigate(Path.Plan)}
+              />
             </div>
           </ListItem>
         </List>*/}

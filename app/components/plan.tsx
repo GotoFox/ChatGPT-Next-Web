@@ -149,7 +149,7 @@ export function Plan() {
         <div className="window-header-title">
           <div className="window-header-main-title">
             {/*{Locale.Settings.Title}*/}
-            套餐计划
+            捐赠计划
           </div>
           <div className="window-header-sub-title">
             {/*{Locale.Settings.SubTitle}*/}
@@ -211,7 +211,7 @@ export function Plan() {
         <div className={styles["plan_region"]}>
           <div className={styles["plan_region_text"]}>
             <TipsIcon className={styles["tips-icon"]} />
-            <span>购买后可享受每日不限次数GPT4使用权限</span>
+            <span>捐赠后可享受每日不限次数GPT4使用权限</span>
           </div>
           {/*   <div className={styles["plan_cycle"]}>
             <span
@@ -295,7 +295,7 @@ export function Plan() {
                         setCurrentPlan(plan);
                       }}
                     >
-                      立即购买
+                      立即捐赠
                     </div>
                   )}
                 </div>
