@@ -336,9 +336,9 @@ export function Plan() {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <Image src={zPic} alt="Z Picture" />
-      </div>
+      </div>*/}
       {showInvitationRecordsModal && (
         <InvitationRecordsModal
           currentPlan={currentPlan}
