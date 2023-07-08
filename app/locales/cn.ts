@@ -246,7 +246,7 @@ const cn = {
   Store: {
     DefaultTopic: "新的聊天",
     BotHello:
-      '提示：近期openai封号较为频繁，同时随着本站用户数量的增长，请求量也在逐渐增加，遇到请求失败时建议充分利用"重试"功能，以提高成功率。\n\n --- \n\n GPT-4模型已上线，注册/登录之后支持不限次数免费使用GPT3.5、GPT-4系列模型！有任何问题加群反馈！\n\n 通知不及时，有问题请加TryChat官方交流QQ群：856858371 & 趣软铺资源交流群：626821981 \n \n  网页端网址：[https://chat.ifasto.eu.org](/) （移动端浏览器已适配） \n \n  客户端下载：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)',
+      "## ⛔紧急通知\n 近期openai官方封号非常频繁，同时本站用户数量和请求量都在迅速激增，可能导致域名被污染，部分地区打不开等情况，为防止找不到我们请加入社群！\n\n TryChat官方交流QQ群：856858371 & 趣软铺资源交流群：626821981\n\n  ## ⭐特别说明\n 注册/登录之后支持不限次数免费使用GPT3.5、GPT-4系列模型！如果本站有帮助到你，可以适当对本站进行捐赠！\n\n   TryGPT最新域名：[https://chat.ifasto.eu.org](/)    域名发布地址：[https://gpt.330.la](/)       \n\n  最新版客户端：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,
