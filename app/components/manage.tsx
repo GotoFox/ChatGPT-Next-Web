@@ -28,6 +28,7 @@ import { ErrorBoundary } from "./error";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@/app/icons/close.svg";
 import LeftIcon from "@/app/icons/left.svg";
+import LoadingIcon from "@/app/icons/three-dots.svg";
 import { Avatar, AvatarPicker } from "@/app/components/emoji";
 import ChatSettingsIcon from "@/app/icons/chat-settings.svg";
 import { UserListAll } from "@/app/components/userListAll";
@@ -35,6 +36,11 @@ import { UserListAll } from "@/app/components/userListAll";
 export function Manage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [USER, setUSER] = useState({
+    username: undefined,
+    role: undefined,
+    email: undefined,
+  });
   const [manageCount, setManageCount] = useState({
     userList: 0,
     userPayList: 0,
@@ -42,11 +48,20 @@ export function Manage() {
   });
 
   useEffect(() => {
+    const access_user = localStorage.getItem("access_user");
+    const accessUser = access_user ? JSON.parse(access_user) : "null";
+    setUSER(accessUser);
+
+    if (accessUser.role !== "manage") {
+      navigate(Path.Home);
+    }
+
     ClickManage();
   }, []);
 
   async function ClickManage() {
     try {
+      setLoading(true);
       let params = { page: 1, pageSize: 99999 };
       const [userList, userPayList, userBanList] = await Promise.all([
         PostUserListAll(params),
@@ -64,18 +79,18 @@ export function Manage() {
           userPayList: userPayList.data.count,
           userBanList: userBanList.data.count,
         });
-        setLoading(false);
+      } else {
+        navigate(Path.Home);
       }
     } catch (error) {
+      navigate(Path.Home);
       const errorMessage =
         (error as any).response?.data?.msg ?? "网络请求出错，请重试";
       console.error(errorMessage);
       showToast(errorMessage);
+    } finally {
+      setLoading(false);
     }
-  }
-
-  if (loading) {
-    return <Loading />;
   }
 
   return (
@@ -96,6 +111,20 @@ export function Manage() {
         </div>
       </div>
       <div className={styles["settings"]}>
+        <List>
+          <ListItem title={"账号"}>
+            <div className={styles.font12}>{USER.username}</div>
+          </ListItem>
+          <ListItem title={"邮箱"}>
+            <div className={styles.font12}>{USER.email}</div>
+          </ListItem>
+          <ListItem title={"角色"}>
+            <div className={styles.font12}>
+              {USER.role === "manage" ? "管理员" : "用户"}
+            </div>
+          </ListItem>
+        </List>
+
         <List>
           <ListItem title={"注册用户"}>
             <div className={styles.font12}>{manageCount?.userList}</div>
@@ -118,6 +147,10 @@ export function Manage() {
             </div>
           </ListItem>
         </List>
+
+        <div className={styles["loadingCenter"]}>
+          {loading && <LoadingIcon />}
+        </div>
       </div>
     </ErrorBoundary>
   );

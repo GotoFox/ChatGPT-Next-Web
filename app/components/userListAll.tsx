@@ -54,6 +54,7 @@ export function UserListAll() {
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [userList, setUserList] = useState<
     {
       username: string;
@@ -65,8 +66,6 @@ export function UserListAll() {
       id: string;
     }[]
   >([]);
-
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     PostUserAll(currentPage, "");
@@ -86,8 +85,8 @@ export function UserListAll() {
   };
 
   async function PostUserAll(page: any, sortField: any) {
-    setLoading(true);
     try {
+      setLoading(true);
       const pageSize = 10;
       const params = { page, pageSize, email: searchText, sortField };
       let userListResponse;
