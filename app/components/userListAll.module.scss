@@ -60,7 +60,7 @@
       .mask-header {
         display: flex;
         align-items: center;
-        width: 4%;
+        width: 14%;
 
         .mask-icon {
           display: flex;
@@ -84,7 +84,7 @@
       .mask-centent {
         display: flex;
         align-items: center;
-        width: 60%;
+        width: 10%;
 
         .mask-icon {
           display: flex;
@@ -139,7 +139,7 @@
   font-size: 14px;
 
   div{
-    margin-left: 50px;
+    //margin-left: 50px;
   }
 }
 
@@ -167,8 +167,8 @@
 
 .loadding_f{
   position: absolute;
-  top: 50%;
-  left: 54%;
+  top: 58%;
+  left: 62%;
   transform: translate(-50%, -50%);
 }
 .yes_loading{

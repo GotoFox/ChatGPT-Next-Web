@@ -329,8 +329,20 @@ export function UserListAll() {
                 <div className={styles["mask-centent"]}>
                   <div className={styles["user-text"]}>
                     <div>状态：{m.userStatus === "2" ? "已封禁" : "正常"}</div>
+                  </div>
+                </div>
+                <div className={styles["mask-centent"]}>
+                  <div className={styles["user-text"]}>
                     <div>GPT3：{m.call_count_gpt3}</div>
+                  </div>
+                </div>
+                <div className={styles["mask-centent"]}>
+                  <div className={styles["user-text"]}>
                     <div>GPT4：{m.call_count_gpt4}</div>
+                  </div>
+                </div>
+                <div className={styles["mask-centent"]}>
+                  <div className={styles["user-text"]}>
                     <div>{!m.vip_expire ? "免费用户" : "付费用户"}</div>
                   </div>
                 </div>
