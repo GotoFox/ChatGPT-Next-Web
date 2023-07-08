@@ -14,6 +14,7 @@ import CloseIcon from "../icons/close.svg";
 import CopyIcon from "../icons/copy.svg";
 import ClearIcon from "../icons/clear.svg";
 import EditIcon from "../icons/edit.svg";
+import ChatSettingsIcon from "../icons/chat-settings.svg";
 import EyeIcon from "../icons/eye.svg";
 import QqIcon from "../icons/map/qq.svg";
 import WeiXinIcon from "../icons/map/weixin.svg";
@@ -47,7 +48,9 @@ export function Users() {
   const config = useAppConfig();
   const updateConfig = config.update;
   const user = JSON.parse(localStorage.getItem("access_user") as string);
-  const [USER, setUSER] = useState({});
+  const [USER, setUSER] = useState({
+    role: "",
+  });
 
   const updateStore = useUpdateStore();
   const [checkingUpdate, setCheckingUpdate] = useState(false);
@@ -234,6 +237,17 @@ export function Users() {
           <ListItem title={"邮箱"}>
             <div className={styles.font12}>{USER && (USER as any).email}</div>
           </ListItem>
+          {USER.role === "manage" ? (
+            <ListItem title={"管理中心"}>
+              <div className={styles.font12}>
+                <IconButton
+                  icon={<ChatSettingsIcon />}
+                  text={"立即前往"}
+                  onClick={() => navigate(Path.Manage)}
+                />
+              </div>
+            </ListItem>
+          ) : null}
         </List>
 
         <List>

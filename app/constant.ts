@@ -1,3 +1,5 @@
+import { UserListAll } from "@/app/components/userListAll";
+
 export const OWNER = "GotoFox";
 export const REPO = "ChatGPT-Next-Web";
 export const REPO_URL = `https://github.com/${OWNER}/${REPO}`;
@@ -18,6 +20,8 @@ export enum Path {
   Auth = "/auth",
   User = "/user",
   Plan = "/plan",
+  Manage = "/web/manage",
+  UserListAll = "/web/manage/userListAll",
 }
 
 export enum SlotID {

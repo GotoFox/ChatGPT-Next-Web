@@ -62,6 +62,17 @@ const PlanPage = dynamic(async () => (await import("./plan")).Plan, {
   loading: () => <Loading noLogo />,
 });
 
+const ManagePage = dynamic(async () => (await import("./manage")).Manage, {
+  loading: () => <Loading noLogo />,
+});
+
+const UserListAllPage = dynamic(
+  async () => (await import("./userListAll")).UserListAll,
+  {
+    loading: () => <Loading noLogo />,
+  },
+);
+
 export function useSwitchTheme() {
   const config = useAppConfig();
 
@@ -144,6 +155,8 @@ function Screen() {
               <Route path={Path.Settings} element={<Settings />} />
               <Route path={Path.User} element={<UserPage />} />
               <Route path={Path.Plan} element={<PlanPage />} />
+              <Route path={Path.Manage} element={<ManagePage />} />
+              <Route path={Path.UserListAll} element={<UserListAllPage />} />
             </Routes>
           </div>
         </>
