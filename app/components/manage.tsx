@@ -34,6 +34,7 @@ import { UserListAll } from "@/app/components/userListAll";
 
 export function Manage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [manageCount, setManageCount] = useState({
     userList: 0,
     userPayList: 0,
@@ -63,6 +64,7 @@ export function Manage() {
           userPayList: userPayList.data.count,
           userBanList: userBanList.data.count,
         });
+        setLoading(false);
       }
     } catch (error) {
       const errorMessage =
@@ -70,6 +72,10 @@ export function Manage() {
       console.error(errorMessage);
       showToast(errorMessage);
     }
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

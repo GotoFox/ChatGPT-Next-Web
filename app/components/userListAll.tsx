@@ -34,6 +34,7 @@ import { Avatar, AvatarPicker } from "@/app/components/emoji";
 import ChatSettingsIcon from "@/app/icons/chat-settings.svg";
 import AddIcon from "@/app/icons/add.svg";
 import ConfirmIcon from "@/app/icons/confirm.svg";
+import LoginIcon from "../icons/login.svg";
 import {
   PostUserBan,
   PostUserBanListAll,
@@ -45,6 +46,7 @@ import EyeIcon from "@/app/icons/eye.svg";
 import EditIcon from "@/app/icons/edit.svg";
 import DeleteIcon from "@/app/icons/delete.svg";
 import { MaskAvatar } from "@/app/components/mask";
+import LoadingIcon from "@/app/icons/three-dots.svg";
 
 export function UserListAll() {
   const navigate = useNavigate();
@@ -84,8 +86,8 @@ export function UserListAll() {
   };
 
   async function PostUserAll(page: any, sortField: any) {
+    setLoading(true);
     try {
-      setLoading(true);
       const pageSize = 10;
       const params = { page, pageSize, email: searchText, sortField };
       let userListResponse;
@@ -310,8 +312,10 @@ export function UserListAll() {
               />
             </div>
           </div>
-
-          <div>
+          <div className={styles["loadding_f"]}>
+            {loading && <LoadingIcon />}
+          </div>
+          <div className={styles[loading ? "yes_loading" : ""]}>
             {userList.map((m) => (
               <div className={styles["mask-item"]} key={m.id}>
                 <div className={styles["mask-header"]}>
