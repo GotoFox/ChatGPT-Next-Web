@@ -250,7 +250,7 @@ const en: LocaleType = {
   Store: {
     DefaultTopic: "New Conversation",
     BotHello:
-      "## ⛔紧急通知\n 近期openai官方封号非常频繁，同时本站用户数量和请求量都在迅速激增，可能导致域名被污染，部分地区打不开等情况，为防止找不到我们请加入社群！\n\n TryChat官方交流QQ群：856858371 & 趣软铺资源交流群：626821981\n\n  ## ⭐特别说明\n 注册/登录之后支持不限次数免费使用GPT3.5、GPT-4系列模型！如果本站有帮助到你，可以适当对本站进行捐赠！\n\n   TryGPT最新域名：[https://chat.ifasto.eu.org](/)    域名发布地址：[https://gpt.330.la](/)       \n\n  最新版客户端：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)",
+      "## ⛔紧急通知\n 近期openai官方封号非常频繁，同时本站用户数量和请求量都在迅速激增，可能导致域名被污染，部分地区打不开等情况，为防止找不到我们请加入社群！\n\n TryChat官方交流QQ群：856858371 & 趣软铺资源交流群：626821981\n\n  ## ⭐特别说明\n 登录后支持不限次数免费使用GPT3.5、GPT-4系列模型！如果有帮助到你，可以适当对本站进行捐赠！\n\n   TryGPT最新域名：[https://chat.ifasto.eu.org](/)    域名发布地址：[https://gpt.330.la](/)       \n\n  最新版客户端：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)",
     Error: "Something went wrong, please try again later.",
     Prompt: {
       History: (content: string) =>
