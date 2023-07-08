@@ -12,9 +12,27 @@ export function AnnouncementModel(props: {
 }) {
   const [latestNews, setLatestNews] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
+
+  // Check whether the user has visited before
+  useEffect(() => {
+    const storedVisitInfo = localStorage.getItem("visitInfo");
+    const visitInfo = storedVisitInfo ? JSON.parse(storedVisitInfo) : null;
+
+    if (visitInfo) {
+      if (visitInfo.visitDate <= new Date().getTime()) {
+        localStorage.removeItem("visitInfo");
+        setIsFirstVisit(true);
+      } else {
+        setIsFirstVisit(false);
+      }
+    } else {
+      setIsFirstVisit(true);
+    }
+  }, []);
 
   useEffect(() => {
-    if (props.showAnnouncemnentModal) {
+    if (props.showAnnouncemnentModal || isFirstVisit) {
       (async () => {
         await doLatestNews();
       })();
@@ -43,12 +61,18 @@ export function AnnouncementModel(props: {
 
   return (
     <div>
-      {props.showAnnouncemnentModal && (
+      {(props.showAnnouncemnentModal || isFirstVisit) && (
         <div className="modal-mask">
           <Modal
             title={"最新消息"}
             onClose={() => {
               props.setShowAnnouncemnentModal(false);
+              setIsFirstVisit(false);
+              const visitInfo = {
+                notFirstVisit: true,
+                visitDate: new Date().getTime() + 7 * 24 * 60 * 60 * 1000, // 7 days later
+              };
+              localStorage.setItem("visitInfo", JSON.stringify(visitInfo));
             }}
             actions={[
               <IconButton
@@ -58,6 +82,12 @@ export function AnnouncementModel(props: {
                 icon={<DeleteIcon />}
                 onClick={() => {
                   props.setShowAnnouncemnentModal(false);
+                  setIsFirstVisit(false);
+                  const visitInfo = {
+                    notFirstVisit: true,
+                    visitDate: new Date().getTime() + 7 * 24 * 60 * 60 * 1000, // 7 days later
+                  };
+                  localStorage.setItem("visitInfo", JSON.stringify(visitInfo));
                 }}
               />,
             ]}
