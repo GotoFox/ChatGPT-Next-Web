@@ -46,7 +46,7 @@ export function Manage() {
 
   async function ClickManage() {
     try {
-      let params = { page: 1, pageSize: 99999999 };
+      let params = { page: 1, pageSize: 99999 };
       const [userList, userPayList, userBanList] = await Promise.all([
         PostUserListAll(params),
         PostUserPayListAll(params),
