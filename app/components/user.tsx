@@ -81,21 +81,17 @@ export function Users() {
           let maxLimit = (res as any)?.user?.max_limit;
           let subtitle = "";
 
-          if (limit === -1 && maxLimit === -1) {
-            subtitle = "今日剩余 不限 次对话，每日总额 不限 次对话";
-          } else if (limit === -1) {
-            subtitle = `今日剩余 不限 次对话，每日总额 ${maxLimit} 次对话`;
-          } else if (maxLimit === -1) {
-            subtitle = `今日剩余 ${limit} 次对话，每日总额 不限 次对话`;
+          if (maxLimit === -1) {
+            subtitle = `每小时 不限 次对话`;
           } else {
-            subtitle = `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+            subtitle = `限制每小时 3 次对话`;
           }
           setSubTitleInfo(subtitle);
 
           const planName = (res as any).user?.plan?.name;
           const cycleText = (res as any).user?.plan?.cycleText;
           const cycleTextInfo =
-            planName && cycleText ? `${planName}（${cycleText}）` : "未开通";
+            planName && cycleText ? `${planName}（${cycleText}）` : "暂无";
           setCycleText(cycleTextInfo);
 
           const expireTextInfo = (res as any).user?.plan?.expire
@@ -152,14 +148,10 @@ export function Users() {
         let maxLimit = (res as any)?.user?.max_limit;
         let subtitle = "";
 
-        if (limit === -1 && maxLimit === -1) {
-          subtitle = "今日剩余 不限 次对话，每日总额 不限 次对话";
-        } else if (limit === -1) {
-          subtitle = `今日剩余 不限 次对话，每日总额 ${maxLimit} 次对话`;
-        } else if (maxLimit === -1) {
-          subtitle = `今日剩余 ${limit} 次对话，每日总额 不限 次对话`;
+        if (maxLimit === -1) {
+          subtitle = `每小时 不限 次对话`;
         } else {
-          subtitle = `今日剩余 ${limit} 次对话，每日总额 ${maxLimit} 次对话`;
+          subtitle = `限制每小时 3 次对话`;
         }
         setSubTitleInfo(subtitle);
 
@@ -263,7 +255,7 @@ export function Users() {
           </ListItem>
         </List>
 
-        {/*     <List>
+        {/* <List>
           <ListItem title={"当前计划"} subTitle={expireText}>
             <div className={styles.font12}>{cycleText}</div>
           </ListItem>
@@ -290,7 +282,6 @@ export function Users() {
         <List>
           <ListItem title={"邀请码"}>
             <div className={styles.font12}>
-              {" "}
               <IconButton
                 icon={<CopyIcon></CopyIcon>}
                 text={"复制"}
@@ -300,7 +291,6 @@ export function Users() {
           </ListItem>
           <ListItem title={"邀请记录"} subTitle={""}>
             <div className={styles.font12}>
-              {" "}
               <IconButton
                 icon={<EyeIcon></EyeIcon>}
                 text={"查看"}

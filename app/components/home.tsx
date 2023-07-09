@@ -1,5 +1,7 @@
 "use client";
 
+import { RecordListAll } from "@/app/components/recordListAll";
+
 require("../polyfill");
 
 import { useState, useEffect } from "react";
@@ -68,6 +70,13 @@ const ManagePage = dynamic(async () => (await import("./manage")).Manage, {
 
 const UserListAllPage = dynamic(
   async () => (await import("./userListAll")).UserListAll,
+  {
+    loading: () => <Loading noLogo />,
+  },
+);
+
+const RecordListAllPage = dynamic(
+  async () => (await import("./recordListAll")).RecordListAll,
   {
     loading: () => <Loading noLogo />,
   },
@@ -157,6 +166,10 @@ function Screen() {
               <Route path={Path.Plan} element={<PlanPage />} />
               <Route path={Path.Manage} element={<ManagePage />} />
               <Route path={Path.UserListAll} element={<UserListAllPage />} />
+              <Route
+                path={Path.RecordListAll}
+                element={<RecordListAllPage />}
+              />
             </Routes>
           </div>
         </>

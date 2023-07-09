@@ -22,6 +22,7 @@ export enum Path {
   Plan = "/plan",
   Manage = "/web/manage",
   UserListAll = "/web/manage/userListAll",
+  RecordListAll = "/web/manage/recordListAll",
 }
 
 export enum SlotID {

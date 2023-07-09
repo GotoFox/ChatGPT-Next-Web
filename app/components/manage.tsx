@@ -5,6 +5,8 @@ import {
   PostUserListAll,
   PostUserPayListAll,
   PostUserBanListAll,
+  PostRecordCount,
+  PostUserCount,
 } from "../http/manage";
 import { Loading } from "./home";
 
@@ -32,6 +34,7 @@ import LoadingIcon from "@/app/icons/three-dots.svg";
 import { Avatar, AvatarPicker } from "@/app/components/emoji";
 import ChatSettingsIcon from "@/app/icons/chat-settings.svg";
 import { UserListAll } from "@/app/components/userListAll";
+import { RecordListAll } from "@/app/components/recordListAll";
 
 export function Manage() {
   const navigate = useNavigate();
@@ -42,9 +45,14 @@ export function Manage() {
     email: undefined,
   });
   const [manageCount, setManageCount] = useState({
-    userList: 0,
-    userPayList: 0,
-    userBanList: 0,
+    all: 0,
+    pay: 0,
+    banned: 0,
+  });
+  const [recordCount, setRecordCount] = useState({
+    all: 0,
+    paid: 0,
+    notPaid: 0,
   });
 
   useEffect(() => {
@@ -63,22 +71,14 @@ export function Manage() {
     try {
       setLoading(true);
       let params = { page: 1, pageSize: 99999 };
-      const [userList, userPayList, userBanList] = await Promise.all([
-        PostUserListAll(params),
-        PostUserPayListAll(params),
-        PostUserBanListAll(params),
+      const [UserCount, RecordCount] = await Promise.all([
+        PostUserCount(params),
+        PostRecordCount(params),
       ]);
 
-      if (
-        userList.status === 200 &&
-        userPayList.status === 200 &&
-        userBanList.status === 200
-      ) {
-        setManageCount({
-          userList: userList.data.count,
-          userPayList: userPayList.data.count,
-          userBanList: userBanList.data.count,
-        });
+      if (RecordCount.status === 200 && UserCount.status === 200) {
+        setRecordCount(RecordCount.data);
+        setManageCount(UserCount.data);
       } else {
         navigate(Path.Home);
       }
@@ -127,22 +127,39 @@ export function Manage() {
 
         <List>
           <ListItem title={"注册用户"}>
-            <div className={styles.font12}>{manageCount?.userList}</div>
+            <div className={styles.font12}>{manageCount?.all}</div>
           </ListItem>
           <ListItem title={"付费用户"}>
-            <div className={styles.font12}>{manageCount?.userPayList}</div>
+            <div className={styles.font12}>{manageCount?.pay}</div>
           </ListItem>
           <ListItem title={"封禁用户"}>
-            <div className={styles.font12}>{manageCount?.userBanList}</div>
+            <div className={styles.font12}>{manageCount?.banned}</div>
           </ListItem>
-        </List>
-
-        <List>
           <ListItem title={"所有用户"}>
             <div className={styles.font12}>
               <IconButton
                 text={"立即查询"}
                 onClick={() => navigate(Path.UserListAll)}
+              />
+            </div>
+          </ListItem>
+        </List>
+
+        <List>
+          <ListItem title={"订单记录"}>
+            <div className={styles.font12}>{recordCount?.all}</div>
+          </ListItem>
+          <ListItem title={"已支付订单"}>
+            <div className={styles.font12}>{recordCount?.paid}</div>
+          </ListItem>
+          <ListItem title={"未支付订单"}>
+            <div className={styles.font12}>{recordCount?.notPaid}</div>
+          </ListItem>
+          <ListItem title={"所有订单"}>
+            <div className={styles.font12}>
+              <IconButton
+                text={"立即查询"}
+                onClick={() => navigate(Path.RecordListAll)}
               />
             </div>
           </ListItem>

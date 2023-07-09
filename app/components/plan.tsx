@@ -30,6 +30,7 @@ import AlipayIcon from "@/app/icons/map/alipay.svg";
 import GithubIcon from "@/app/icons/map/github.svg";
 import WeiboIcon from "@/app/icons/map/weibo.svg";
 import Image from "next/image";
+import LeftIcon from "@/app/icons/left.svg";
 
 export function Plan() {
   const navigate = useNavigate();
@@ -158,11 +159,10 @@ export function Plan() {
         <div className="window-actions">
           <div className="window-action-button">
             <IconButton
-              icon={<CloseIcon />}
-              onClick={() => navigate(Path.Home)}
-              bordered
-              title={Locale.UI.Close}
-            />
+              icon={<LeftIcon />}
+              text={Locale.NewChat.Return}
+              onClick={() => navigate(-1)}
+            ></IconButton>
           </div>
         </div>
       </div>
