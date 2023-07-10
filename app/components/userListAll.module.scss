@@ -60,7 +60,7 @@
       .mask-header {
         display: flex;
         align-items: center;
-        width: 14%;
+        width: 18%;
 
         .mask-icon {
           display: flex;
@@ -109,6 +109,8 @@
         display: flex;
         flex-wrap: nowrap;
         transition: all ease 0.3s;
+        width: 8%;
+        font-size: 14px;
       }
 
       @media screen and (max-width: 600px) {
@@ -133,45 +135,49 @@
   }
 }
 
-.user-text{
+.user-text {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
 
-  div{
+  div {
     //margin-left: 50px;
   }
 }
 
-.pageBox{
+.pageBox {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 14px;
 
-  .page{
+  .page {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 16px;
     margin-left: 20px;
 
-    span{
+    span {
       margin-left: 10px;
       margin-right: 10px;
       cursor: pointer;
     }
   }
-
 }
 
-.loadding_f{
+.loadding_f {
   position: absolute;
   top: 58%;
   left: 62%;
   transform: translate(-50%, -50%);
 }
-.yes_loading{
+
+.yes_loading {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.texts {
+  user-select: text;
 }

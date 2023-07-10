@@ -146,6 +146,29 @@ export function AuthModel(props: {
       return;
     }
 
+    const domains = [
+      "gmail.com",
+      "outlook.com",
+      "hotmail.com",
+      "live.com",
+      "icloud.com",
+      "qq.com",
+      "163.com",
+      "126.com",
+      "sina.com",
+      "sina.com",
+      "aliyun.com",
+      "foxmail.com",
+    ];
+
+    const emailDomain = email.split("@")[1];
+    if (!domains.includes(emailDomain)) {
+      showToast(
+        "不支持的邮箱后缀，请使用主流邮箱后缀注册，例如：163.com、qq.com等",
+      );
+      return;
+    }
+
     try {
       setLoading(true);
       let res = await PostRegister(user);

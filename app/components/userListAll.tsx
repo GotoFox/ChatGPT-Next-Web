@@ -274,10 +274,10 @@ export function UserListAll() {
                 {"默认排序"}
               </option>
               <option value="call_count_gpt3" key="gpt3">
-                GPT-3.5消耗排序
+                GPT-3.5消耗排行
               </option>
               <option value="call_count_gpt4" key="gpt4">
-                GPT-4消耗排序
+                GPT-4消耗排行
               </option>
             </Select>
 
@@ -314,7 +314,46 @@ export function UserListAll() {
           <div className={styles["loadding_f"]}>
             {loading && <LoadingIcon />}
           </div>
-          <div className={styles[loading ? "yes_loading" : ""]}>
+
+          <div
+            className={`${styles.texts} ${loading ? styles.yes_loading : ""}`}
+          >
+            <div className={styles["mask-item"]}>
+              <div className={styles["mask-header"]}>
+                <div className={styles["mask-title"]}>
+                  <div className={styles["mask-name"]}>用户</div>
+                </div>
+              </div>
+
+              <div className={styles["mask-centent"]}>
+                <div className={styles["user-text"]}>
+                  <div>状态</div>
+                </div>
+              </div>
+              <div className={styles["mask-centent"]}>
+                <div className={styles["user-text"]}>
+                  <div>GPT3</div>
+                </div>
+              </div>
+              <div className={styles["mask-centent"]}>
+                <div className={styles["user-text"]}>
+                  <div>GPT4</div>
+                </div>
+              </div>
+              <div className={styles["mask-centent"]}>
+                <div className={styles["user-text"]}>
+                  <div>登录时间</div>
+                </div>
+              </div>
+              <div className={styles["mask-centent"]}>
+                <div className={styles["user-text"]}>
+                  <div>类型</div>
+                </div>
+              </div>
+
+              <div className={styles["mask-actions"]}>操作</div>
+            </div>
+
             {userList.map((m) => (
               <div className={styles["mask-item"]} key={m.id}>
                 <div className={styles["mask-header"]}>
@@ -328,17 +367,22 @@ export function UserListAll() {
 
                 <div className={styles["mask-centent"]}>
                   <div className={styles["user-text"]}>
-                    <div>状态：{m.userStatus === "2" ? "已封禁" : "正常"}</div>
+                    <div>{m.userStatus === "2" ? "已封禁" : "正常"}</div>
                   </div>
                 </div>
                 <div className={styles["mask-centent"]}>
                   <div className={styles["user-text"]}>
-                    <div>GPT3：{m.call_count_gpt3}</div>
+                    <div>{m.call_count_gpt3}</div>
                   </div>
                 </div>
                 <div className={styles["mask-centent"]}>
                   <div className={styles["user-text"]}>
-                    <div>GPT4：{m.call_count_gpt4}</div>
+                    <div>{m.call_count_gpt4}</div>
+                  </div>
+                </div>
+                <div className={styles["mask-centent"]}>
+                  <div className={styles["user-text"]}>
+                    <div>{m.login_time}</div>
                   </div>
                 </div>
                 <div className={styles["mask-centent"]}>

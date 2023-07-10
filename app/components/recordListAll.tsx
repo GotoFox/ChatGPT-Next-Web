@@ -58,6 +58,7 @@ export function RecordListAll() {
   const [loading, setLoading] = useState(false);
   const [userList, setUserList] = useState<
     {
+      gmt_payment: string;
       username: any;
       status: Boolean;
       buyer_pay_amount: any;
@@ -383,8 +384,18 @@ export function RecordListAll() {
                   <div className={styles["mask-actions"]}>
                     <div className={styles["mask-centent"]}>
                       <div className={styles["user-text"]}>
-                        <div>支付订单号{m.trade_no || " - 订单未支付"}</div>
-                        <div>商家订单号{m.out_trade_no}</div>
+                        <div>
+                          <div>支付时间</div>
+                          <div>{m.gmt_payment || " - "}</div>
+                        </div>
+                        <div>
+                          <div>支付订单号</div>
+                          <div>{m.trade_no || " - "}</div>
+                        </div>
+                        <div>
+                          <div>商家订单号</div>
+                          <div>{m.out_trade_no}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
