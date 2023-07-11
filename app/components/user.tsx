@@ -258,6 +258,10 @@ export function Users() {
 
         {USER.username === "test" ? (
           <List>
+            <ListItem title={"当前计划"} subTitle={expireText}>
+              <div className={styles.font12}>{cycleText}</div>
+            </ListItem>
+
             <ListItem title={"计划查询"} subTitle={subTitleInfo}>
               <div className={styles.font12}>
                 <IconButton
