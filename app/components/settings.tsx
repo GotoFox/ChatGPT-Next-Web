@@ -696,7 +696,7 @@ export function Settings() {
             </ListItem>
           ) : null}
 
-          <ListItem
+          {/*  <ListItem
             title={Locale.Settings.CustomModel.Title}
             subTitle={Locale.Settings.CustomModel.SubTitle}
           >
@@ -710,7 +710,7 @@ export function Settings() {
                 )
               }
             ></input>
-          </ListItem>
+          </ListItem>*/}
         </List>
 
         <SyncItems />
