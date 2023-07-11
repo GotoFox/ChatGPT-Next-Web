@@ -50,6 +50,7 @@ export function Users() {
   const user = JSON.parse(localStorage.getItem("access_user") as string);
   const [USER, setUSER] = useState({
     role: "",
+    username: "",
   });
 
   const updateStore = useUpdateStore();
@@ -91,7 +92,7 @@ export function Users() {
           const planName = (res as any).user?.plan?.name;
           const cycleText = (res as any).user?.plan?.cycleText;
           const cycleTextInfo =
-            planName && cycleText ? `${planName}（${cycleText}）` : "暂无";
+            planName && cycleText ? `${planName}（${cycleText}）` : "免费计划";
           setCycleText(cycleTextInfo);
 
           const expireTextInfo = (res as any).user?.plan?.expire
@@ -158,7 +159,7 @@ export function Users() {
         const planName = (res as any).user?.plan?.name;
         const cycleText = (res as any).user?.plan?.cycleText;
         const cycleTextInfo =
-          planName && cycleText ? `${planName}（${cycleText}）` : "未开通";
+          planName && cycleText ? `${planName}（${cycleText}）` : "免费计划";
         setCycleText(cycleTextInfo);
 
         const expireTextInfo = (res as any).user?.plan?.expire
@@ -255,29 +256,27 @@ export function Users() {
           </ListItem>
         </List>
 
-        {/*      <List>
-          <ListItem title={"当前计划"} subTitle={expireText}>
-            <div className={styles.font12}>{cycleText}</div>
-          </ListItem>
-
-          <ListItem title={"计划查询"} subTitle={subTitleInfo}>
-            <div className={styles.font12}>
-              <IconButton
-                icon={<ResetIcon></ResetIcon>}
-                text={"重新检查"}
-                onClick={handleCheck}
-              />
-            </div>
-          </ListItem>
-          <ListItem title={"所有计划"} subTitle={""}>
-            <div className={styles.font12}>
-              <IconButton
-                text={"前往捐赠"}
-                onClick={() => navigate(Path.Plan)}
-              />
-            </div>
-          </ListItem>
-        </List>*/}
+        {USER.username === "test" ? (
+          <List>
+            <ListItem title={"计划查询"} subTitle={subTitleInfo}>
+              <div className={styles.font12}>
+                <IconButton
+                  icon={<ResetIcon></ResetIcon>}
+                  text={"重新检查"}
+                  onClick={handleCheck}
+                />
+              </div>
+            </ListItem>
+            <ListItem title={"所有计划"} subTitle={""}>
+              <div className={styles.font12}>
+                <IconButton
+                  text={"前往捐赠"}
+                  onClick={() => navigate(Path.Plan)}
+                />
+              </div>
+            </ListItem>
+          </List>
+        ) : null}
 
         <List>
           <ListItem title={"邀请码"}>
