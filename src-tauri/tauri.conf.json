@@ -8,8 +8,8 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "ChatGPT Next Web",
-    "version": "2.8.9"
+    "productName": "TryChat",
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -49,7 +49,7 @@
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "2023, Zhang Yifei All Rights Reserved.",
+      "copyright": "2023, TryChat All Rights Reserved.",
       "deb": {
         "depends": []
       },
@@ -61,7 +61,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.yida.chatgpt.next.web",
+      "identifier": "com.try.chatgpt",
       "longDescription": "ChatGPT Next Web is a cross-platform ChatGPT client, including Web/Win/Linux/OSX/PWA.",
       "macOS": {
         "entitlements": null,
@@ -71,7 +71,7 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "ChatGPT Next Web App",
+      "shortDescription": "TryChat App",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,
@@ -96,10 +96,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 750,
         "resizable": true,
-        "title": "ChatGPT Next Web",
-        "width": 960,
+        "title": "TryChat",
+        "width": 1200,
         "hiddenTitle": true,
         "titleBarStyle": "Overlay"
       }
