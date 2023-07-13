@@ -121,7 +121,7 @@ export const useAppConfig = create<ChatConfigStore>()(
         const modelMap: Record<string, LLMModel> = {};
 
         for (const model of oldModels) {
-          model.available = true;
+          model.available = false;
           modelMap[model.name] = model;
         }
 
@@ -163,7 +163,6 @@ export const useAppConfig = create<ChatConfigStore>()(
         }
 
         if (version < 3.5) {
-          // state.customModels = "claude,claude-100k";
           state.customModels = "";
         }
 

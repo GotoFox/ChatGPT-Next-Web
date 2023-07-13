@@ -75,18 +75,18 @@ export const DEFAULT_MODELS = [
     name: "gpt-4",
     available: true,
   },
-  {
-    name: "gpt-4-0314",
-    available: true,
-  },
+  // {
+  //   name: "gpt-4-0314",
+  //   available: true,
+  // },
   {
     name: "gpt-4-0613",
     available: true,
   },
-  // {
-  //   name: "gpt-4-32k",
-  //   available: true,
-  // },
+  {
+    name: "gpt-4-32k",
+    available: true,
+  },
   // {
   //   name: "gpt-4-32k-0314",
   //   available: true,
@@ -135,4 +135,20 @@ export const DEFAULT_MODELS = [
   //   name: "chatglm", // chatglm-6b
   //   available: false,
   // },
+  {
+    name: "Sage",
+    available: true,
+  },
+  {
+    name: "claude",
+    available: true,
+  },
+  {
+    name: "claude-100k",
+    available: true,
+  },
+  {
+    name: "Google-PaLM",
+    available: true,
+  },
 ] as const;
