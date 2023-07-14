@@ -2,6 +2,7 @@ import { getClientConfig } from "../config/client";
 import { ACCESS_CODE_PREFIX } from "../constant";
 import { ChatMessage, ModelType, useAccessStore, useChatStore } from "../store";
 import { ChatGPTApi } from "./platforms/openai";
+import * as CryptoJS from "crypto-js";
 
 export const ROLES = ["system", "user", "assistant"] as const;
 export type MessageRole = (typeof ROLES)[number];
@@ -121,10 +122,19 @@ export class ClientApi {
 
 export const api = new ClientApi();
 
+export function generateAuth() {
+  const key = "TryChat-2023-C1-07-14-A";
+  const timestamp = Date.now().toString();
+  const plaintext = key + timestamp;
+
+  return CryptoJS.AES.encrypt(plaintext, key).toString();
+}
+
 export function getHeaders() {
   const accessStore = useAccessStore.getState();
   let headers: Record<string, string> = {
     "Content-Type": "application/json",
+    "user-agent-auth": generateAuth(),
     "x-requested-with": "XMLHttpRequest",
     "x-access-token": localStorage.getItem("access_token") || "",
     "x-model-type": useChatStore.getState().currentSession().mask.modelConfig

@@ -40,6 +40,7 @@ export async function requestOpenai(req: NextRequest) {
   const fetchOptions: RequestInit = {
     headers: {
       "Content-Type": "application/json",
+      "user-agent-auth": req.headers.get("user-agent-auth") || "",
       "x-access-token": req.headers.get("x-access-token") || "",
       Authorization: authValue,
       ...(process.env.OPENAI_ORG_ID && {
