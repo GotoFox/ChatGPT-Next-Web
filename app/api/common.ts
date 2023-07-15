@@ -42,12 +42,12 @@ export async function requestOpenai(req: NextRequest) {
       "Content-Type": "application/json",
       "user-agent-auth": req.headers.get("user-agent-auth") || "",
       "x-access-token": req.headers.get("x-access-token") || "",
+      "Cache-Control": "no-store",
       Authorization: authValue,
       ...(process.env.OPENAI_ORG_ID && {
         "OpenAI-Organization": process.env.OPENAI_ORG_ID,
       }),
     },
-    cache: "no-store",
     method: req.method,
     body: req.body,
     // @ts-ignore
