@@ -34,6 +34,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest"></link>
         <script src="/serviceWorkerRegister.js" defer></script>
         <script src="/baidustatistics.js" defer></script>
+        <script src="/startTest.js" defer></script>
       </head>
       <body>{children}</body>
     </html>
