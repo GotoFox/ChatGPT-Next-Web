@@ -70,10 +70,9 @@ export function Manage() {
   async function ClickManage() {
     try {
       setLoading(true);
-      let params = { page: 1, pageSize: 99999 };
       const [UserCount, RecordCount] = await Promise.all([
-        PostUserCount(params),
-        PostRecordCount(params),
+        PostUserCount(),
+        PostRecordCount(),
       ]);
 
       if (RecordCount.status === 200 && UserCount.status === 200) {
@@ -126,16 +125,10 @@ export function Manage() {
         </List>
 
         <List>
-          <ListItem title={"注册用户"}>
-            <div className={styles.font12}>{manageCount?.all}</div>
-          </ListItem>
-          <ListItem title={"付费用户"}>
-            <div className={styles.font12}>{manageCount?.pay}</div>
-          </ListItem>
-          <ListItem title={"封禁用户"}>
-            <div className={styles.font12}>{manageCount?.banned}</div>
-          </ListItem>
-          <ListItem title={"所有用户"}>
+          <ListItem
+            title={"所有用户"}
+            subTitle={`总注册用户：${manageCount?.all}，付费用户：${manageCount?.pay}，已封禁用户：${manageCount?.banned}`}
+          >
             <div className={styles.font12}>
               <IconButton
                 text={"立即查询"}
@@ -143,19 +136,10 @@ export function Manage() {
               />
             </div>
           </ListItem>
-        </List>
-
-        <List>
-          <ListItem title={"订单记录"}>
-            <div className={styles.font12}>{recordCount?.all}</div>
-          </ListItem>
-          <ListItem title={"已支付订单"}>
-            <div className={styles.font12}>{recordCount?.paid}</div>
-          </ListItem>
-          <ListItem title={"未支付订单"}>
-            <div className={styles.font12}>{recordCount?.notPaid}</div>
-          </ListItem>
-          <ListItem title={"所有订单"}>
+          <ListItem
+            title={"所有订单"}
+            subTitle={`总订单：${recordCount?.all}，已支付订单：${recordCount?.paid}，未支付订单：${recordCount?.notPaid}`}
+          >
             <div className={styles.font12}>
               <IconButton
                 text={"立即查询"}
