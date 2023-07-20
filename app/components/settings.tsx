@@ -619,7 +619,7 @@ export function Settings() {
           </ListItem>
         </List>
 
-        <List>
+        {/*<List>
           {showAccessCode ? (
             <ListItem
               title={Locale.Settings.AccessCode.Title}
@@ -696,7 +696,7 @@ export function Settings() {
             </ListItem>
           ) : null}
 
-          {/*<ListItem
+          <ListItem
             title={Locale.Settings.CustomModel.Title}
             subTitle={Locale.Settings.CustomModel.SubTitle}
           >
@@ -712,8 +712,8 @@ export function Settings() {
                 )
               }
             ></input>
-          </ListItem>*/}
-        </List>
+          </ListItem>
+        </List>*/}
 
         <SyncItems />
 

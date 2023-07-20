@@ -102,25 +102,6 @@ export class ChatGPTApi implements LLMApi {
 
         controller.signal.onabort = finish;
 
-        // TryChat
-        // const access_user = localStorage.getItem("access_user");
-        // const access_token = localStorage.getItem("access_token") || "";
-        // const parsed_access_user = access_user ? JSON.parse(access_user) : null;
-        // if (parsed_access_user?.role !== "manage") {
-        //   try {
-        //     let res = await PostUserLimit();
-        //     if (res.status !== 200) {
-        //       return finish();
-        //     }
-        //   } catch (error) {
-        //     const errorMessage =
-        //       (error as any).response?.data?.msg ??
-        //       Locale.authModel.Toast.error;
-        //     options.onUpdate?.(errorMessage, "");
-        //     return finish();
-        //   }
-        // }
-
         fetchEventSource(chatPath, {
           ...chatPayload,
           async onopen(res) {

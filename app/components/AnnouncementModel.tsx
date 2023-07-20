@@ -5,6 +5,7 @@ import styles from "./AnnouncementModel.module.scss";
 import DeleteIcon from "@/app/icons/delete.svg";
 import { PostLatestNews } from "@/app/http/plan";
 import LoadingIcon from "@/app/icons/three-dots.svg";
+import { api } from "../client/api";
 
 export function AnnouncementModel(props: {
   showAnnouncemnentModal: boolean;
@@ -12,27 +13,20 @@ export function AnnouncementModel(props: {
 }) {
   const [latestNews, setLatestNews] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isFirstVisit, setIsFirstVisit] = useState(true);
 
-  // Check whether the user has visited before
+  // 检查用户是否首次访问或是否该再次显示弹窗
   useEffect(() => {
-    const storedVisitInfo = localStorage.getItem("visitInfo");
-    const visitInfo = storedVisitInfo ? JSON.parse(storedVisitInfo) : null;
+    const visitInfoJSON = localStorage.getItem("visitInfo");
+    const visitInfo = visitInfoJSON ? JSON.parse(visitInfoJSON) : null;
+    const now = new Date().getTime();
 
-    if (visitInfo) {
-      if (visitInfo.visitDate <= new Date().getTime()) {
-        localStorage.removeItem("visitInfo");
-        setIsFirstVisit(true);
-      } else {
-        setIsFirstVisit(false);
-      }
-    } else {
-      setIsFirstVisit(true);
+    if (!visitInfo || now >= visitInfo.visitDate) {
+      props.setShowAnnouncemnentModal(true);
     }
   }, []);
 
   useEffect(() => {
-    if (props.showAnnouncemnentModal || isFirstVisit) {
+    if (props.showAnnouncemnentModal) {
       (async () => {
         await doLatestNews();
       })();
@@ -43,7 +37,7 @@ export function AnnouncementModel(props: {
   async function doLatestNews() {
     setLoading(true);
     try {
-      let res = await PostLatestNews();
+      let res = await api.PostLatestNews();
       if (res.status === 200) {
         setLatestNews(res.data[0]?.content ?? "");
         setLoading(false);
@@ -61,16 +55,14 @@ export function AnnouncementModel(props: {
 
   return (
     <div>
-      {(props.showAnnouncemnentModal || isFirstVisit) && (
+      {props.showAnnouncemnentModal && (
         <div className="modal-mask">
           <Modal
             title={"最新消息"}
             onClose={() => {
               props.setShowAnnouncemnentModal(false);
-              setIsFirstVisit(false);
               const visitInfo = {
-                notFirstVisit: true,
-                visitDate: new Date().getTime() + 7 * 24 * 60 * 60 * 1000, // 7 days later
+                visitDate: new Date().getTime() + 7 * 24 * 60 * 60 * 1000, // test phase: 10 seconds
               };
               localStorage.setItem("visitInfo", JSON.stringify(visitInfo));
             }}
@@ -82,10 +74,8 @@ export function AnnouncementModel(props: {
                 icon={<DeleteIcon />}
                 onClick={() => {
                   props.setShowAnnouncemnentModal(false);
-                  setIsFirstVisit(false);
                   const visitInfo = {
-                    notFirstVisit: true,
-                    visitDate: new Date().getTime() + 7 * 24 * 60 * 60 * 1000, // 7 days later
+                    visitDate: new Date().getTime() + 7 * 24 * 60 * 60 * 1000,
                   };
                   localStorage.setItem("visitInfo", JSON.stringify(visitInfo));
                 }}

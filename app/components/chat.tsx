@@ -637,8 +637,7 @@ export function Chat() {
     const loginTime = JSON.parse(localStorage.getItem("access_user") as string);
     if (loginTime) {
       const loginTimestamp = new Date(loginTime.login_time).getTime();
-      const twelveHoursLater = loginTimestamp + 168 * 60 * 60 * 1000; // 12个小时
-      // const twelveHoursLater = loginTimestamp + 30 * 1000;
+      const twelveHoursLater = loginTimestamp + 12 * 60 * 60 * 1000; // 12个小时
       const currentTime = new Date().getTime();
       if (currentTime > twelveHoursLater) {
         const isUser = location.pathname === Path.User;

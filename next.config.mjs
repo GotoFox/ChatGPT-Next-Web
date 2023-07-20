@@ -61,6 +61,7 @@ if (mode !== "export") {
   };
 
   nextConfig.rewrites = async () => {
+    const BestUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
     const ret = [
       {
         source: "/api/proxy/:path*",
@@ -69,6 +70,42 @@ if (mode !== "export") {
       {
         source: "/sharegpt",
         destination: "https://sharegpt.com/api/conversations",
+      },
+      {
+        source: "/api/latestNews",
+        destination: `${BestUrl}/api/announcement`,
+      },
+      {
+        source: "/api/login",
+        destination: `${BestUrl}/api/login`,
+      },
+      {
+        source: "/api/user",
+        destination: `${BestUrl}/api/user`,
+      },
+      {
+        source: "/api/register",
+        destination: `${BestUrl}/api/register`,
+      },
+      {
+        source: "/api/changePassword",
+        destination: `${BestUrl}/api/changePassword`,
+      },
+      {
+        source: "/api/invitationRecords",
+        destination: `${BestUrl}/api/invitationRecords`,
+      },
+      {
+        source: "/api/sendCode",
+        destination: `${BestUrl}/api/sendCode`,
+      },
+      {
+        source: "/api/sendResetPasswordCode",
+        destination: `${BestUrl}/api/sendResetPasswordCode`,
+      },
+      {
+        source: "/api/forgotPassword",
+        destination: `${BestUrl}/api/forgotPassword`,
       },
     ];
 

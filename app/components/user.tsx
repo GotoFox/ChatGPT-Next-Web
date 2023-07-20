@@ -32,6 +32,7 @@ import {
 
 import { IconButton } from "./button";
 import { useUpdateStore, useAppConfig } from "../store";
+import { api } from "../client/api";
 
 import Locale from "../locales";
 import { copyToClipboard } from "../utils";
@@ -74,7 +75,7 @@ export function Users() {
     setLoading(true); // 开始请求时设置 loading 为 true
     if (user) {
       try {
-        const res = await PostUser();
+        const res = await api.PostUser();
         if (res.status === 200) {
           setLoading(false); // 成功返回时设置 loading 为 false
           setUSER((res as any).user);
@@ -143,7 +144,7 @@ export function Users() {
     setExpireText("正在检查...");
     setSubTitleInfo("正在检查...");
     try {
-      const res = await PostUser();
+      const res = await api.PostUser();
       if (res.status === 200) {
         let limit = (res as any)?.user?.current_limit;
         let maxLimit = (res as any)?.user?.max_limit;
@@ -361,7 +362,7 @@ function EditPasswordModal(props: { onClose?: () => void }) {
                   oldPassword: oldPassword,
                   newPassword: newPassword,
                 };
-                let res = await PostChangePassword(params);
+                let res = await api.PostChangePassword(params);
                 if (res.status === 200) {
                   showToast(res && (res as any).msg);
                   props.onClose?.();
@@ -452,7 +453,7 @@ function InvitationRecordsModal(props: { onClose?: () => void }) {
       const { username, invite_code } = user;
       const params = { username, invite_code };
 
-      let res = await PostInvitationRecords(params);
+      let res = await api.PostInvitationRecords(params);
       if (res.status === 200) {
         setInvitationRecordsData(res.data);
         setLoading(false);

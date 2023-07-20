@@ -16,6 +16,7 @@ import {
   PostSendResetPasswordCode,
   PostUser,
 } from "@/app/http/user";
+import { api } from "../client/api";
 import { useNavigate } from "react-router-dom";
 import Locale from "../locales";
 
@@ -90,7 +91,7 @@ export function AuthModel(props: {
         [username.includes("@") ? "email" : "username"]: username,
         password,
       };
-      let res = await PostLogin(params);
+      let res = await api.PostLogin(params);
       if (res.status === 200) {
         showToast(res && (res as any).msg);
         localStorage.setItem("access_token", res && (res as any).token);
@@ -171,7 +172,7 @@ export function AuthModel(props: {
 
     try {
       setLoading(true);
-      let res = await PostRegister(user);
+      let res = await api.PostRegister(user);
       if (res.status === 200) {
         showToast(res && (res as any).msg);
         setIsForgotPassword(false);
@@ -209,7 +210,7 @@ export function AuthModel(props: {
 
     try {
       setLoading(true);
-      let res = await PostForgotPassword(user);
+      let res = await api.PostForgotPassword(user);
       if (res.status === 200) {
         showToast(res && (res as any).msg);
         setIsForgotPassword(false);
@@ -245,14 +246,15 @@ export function AuthModel(props: {
       let params = { email: user.email };
       let res: any = {};
       if (isRegistering) {
-        res = await PostSendCode(params);
+        res = await api.PostSendCode(params);
       }
       if (isForgotPassword) {
-        res = await PostSendResetPasswordCode({
+        res = await api.PostSendResetPasswordCode({
           email: user.email,
           code: user.code,
         });
       }
+      console.log(res, 257);
       if (res.status === 200) {
         setCountdown(90);
         setDisabled(true);
@@ -282,7 +284,6 @@ export function AuthModel(props: {
       timer = setTimeout(() => {
         setCountdown(countdown - 1);
       }, 1000);
-      console.log(countdown, "190");
     } else {
       handleCountdownEnd();
     }
