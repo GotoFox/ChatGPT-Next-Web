@@ -59,8 +59,9 @@ export function Users() {
   const [loading, setLoading] = useState(true); // 添加 loading 状态
   const [loadingUsage, setLoadingUsage] = useState(false);
   const [showEditPasswordModal, setShowEditPasswordModal] = useState(false);
-  const [showInvitationRecordsModal, setShowInvitationRecordsModal] =
-    useState(false);
+  const [showInvitationRecordsModal, setShowInvitationRecordsModal] = useState(
+    false,
+  );
   const [subTitleInfo, setSubTitleInfo] = useState("");
   const [cycleText, setCycleText] = useState("");
   const [expireText, setExpireText] = useState("");
@@ -101,6 +102,7 @@ export function Users() {
             : "";
           setExpireText(expireTextInfo);
         } else {
+          showToast(res && (res as any).msg);
           handleNavigationError();
         }
       } catch (error) {
