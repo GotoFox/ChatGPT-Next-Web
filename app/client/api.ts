@@ -14,7 +14,7 @@ import {
 } from "@/app/http/user";
 
 export const ROLES = ["system", "user", "assistant"] as const;
-export type MessageRole = (typeof ROLES)[number];
+export type MessageRole = typeof ROLES[number];
 
 export const Models = ["gpt-3.5-turbo", "gpt-4"] as const;
 export type ChatModel = ModelType;
@@ -244,6 +244,16 @@ export class ClientApi {
       method: "POST",
     });
 
+    return response.json();
+  }
+  async GetCaptcha() {
+    const proxyUrl = "/api/captcha";
+    const response = await fetch(proxyUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    });
     return response.json();
   }
 }

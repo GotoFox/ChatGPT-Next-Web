@@ -35,6 +35,7 @@ export function AuthModel(props: {
     email: "",
     inviteCode: "",
     code: "",
+    captcha: "",
   });
   const [loading, setLoading] = useState(false);
   const accountUser = JSON.parse(
@@ -42,6 +43,7 @@ export function AuthModel(props: {
   );
   const [countdown, setCountdown] = useState(0); // 倒计时时间
   const [disabled, setDisabled] = useState(false); // 按钮是否可点击
+  const [captchaData, setCaptchaData] = useState("");
 
   useEffect(() => {
     setIsLogin(true);
@@ -53,7 +55,11 @@ export function AuthModel(props: {
       email: "",
       inviteCode: "",
       code: "",
+      captcha: "",
     });
+    if (props.showModal) {
+      GetGetCaptcha();
+    }
   }, [props.showModal]);
 
   useEffect(() => {
@@ -63,6 +69,7 @@ export function AuthModel(props: {
       email: "",
       inviteCode: "",
       code: "",
+      captcha: "",
     });
 
     if (isLogin) {
@@ -73,23 +80,50 @@ export function AuthModel(props: {
           email: "",
           inviteCode: "",
           code: "",
+          captcha: accountUser.captcha,
         });
         setCheckbox(true);
       }
     }
   }, [props.showModal]);
 
+  async function GetGetCaptcha() {
+    try {
+      const res = await api.GetCaptcha();
+      if (res.status === 200) {
+        setCaptchaData(res.data);
+      } else {
+        showToast(res && (res as any).msg);
+      }
+    } catch (error) {
+      const errorMessage =
+        (error as any).response?.data?.msg ||
+        (error as any).response?.data ||
+        Locale.authModel.Toast.error;
+      showToast(errorMessage);
+    }
+  }
+
+  function handleCaptchaClick() {
+    GetGetCaptcha(); // 执行获取图形验证码的函数
+  }
+
   async function loginSubmit() {
     if (!user.username || !user.password) {
       showToast(Locale.authModel.Toast.upCannotBeEmpty);
       return;
     }
+    if (!user.captcha) {
+      showToast("验证码不能为空");
+      return;
+    }
     try {
       setLoading(true);
-      const { username, password } = user;
+      const { username, password, captcha } = user;
       const params = {
         [username.includes("@") ? "email" : "username"]: username,
         password,
+        captcha,
       };
       let res = await api.PostLogin(params);
       if (res.status === 200) {
@@ -390,6 +424,36 @@ export function AuthModel(props: {
                       <IconButton
                         bordered
                         onClick={() => setUserInput({ ...user, password: "" })}
+                        icon={<ClearIcon />}
+                      />
+                    </div>
+                    <div className={styles["auth-filter"]}>
+                      <div className={styles["auth-filter-title"]}>验证码</div>
+                      <input
+                        type="text"
+                        value={user.captcha}
+                        className={styles["auth-input-email"]}
+                        placeholder="请输入验证码"
+                        onChange={(e) =>
+                          setUserInput({
+                            ...user,
+                            captcha: e.target.value,
+                          })
+                        }
+                      />
+                      {captchaData ? (
+                        <div
+                          className={styles["captcha"]}
+                          onClick={handleCaptchaClick}
+                          dangerouslySetInnerHTML={{ __html: captchaData }}
+                        ></div>
+                      ) : (
+                        <div className={styles["noCaptcha"]}></div>
+                      )}
+
+                      <IconButton
+                        bordered
+                        onClick={() => setUserInput({ ...user, captcha: "" })}
                         icon={<ClearIcon />}
                       />
                     </div>

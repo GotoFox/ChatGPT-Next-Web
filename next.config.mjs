@@ -107,6 +107,10 @@ if (mode !== "export") {
         source: "/api/forgotPassword",
         destination: `${BestUrl}/api/forgotPassword`,
       },
+      {
+        source: "/api/captcha",
+        destination: `${BestUrl}/api/captcha`,
+      },
     ];
 
     const apiUrl = process.env.API_URL;
