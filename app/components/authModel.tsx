@@ -471,6 +471,7 @@ export function AuthModel(props: {
                               email: "",
                               inviteCode: "",
                               code: "",
+                              captcha: "",
                             });
                           }}
                         >
@@ -505,6 +506,7 @@ export function AuthModel(props: {
                                 email: "",
                                 inviteCode: "",
                                 code: "",
+                                captcha: "",
                               });
                             }}
                           >
@@ -649,6 +651,7 @@ export function AuthModel(props: {
                               email: "",
                               inviteCode: "",
                               code: "",
+                              captcha: "",
                             });
                             if (isChecked) {
                               if (accountUser) {
@@ -658,6 +661,7 @@ export function AuthModel(props: {
                                   email: "",
                                   inviteCode: "",
                                   code: "",
+                                  captcha: "",
                                 });
                               }
                             }
@@ -747,6 +751,7 @@ export function AuthModel(props: {
                               email: "",
                               inviteCode: "",
                               code: "",
+                              captcha: "",
                             });
                             if (isChecked) {
                               if (accountUser) {
@@ -756,6 +761,7 @@ export function AuthModel(props: {
                                   email: "",
                                   inviteCode: "",
                                   code: "",
+                                  captcha: "",
                                 });
                               }
                             }
