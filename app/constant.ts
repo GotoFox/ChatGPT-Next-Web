@@ -141,11 +141,15 @@ export const DEFAULT_MODELS = [
     available: true,
   },
   {
-    name: "claude",
+    name: "claude-instant",
     available: true,
   },
   {
-    name: "claude-100k",
+    name: "claude-2-100k",
+    available: true,
+  },
+  {
+    name: "claude-instant-100k",
     available: true,
   },
   {
