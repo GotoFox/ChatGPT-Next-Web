@@ -49,6 +49,12 @@ import { Avatar, AvatarPicker } from "./emoji";
 import { getClientConfig } from "../config/client";
 import { useSyncStore } from "../store/sync";
 import { nanoid } from "nanoid";
+import {
+  Endpoint,
+  useEndpoints,
+  SearchEndpointsService,
+} from "@/app/store/endpoints";
+import { log } from "util";
 
 function EditPromptModal(props: { id: string; onClose: () => void }) {
   const promptStore = usePromptStore();
@@ -201,6 +207,254 @@ function UserPromptModal(props: { onClose?: () => void }) {
       )}
     </div>
   );
+}
+
+// API端点
+function ApiEndpoints(props: { onClose?: () => void }) {
+  const accessStore = useAccessStore();
+  const promptStore = useEndpoints();
+  const userPrompts = promptStore.getUserPrompts();
+  const builtinPrompts = SearchEndpointsService.builtinPrompts;
+  const allPrompts = userPrompts.concat(builtinPrompts);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchPrompts, setSearchPrompts] = useState<Endpoint[]>([]);
+  const prompts = searchInput.length > 0 ? searchPrompts : allPrompts;
+
+  const [editingPromptId, setEditingPromptId] = useState<string>();
+  const [checkedPrompts, setCheckedPrompts] = useState<string[]>([]); // New state for storing checked prompts
+
+  useEffect(() => {
+    if (searchInput.length > 0) {
+      const searchResult = SearchEndpointsService.search(searchInput);
+      setSearchPrompts(searchResult);
+    } else {
+      setSearchPrompts([]);
+    }
+  }, [searchInput]);
+
+  const handleCheckboxChange = (data: any) => {
+    const updatedPrompts = prompts.map((prompt) => {
+      if (prompt.id === data.id) {
+        return {
+          ...prompt,
+          checked: !prompt.checked,
+        };
+      } else {
+        return {
+          ...prompt,
+          checked: false,
+        };
+      }
+    });
+
+    const checkedIds = updatedPrompts
+      .filter((prompt) => prompt.checked)
+      .map((prompt) => prompt.id);
+
+    updatedPrompts.forEach((updatedPrompt) => {
+      promptStore.update(updatedPrompt.id, (prompt) => {
+        prompt.checked = updatedPrompt.checked;
+        return prompt;
+      });
+    });
+    setCheckedPrompts(checkedIds);
+    setSearchPrompts(updatedPrompts);
+
+    prompts.map((item) => {
+      if (item.checked) {
+        accessStore.updateOpenAiUrl(item.url);
+        accessStore.updateToken(item.content);
+      } else {
+        accessStore.updateOpenAiUrl("/api/openai/");
+        accessStore.updateToken("");
+      }
+    });
+  };
+
+  const handleRemove = (data: any) => {
+    if (data.checked) {
+      accessStore.updateOpenAiUrl("/api/openai/");
+      accessStore.updateToken("");
+    }
+    promptStore.remove(data.id!);
+  };
+
+  return (
+    <div className="modal-mask">
+      <Modal
+        title={"API端点列表"}
+        onClose={() => props.onClose?.()}
+        actions={[
+          <IconButton
+            key="add"
+            onClick={() =>
+              promptStore.add({
+                id: nanoid(),
+                createdAt: Date.now(),
+                title: "官网直连",
+                url: "https://api.openai.com/",
+                checked: false,
+                content: "",
+              })
+            }
+            icon={<AddIcon />}
+            bordered
+            text={Locale.Settings.Prompt.Modal.Add}
+          />,
+        ]}
+      >
+        <div className={styles["user-prompt-modal"]}>
+          <input
+            type="text"
+            className={styles["user-prompt-search"]}
+            placeholder={"请输入端点标题"}
+            value={searchInput}
+            onInput={(e) => setSearchInput(e.currentTarget.value)}
+          ></input>
+
+          <div className={styles["user-prompt-list"]}>
+            {prompts.map((v, _) => (
+              <div className={styles["user-prompt-item"]} key={v.id ?? v.title}>
+                <div className={styles["user-prompt-header"]}>
+                  <div className={styles["user-prompt-title"]}>{v.title}</div>
+                  <div className={styles["user-prompt-content"] + " one-line"}>
+                    {v.url}
+                  </div>
+                </div>
+
+                <div className={styles["user-prompt-buttons"]}>
+                  {v.isUser && (
+                    <IconButton
+                      icon={<ClearIcon />}
+                      className={styles["user-prompt-button"]}
+                      onClick={() => handleRemove(v)}
+                    />
+                  )}
+                  {v.isUser ? (
+                    <IconButton
+                      icon={<EditIcon />}
+                      className={styles["user-prompt-button"]}
+                      onClick={() => {
+                        setEditingPromptId(v.id);
+                      }}
+                    />
+                  ) : (
+                    <IconButton
+                      icon={<EyeIcon />}
+                      className={styles["user-prompt-button"]}
+                      onClick={() => setEditingPromptId(v.id)}
+                    />
+                  )}
+
+                  {v.isUser ? (
+                    <input
+                      type="checkbox"
+                      checked={v.checked}
+                      onChange={() => handleCheckboxChange(v)}
+                    ></input>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Modal>
+
+      {editingPromptId !== undefined && (
+        <EditApiEndpointsModal
+          id={editingPromptId!}
+          onClose={() => setEditingPromptId(undefined)}
+        />
+      )}
+    </div>
+  );
+}
+
+function EditApiEndpointsModal(props: { id: string; onClose: () => void }) {
+  const accessStore = useAccessStore();
+  const promptStore = useEndpoints();
+  const userPrompts = promptStore.getUserPrompts();
+  const builtinPrompts = SearchEndpointsService.builtinPrompts;
+  const allPrompts = userPrompts.concat(builtinPrompts);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchPrompts, setSearchPrompts] = useState<Endpoint[]>([]);
+  const prompts = searchInput.length > 0 ? searchPrompts : allPrompts;
+
+  const prompt = promptStore.get(props.id);
+
+  const handleChange = (data: any) => {
+    promptStore.update(props.id, (prompt) => prompt.title);
+    promptStore.update(props.id, (prompt) => prompt.url);
+    promptStore.update(props.id, (prompt) => prompt.content);
+    if (prompt?.checked) {
+      accessStore.updateOpenAiUrl(prompt?.url);
+      accessStore.updateToken(prompt?.content);
+    }
+    props.onClose();
+  };
+
+  return prompt ? (
+    <div className="modal-mask">
+      <Modal
+        title={"编辑API端点"}
+        onClose={props.onClose}
+        actions={[
+          <IconButton
+            key=""
+            onClick={() => {
+              handleChange(props);
+            }}
+            text={Locale.UI.Confirm}
+            bordered
+          />,
+        ]}
+      >
+        <div className={styles["edit-prompt-modal"]}>
+          <input
+            type="text"
+            value={prompt.title}
+            placeholder={"标题"}
+            readOnly={!prompt.isUser}
+            className={styles["edit-prompt-title"]}
+            onInput={(e) =>
+              promptStore.update(
+                props.id,
+                (prompt) => (prompt.title = e.currentTarget.value),
+              )
+            }
+          ></input>
+          <input
+            type="text"
+            value={prompt.url}
+            placeholder={"url"}
+            readOnly={!prompt.isUser}
+            className={styles["edit-prompt-title"]}
+            onInput={(e) =>
+              promptStore.update(
+                props.id,
+                (prompt) => (prompt.url = e.currentTarget.value),
+              )
+            }
+          ></input>
+          <Input
+            value={prompt.content}
+            placeholder={"密钥"}
+            readOnly={!prompt.isUser}
+            className={styles["edit-prompt-content"]}
+            rows={5}
+            onInput={(e) =>
+              promptStore.update(
+                props.id,
+                (prompt) => (prompt.content = e.currentTarget.value),
+              )
+            }
+          ></Input>
+        </div>
+      </Modal>
+    </div>
+  ) : null;
 }
 
 function DangerItems() {
@@ -365,6 +619,11 @@ export function Settings() {
   const builtinCount = SearchService.count.builtin;
   const customCount = promptStore.getUserPrompts().length ?? 0;
   const [shouldShowPromptModal, setShowPromptModal] = useState(false);
+  const [shouldApiEndpointsModal, setShoApiEndpointsModal] = useState(false);
+  const endpointStore = useEndpoints();
+  const userEndpointStore = endpointStore.getUserPrompts();
+  const builtinPrompts = SearchEndpointsService.builtinPrompts;
+  const allEndpointStores = userEndpointStore.concat(builtinPrompts);
 
   const showUsage = accessStore.isAuthorized();
   useEffect(() => {
@@ -619,7 +878,7 @@ export function Settings() {
           </ListItem>
         </List>
 
-        {/*<List>
+        <List>
           {showAccessCode ? (
             <ListItem
               title={Locale.Settings.AccessCode.Title}
@@ -638,7 +897,7 @@ export function Settings() {
             <></>
           )}
 
-          {!accessStore.hideUserApiKey ? (
+          {/*    {!accessStore.hideUserApiKey ? (
             <>
               <ListItem
                 title={Locale.Settings.Endpoint.Title}
@@ -667,9 +926,9 @@ export function Settings() {
                 />
               </ListItem>
             </>
-          ) : null}
+          ) : null}*/}
 
-          {!accessStore.hideBalanceQuery ? (
+          {/*{!accessStore.hideBalanceQuery ? (
             <ListItem
               title={Locale.Settings.Usage.Title}
               subTitle={
@@ -694,7 +953,32 @@ export function Settings() {
                 />
               )}
             </ListItem>
-          ) : null}
+          ) : null}*/}
+
+          <ListItem
+            title={"自定义API端点"}
+            subTitle={"使用自定义的API端点接入"}
+          >
+            <IconButton
+              icon={<EditIcon />}
+              text={Locale.Settings.Prompt.Edit}
+              onClick={() => setShoApiEndpointsModal(true)}
+            />
+          </ListItem>
+
+          <ListItem
+            title={"当前端点"}
+            subTitle={
+              allEndpointStores.length === 0 ||
+              allEndpointStores.every((item) => !item.checked)
+                ? "未启用定义API端点，当前启用：本站内置"
+                : allEndpointStores.some((item) => item.checked)
+                ? `已启用定义API端点，当前启用：${
+                    allEndpointStores.find((item) => item.checked)?.title
+                  }，${allEndpointStores.find((item) => item.checked)?.url}`
+                : "未启用定义API端点，当前启用：本站内置"
+            }
+          ></ListItem>
 
           <ListItem
             title={Locale.Settings.CustomModel.Title}
@@ -706,14 +990,12 @@ export function Settings() {
               placeholder="model1,model2,model3"
               onChange={(e) =>
                 config.update(
-                  (config) =>
-                    (config.customModels =
-                      "Sage,claude,claude-100k,Google-PaLM"),
+                  (config) => (config.customModels = e.currentTarget.value),
                 )
               }
             ></input>
           </ListItem>
-        </List>*/}
+        </List>
 
         <SyncItems />
 
@@ -730,6 +1012,9 @@ export function Settings() {
 
         {shouldShowPromptModal && (
           <UserPromptModal onClose={() => setShowPromptModal(false)} />
+        )}
+        {shouldApiEndpointsModal && (
+          <ApiEndpoints onClose={() => setShoApiEndpointsModal(false)} />
         )}
 
         <DangerItems />

@@ -12,9 +12,10 @@ import {
   PostSendResetPasswordCode,
   PostUser,
 } from "@/app/http/user";
+import { useEndpoints } from "@/app/store/endpoints";
 
 export const ROLES = ["system", "user", "assistant"] as const;
-export type MessageRole = typeof ROLES[number];
+export type MessageRole = (typeof ROLES)[number];
 
 export const Models = ["gpt-3.5-turbo", "gpt-4"] as const;
 export type ChatModel = ModelType;
@@ -90,6 +91,7 @@ export class ClientApi {
   config() {}
 
   prompts() {}
+  endpoints() {}
 
   masks() {}
 

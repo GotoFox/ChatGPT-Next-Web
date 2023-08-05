@@ -32,6 +32,7 @@ export enum SlotID {
 export enum FileName {
   Masks = "masks.json",
   Prompts = "prompts.json",
+  Endpoints = "endpoints.json",
 }
 
 export enum StoreKey {
@@ -40,6 +41,7 @@ export enum StoreKey {
   Config = "app-config",
   Mask = "mask-store",
   Prompt = "prompt-store",
+  Endpoints = "endpoints-store",
   Update = "chat-update",
   Sync = "sync",
 }
