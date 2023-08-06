@@ -54,7 +54,6 @@ import {
   useEndpoints,
   SearchEndpointsService,
 } from "@/app/store/endpoints";
-import { log } from "util";
 
 function EditPromptModal(props: { id: string; onClose: () => void }) {
   const promptStore = usePromptStore();
@@ -260,15 +259,13 @@ function ApiEndpoints(props: { onClose?: () => void }) {
     setCheckedPrompts(checkedIds);
     setSearchPrompts(updatedPrompts);
 
-    prompts.map((item) => {
-      if (item.checked) {
-        accessStore.updateOpenAiUrl(item.url);
-        accessStore.updateToken(item.content);
-      } else {
-        accessStore.updateOpenAiUrl("/api/openai/");
-        accessStore.updateToken("");
-      }
-    });
+    if (data.checked) {
+      accessStore.updateOpenAiUrl(data.url);
+      accessStore.updateToken(data.content);
+    } else {
+      accessStore.updateOpenAiUrl("/api/openai/");
+      accessStore.updateToken("");
+    }
   };
 
   const handleRemove = (data: any) => {
@@ -897,7 +894,7 @@ export function Settings() {
             <></>
           )}
 
-          {/*    {!accessStore.hideUserApiKey ? (
+          {/*{!accessStore.hideUserApiKey ? (
             <>
               <ListItem
                 title={Locale.Settings.Endpoint.Title}
