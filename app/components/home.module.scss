@@ -39,7 +39,7 @@
 
 .sidebar {
   top: 0;
-  width: 380px;
+  width: var(--sidebar-width);
   box-sizing: border-box;
   padding: 20px;
   background-color: var(--second);

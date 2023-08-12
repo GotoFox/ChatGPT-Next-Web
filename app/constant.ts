@@ -138,26 +138,26 @@ export const DEFAULT_MODELS = [
   //   name: "chatglm", // chatglm-6b
   //   available: false,
   // },
-  {
-    name: "Sage",
-    available: true,
-  },
-  {
-    name: "claude-instant",
-    available: true,
-  },
-  {
-    name: "claude-2-100k",
-    available: true,
-  },
-  {
-    name: "claude-instant-100k",
-    available: true,
-  },
-  {
-    name: "Google-PaLM",
-    available: true,
-  },
+  // {
+  //   name: "Sage",
+  //   available: true,
+  // },
+  // {
+  //   name: "claude-instant",
+  //   available: true,
+  // },
+  // {
+  //   name: "claude-2-100k",
+  //   available: true,
+  // },
+  // {
+  //   name: "claude-instant-100k",
+  //   available: true,
+  // },
+  // {
+  //   name: "Google-PaLM",
+  //   available: true,
+  // },
 ] as const;
 
 export const CHAT_PAGE_SIZE = 15;

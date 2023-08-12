@@ -63,7 +63,7 @@ function useDragSideBar() {
 
   const config = useAppConfig();
   const startX = useRef(0);
-  const startDragWidth = useRef(config.sidebarWidth ?? 300);
+  const startDragWidth = useRef(config.sidebarWidth ?? 380);
   const lastUpdateTime = useRef(Date.now());
 
   const handleMouseMove = useRef((e: MouseEvent) => {
@@ -77,7 +77,7 @@ function useDragSideBar() {
   });
 
   const handleMouseUp = useRef(() => {
-    startDragWidth.current = config.sidebarWidth ?? 300;
+    startDragWidth.current = config.sidebarWidth ?? 380;
     window.removeEventListener("mousemove", handleMouseMove.current);
     window.removeEventListener("mouseup", handleMouseUp.current);
   });
@@ -89,23 +89,17 @@ function useDragSideBar() {
     window.addEventListener("mouseup", handleMouseUp.current);
   };
   const isMobileScreen = useMobileScreen();
-  console.log(isMobileScreen);
   const shouldNarrow =
     !isMobileScreen && config.sidebarWidth < MIN_SIDEBAR_WIDTH;
-  console.log(!isMobileScreen);
-  console.log(config.sidebarWidth);
-  console.log(MIN_SIDEBAR_WIDTH);
-  console.log(!isMobileScreen && config.sidebarWidth < MIN_SIDEBAR_WIDTH);
   // const shouldNarrow = false;
 
   useEffect(() => {
     const barWidth = shouldNarrow
       ? NARROW_SIDEBAR_WIDTH
-      : limit(config.sidebarWidth ?? 300);
+      : limit(config.sidebarWidth ?? 380);
     const sideBarWidth = isMobileScreen ? "100vw" : `${barWidth}px`;
     document.documentElement.style.setProperty("--sidebar-width", sideBarWidth);
   }, [config.sidebarWidth, isMobileScreen, shouldNarrow]);
-  console.log(shouldNarrow);
 
   return {
     onDragMouseDown,
