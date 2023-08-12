@@ -261,7 +261,7 @@ const cn = {
   Store: {
     DefaultTopic: "新的聊天",
     BotHello:
-      "## ⛔紧急通知\n 近期openai官方封号非常频繁，同时本站用户数量和请求量都在迅速激增，可能导致域名被污染，部分地区打不开等情况，为防止找不到我们请加入社群！\n\n TryChat官方交流QQ群：856858371 & 趣软铺资源交流群：626821981\n\n  ## ⭐特别说明\n 登录后支持不限次数免费使用GPT3.5、GPT-4系列模型！如果有帮助到你，可以适当对本站进行捐赠！\n\n   TryChat最新域名：[https://chat.ifasto.eu.org](/)    域名发布地址：[https://gpt.330.la](/)       \n\n  桌面客户端：[https://wwyw.lanzoum.com/ikVaQ0zb7b3i](/)",
+      "官方QQ群：856858371，域名发布页：[https://gpt.330.la](https://gpt.330.la)，建议收藏发布页，谨防失联。 \n\n近期域名污染严重，请加官方群聊以获取实时信息。 \n\n 你好，需要什么帮助吗？",
     Error: "出错了，稍后重试吧",
     Prompt: {
       History: (content: string) => "这是历史聊天总结作为前情提要：" + content,

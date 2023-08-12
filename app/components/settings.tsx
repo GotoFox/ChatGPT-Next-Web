@@ -953,6 +953,20 @@ export function Settings() {
           ) : null}*/}
 
           <ListItem
+            title={"当前端点"}
+            subTitle={
+              allEndpointStores.length === 0 ||
+              allEndpointStores.every((item) => !item.checked)
+                ? "未启用定义API端点，当前启用：官方"
+                : allEndpointStores.some((item) => item.checked)
+                ? `已启用定义API端点，当前启用：${
+                    allEndpointStores.find((item) => item.checked)?.title
+                  }，${allEndpointStores.find((item) => item.checked)?.url}`
+                : "未启用定义API端点，当前启用：官方"
+            }
+          ></ListItem>
+
+          <ListItem
             title={"自定义API端点"}
             subTitle={"使用自定义的API端点接入"}
           >
@@ -962,20 +976,6 @@ export function Settings() {
               onClick={() => setShoApiEndpointsModal(true)}
             />
           </ListItem>
-
-          <ListItem
-            title={"当前端点"}
-            subTitle={
-              allEndpointStores.length === 0 ||
-              allEndpointStores.every((item) => !item.checked)
-                ? "未启用定义API端点，当前启用：本站内置"
-                : allEndpointStores.some((item) => item.checked)
-                ? `已启用定义API端点，当前启用：${
-                    allEndpointStores.find((item) => item.checked)?.title
-                  }，${allEndpointStores.find((item) => item.checked)?.url}`
-                : "未启用定义API端点，当前启用：本站内置"
-            }
-          ></ListItem>
 
           <ListItem
             title={Locale.Settings.CustomModel.Title}

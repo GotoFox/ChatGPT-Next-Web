@@ -89,6 +89,7 @@ import { AuthModel } from "@/app/components/authModel";
 import { prettyObject } from "../utils/format";
 import { ExportMessageModal } from "./exporter";
 import { getClientConfig } from "../config/client";
+import { SideBar } from "@/app/components/sidebar";
 
 const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
   loading: () => <LoadingIcon />,
@@ -1295,5 +1296,11 @@ function _Chat() {
 export function Chat() {
   const chatStore = useChatStore();
   const sessionIndex = chatStore.currentSessionIndex;
-  return <_Chat key={sessionIndex}></_Chat>;
+  // return <_Chat key={sessionIndex}></_Chat>;
+  return (
+    <div className={styles["chatSidbar"]}>
+      <SideBar className={styles["sidebar-show"]} />
+      <_Chat key={sessionIndex}></_Chat>
+    </div>
+  );
 }

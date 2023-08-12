@@ -116,6 +116,7 @@ export function SideBar(props: { className?: string }) {
   const isUser = location.pathname === Path.User;
   const [showModal, setShowModal] = useState(false);
   const [showAnnouncemnentModal, setShowAnnouncemnentModal] = useState(false);
+  const isMobileScreen = useMobileScreen();
 
   const config = useAppConfig();
   const token = localStorage.getItem("access_token");
@@ -163,27 +164,28 @@ export function SideBar(props: { className?: string }) {
           TryChat
         </div>
         <div className={styles["sidebar-sub-title"]}>简单易用的智能AI助手</div>
-        <div className={styles["sidebar-logo"] + " no-dark"}>
-          <ChatGptIcon />
-        </div>
       </div>
 
-      <div className={styles["sidebar-header-bar"]}>
-        <IconButton
-          icon={<MaskIcon />}
-          text={shouldNarrow ? undefined : Locale.Mask.Name}
-          className={styles["sidebar-bar-button"]}
-          onClick={() => navigate(Path.NewChat, { state: { fromHome: true } })}
-          shadow
-        />
-        <IconButton
-          icon={<PluginIcon />}
-          text={shouldNarrow ? undefined : Locale.Plugin.Name}
-          className={styles["sidebar-bar-button"]}
-          onClick={() => showToast(Locale.WIP)}
-          shadow
-        />
-      </div>
+      {isMobileScreen && (
+        <div className={styles["sidebar-header-bar"]}>
+          <IconButton
+            icon={<MaskIcon />}
+            text={shouldNarrow ? undefined : Locale.Mask.Name}
+            className={styles["sidebar-bar-button"]}
+            onClick={() =>
+              navigate(Path.NewChat, { state: { fromHome: true } })
+            }
+            shadow
+          />
+          <IconButton
+            icon={<PluginIcon />}
+            text={shouldNarrow ? undefined : Locale.Plugin.Name}
+            className={styles["sidebar-bar-button"]}
+            onClick={() => showToast(Locale.WIP)}
+            shadow
+          />
+        </div>
+      )}
 
       <div
         className={styles["sidebar-body"]}
@@ -196,74 +198,76 @@ export function SideBar(props: { className?: string }) {
         <ChatList narrow={shouldNarrow} />
       </div>
 
-      <div className={styles["sidebar-tail"]}>
-        <div className={styles["sidebar-actions"]}>
-          <div className={styles["sidebar-action"] + " " + styles.mobile}>
-            <IconButton
-              icon={<CloseIcon />}
-              onClick={async () => {
-                if (await showConfirm(Locale.Home.DeleteChat)) {
-                  chatStore.deleteSession(chatStore.currentSessionIndex);
-                }
-              }}
-            />
+      {isMobileScreen && (
+        <div className={styles["sidebar-tail"]}>
+          <div className={styles["sidebar-actions"]}>
+            <div className={styles["sidebar-action"] + " " + styles.mobile}>
+              <IconButton
+                icon={<CloseIcon />}
+                onClick={async () => {
+                  if (await showConfirm(Locale.Home.DeleteChat)) {
+                    chatStore.deleteSession(chatStore.currentSessionIndex);
+                  }
+                }}
+              />
+            </div>
+            <div className={styles["sidebar-action"]}>
+              <Link to={Path.Settings}>
+                <IconButton icon={<SettingsIcon />} shadow />
+              </Link>
+            </div>
+            <div className={styles["sidebar-action"]}>
+              <IconButton
+                icon={<UserIcon />}
+                shadow
+                onClick={async () => {
+                  if (checkLoginTimeAndToken()) {
+                    navigate(Path.User);
+                  }
+                }}
+              />
+              <AuthModel showModal={showModal} setShowModal={setShowModal} />
+            </div>
+            <div className={styles["sidebar-action"]}>
+              <IconButton
+                icon={<RemindIcon />}
+                shadow
+                onClick={async () => {
+                  setShowAnnouncemnentModal(true);
+                }}
+              />
+              <AnnouncementModel
+                showAnnouncemnentModal={showAnnouncemnentModal}
+                setShowAnnouncemnentModal={setShowAnnouncemnentModal}
+              />
+            </div>
           </div>
-          <div className={styles["sidebar-action"]}>
-            <Link to={Path.Settings}>
-              <IconButton icon={<SettingsIcon />} shadow />
-            </Link>
-          </div>
-          <div className={styles["sidebar-action"]}>
+          <div>
             <IconButton
-              icon={<UserIcon />}
-              shadow
-              onClick={async () => {
+              icon={<AddIcon />}
+              text={shouldNarrow ? undefined : Locale.Home.NewChat}
+              onClick={() => {
                 if (checkLoginTimeAndToken()) {
-                  navigate(Path.User);
+                  if (config.dontShowMaskSplashScreen) {
+                    chatStore.newSession();
+                    navigate(Path.Chat);
+                  } else {
+                    navigate(Path.NewChat);
+                  }
                 }
               }}
-            />
-            <AuthModel showModal={showModal} setShowModal={setShowModal} />
-          </div>
-          <div className={styles["sidebar-action"]}>
-            <IconButton
-              icon={<RemindIcon />}
               shadow
-              onClick={async () => {
-                setShowAnnouncemnentModal(true);
-              }}
-            />
-            <AnnouncementModel
-              showAnnouncemnentModal={showAnnouncemnentModal}
-              setShowAnnouncemnentModal={setShowAnnouncemnentModal}
             />
           </div>
         </div>
-        <div>
-          <IconButton
-            icon={<AddIcon />}
-            text={shouldNarrow ? undefined : Locale.Home.NewChat}
-            onClick={() => {
-              if (checkLoginTimeAndToken()) {
-                if (config.dontShowMaskSplashScreen) {
-                  chatStore.newSession();
-                  navigate(Path.Chat);
-                } else {
-                  navigate(Path.NewChat);
-                }
-              }
-            }}
-            shadow
-          />
-        </div>
-      </div>
+      )}
 
-      <div
+      {/*<div
         className={styles["sidebar-drag"]}
         onMouseDown={(e) => onDragMouseDown(e as any)}
       >
         <DragIcon />
-      </div>
+      </div>*/}
     </div>
   );
 }

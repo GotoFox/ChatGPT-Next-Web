@@ -39,10 +39,10 @@
 
 .sidebar {
   top: 0;
-  width: 380px;
+  //width: 100px;
   box-sizing: border-box;
-  padding: 20px;
-  background-color: var(--second);
+  padding: 16px;
+  background-color: rgb(195 238 255);
   display: flex;
   flex-direction: column;
   box-shadow: inset -2px 0px 2px 0px rgb(0, 0, 0, 0.05);
@@ -51,7 +51,7 @@
 
   .sidebar-header-bar {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     .sidebar-bar-button {
       flex-grow: 1;
@@ -95,7 +95,7 @@
 }
 
 .window-content {
-  width: 100%;
+  width: var(--window-content-width);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -134,12 +134,9 @@
 }
 
 .sidebar-header {
-  //position: relative;
+  position: relative;
   //padding-top: 20px;
-  padding-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding-bottom: 10px;
 }
 
 .sidebar-logo {
@@ -186,6 +183,7 @@
 
 .chat-item-selected {
   border-color: var(--primary);
+  background: #f2f2f2;
 }
 
 .chat-item-title {
@@ -260,7 +258,7 @@
 
   .chat-item {
     padding: 0;
-    min-height: 50px;
+    min-height: 38px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -591,6 +589,15 @@
   direction: rtl;
 }
 
-.sidebar-hide {
-  display: none;
+.separator{
+  text-align: center;
+  color: #e5d5d5;
+  border: 10px;
+  margin-bottom: 10px;
+
+  .horizontalLine {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, transparent, #e5d5d5, transparent);
+  }
 }

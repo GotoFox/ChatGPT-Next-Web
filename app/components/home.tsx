@@ -26,6 +26,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { SideBar } from "./sidebar";
+import { SideBarLeft } from "./sidebarLeft";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
@@ -133,6 +134,7 @@ const useHasHydrated = () => {
 function Screen() {
   const config = useAppConfig();
   const location = useLocation();
+  const isChat = location.pathname === Path.Chat;
   const isHome = location.pathname === Path.Home;
   const isAuth = location.pathname === Path.Auth;
   const isMobileScreen = useMobileScreen();
@@ -154,7 +156,10 @@ function Screen() {
         </>
       ) : (
         <>
-          <SideBar className={isHome ? styles["sidebar-show"] : ""} />
+          <SideBarLeft />
+          {isMobileScreen && (
+            <SideBar className={isHome ? styles["sidebar-show"] : ""} />
+          )}
 
           <div className={styles["window-content"]} id={SlotID.AppBody}>
             <Routes>
