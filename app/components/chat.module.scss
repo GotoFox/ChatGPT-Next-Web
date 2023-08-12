@@ -397,10 +397,10 @@
 }
 
 .chat-input-panel {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  padding: 10px 20px 20px;
+  padding: 20px;
+  padding-top: 10px;
   box-sizing: border-box;
   flex-direction: column;
   border-top: var(--border-in-light);
@@ -426,6 +426,12 @@
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
+  z-index: 9;
+  position: absolute;
+  bottom: 90%;
+  right: 0;
+  box-sizing: border-box;
+  padding: 6px 0 0 6px;
 
   background-color: var(--white);
   border: var(--border-in-light);
