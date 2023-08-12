@@ -42,7 +42,7 @@
   //width: 100px;
   box-sizing: border-box;
   padding: 16px;
-  background-color: rgb(195 238 255);
+  background-color: var(--sidebarLeft);
   display: flex;
   flex-direction: column;
   box-shadow: inset -2px 0px 2px 0px rgb(0, 0, 0, 0.05);
@@ -183,7 +183,7 @@
 
 .chat-item-selected {
   border-color: var(--primary);
-  background: #f2f2f2;
+  background: var(--sidebarLeftBtn);
 }
 
 .chat-item-title {
@@ -598,6 +598,6 @@
   .horizontalLine {
     border: 0;
     height: 1px;
-    background-image: linear-gradient(to right, transparent, #e5d5d5, transparent);
+    background-image: linear-gradient(to right, transparent, var(--sidebarLeftSeparator), transparent);
   }
 }
