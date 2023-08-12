@@ -89,8 +89,14 @@ function useDragSideBar() {
     window.addEventListener("mouseup", handleMouseUp.current);
   };
   const isMobileScreen = useMobileScreen();
+  console.log(isMobileScreen);
   const shouldNarrow =
     !isMobileScreen && config.sidebarWidth < MIN_SIDEBAR_WIDTH;
+  console.log(!isMobileScreen);
+  console.log(config.sidebarWidth);
+  console.log(MIN_SIDEBAR_WIDTH);
+  console.log(!isMobileScreen && config.sidebarWidth < MIN_SIDEBAR_WIDTH);
+  // const shouldNarrow = false;
 
   useEffect(() => {
     const barWidth = shouldNarrow
@@ -99,6 +105,7 @@ function useDragSideBar() {
     const sideBarWidth = isMobileScreen ? "100vw" : `${barWidth}px`;
     document.documentElement.style.setProperty("--sidebar-width", sideBarWidth);
   }, [config.sidebarWidth, isMobileScreen, shouldNarrow]);
+  console.log(shouldNarrow);
 
   return {
     onDragMouseDown,
