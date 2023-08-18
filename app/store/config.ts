@@ -4,7 +4,7 @@ import { LLMModel } from "../client/api";
 import { getClientConfig } from "../config/client";
 import { DEFAULT_INPUT_TEMPLATE, DEFAULT_MODELS, StoreKey } from "../constant";
 
-export type ModelType = (typeof DEFAULT_MODELS)[number]["name"];
+export type ModelType = typeof DEFAULT_MODELS[number]["name"];
 
 export enum SubmitKey {
   Enter = "Enter",
@@ -27,6 +27,7 @@ export const DEFAULT_CONFIG = {
   theme: Theme.Auto as Theme,
   tightBorder: true,
   sendPreviewBubble: false,
+  enableAutoGenerateTitle: true,
   sidebarWidth: 380,
 
   disablePromptHint: false,
@@ -35,7 +36,7 @@ export const DEFAULT_CONFIG = {
   hideBuiltinMasks: false, // dont add builtin masks
 
   customModels: "",
-  models: DEFAULT_MODELS as any as LLMModel[],
+  models: (DEFAULT_MODELS as any) as LLMModel[],
 
   modelConfig: {
     model: "gpt-3.5-turbo" as ModelType,
