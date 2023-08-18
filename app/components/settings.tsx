@@ -425,7 +425,7 @@ function EditApiEndpointsModal(props: { id: string; onClose: () => void }) {
           <input
             type="text"
             value={prompt.url}
-            placeholder={"url"}
+            placeholder={"https://"}
             readOnly={!prompt.isUser}
             className={styles["edit-prompt-title"]}
             onInput={(e) =>
@@ -435,6 +435,10 @@ function EditApiEndpointsModal(props: { id: string; onClose: () => void }) {
               )
             }
           ></input>
+          <div className={styles["promptKeyTips"]}>
+            *
+            您的密钥存储在本地浏览器上，启用后将直接连接API端点，不再通过本站提供的内置端点服务，服务和安全性都将由启用的端点提供。
+          </div>
           <Input
             value={prompt.content}
             placeholder={"密钥"}
@@ -728,7 +732,7 @@ export function Settings() {
               onChange={(e) => {
                 updateConfig(
                   (config) =>
-                    (config.submitKey = e.target.value as any as SubmitKey),
+                    (config.submitKey = (e.target.value as any) as SubmitKey),
                 );
               }}
             >
@@ -745,7 +749,7 @@ export function Settings() {
               value={config.theme}
               onChange={(e) => {
                 updateConfig(
-                  (config) => (config.theme = e.target.value as any as Theme),
+                  (config) => (config.theme = (e.target.value as any) as Theme),
                 );
               }}
             >
@@ -835,8 +839,8 @@ export function Settings() {
               onChange={(e) =>
                 updateConfig(
                   (config) =>
-                    (config.dontShowMaskSplashScreen =
-                      !e.currentTarget.checked),
+                    (config.dontShowMaskSplashScreen = !e.currentTarget
+                      .checked),
                 )
               }
             ></input>
