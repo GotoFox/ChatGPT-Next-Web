@@ -33,6 +33,8 @@ export function MindMap() {
   useEffect(() => {
     if (token) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
     if (containerRef.current && svgRef.current) {
       const container = d3.select(containerRef.current);
@@ -214,7 +216,7 @@ export function MindMap() {
             icon={<LightningIcon />}
             type="primary"
             shadow
-            disabled={loading || !isLogin}
+            disabled={loading || !isLogin || !content}
             onClick={handleGenerateAMindMap}
             className={styles.skip}
           />
