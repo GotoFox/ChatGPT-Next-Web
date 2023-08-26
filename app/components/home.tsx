@@ -70,6 +70,10 @@ const ManagePage = dynamic(async () => (await import("./manage")).Manage, {
   loading: () => <Loading noLogo />,
 });
 
+const MindMapPage = dynamic(async () => (await import("./mindmap")).MindMap, {
+  loading: () => <Loading noLogo />,
+});
+
 const UserListAllPage = dynamic(
   async () => (await import("./userListAll")).UserListAll,
   {
@@ -181,6 +185,7 @@ function Screen() {
               <Route path={Path.Settings} element={<Settings />} />
               <Route path={Path.User} element={<UserPage />} />
               <Route path={Path.Plan} element={<PlanPage />} />
+              <Route path={Path.MindMap} element={<MindMapPage />} />
               <Route path={Path.Manage} element={<ManagePage />} />
               <Route path={Path.UserListAll} element={<UserListAllPage />} />
               <Route

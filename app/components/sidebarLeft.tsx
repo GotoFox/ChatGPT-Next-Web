@@ -16,6 +16,7 @@ import RemindIcon from "../icons/remind.svg";
 import ChatIcon from "../icons/chat.svg";
 import MessageOneIcon from "../icons/message-one.svg";
 import DragIcon from "../icons/drag.svg";
+import MappingIcon from "../icons/module/mapping.svg";
 
 import Locale from "../locales";
 
@@ -136,6 +137,14 @@ export function SideBarLeft(props: { className?: string }) {
           }`}
         >
           <MessageOneIcon />
+        </div>
+        <div
+          onClick={() => handleMenuItemClick(Path.MindMap)}
+          className={`${styles["chat-item"]} ${
+            selectedPath === Path.MindMap ? styles["chat-item-selected"] : ""
+          }`}
+        >
+          <MappingIcon />
         </div>
       </div>
 

@@ -111,6 +111,10 @@ if (mode !== "export") {
         source: "/api/captcha",
         destination: `${BestUrl}/api/captcha`,
       },
+      {
+        source: "/api/module/generateAMindMap",
+        destination: `${BestUrl}/api/module/generateAMindMap`,
+      },
     ];
 
     const apiUrl = process.env.API_URL;
