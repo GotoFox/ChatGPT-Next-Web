@@ -186,11 +186,6 @@ export function MindMap() {
       typeWriterEffect(message);
     } catch (error) {
       setLoading(false);
-      const errorMessage =
-        (error as any).response?.data?.msg ||
-        (error as any).response?.data ||
-        Locale.authModel.Toast.error;
-      showToast(errorMessage);
     } finally {
       setLoading(false);
     }

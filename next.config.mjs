@@ -62,6 +62,7 @@ if (mode !== "export") {
 
   nextConfig.rewrites = async () => {
     const BestUrl = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL;
+    const BestModelUrl = process.env.NEXT_PUBLIC_REACT_APP_MODEL_BASE_URL;
     const ret = [
       {
         source: "/api/proxy/:path*",
@@ -113,7 +114,7 @@ if (mode !== "export") {
       },
       {
         source: "/api/module/generateAMindMap",
-        destination: `${BestUrl}/api/module/generateAMindMap`,
+        destination: `${BestModelUrl}/api/module/generateAMindMap`,
       },
     ];
 

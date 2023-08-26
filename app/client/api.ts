@@ -355,7 +355,6 @@ export class ClientApi {
       },
       method: "POST",
       onopen: async (res: Response) => {
-        // Add async keyword here
         const contentType = res.headers.get("content-type");
 
         if (contentType?.startsWith("text/plain")) {
@@ -363,14 +362,31 @@ export class ClientApi {
           return;
         }
 
+        if (!res.ok) {
+          if (contentType?.startsWith("application/json")) {
+            const errorData = await res.json();
+            console.log(errorData);
+
+            if (errorData.status === 429) {
+              showToast(errorData.msg);
+            } else {
+              showToast("当前接口负载过高，请稍后重试");
+            }
+          } else {
+            showToast("当前接口负载过高，请稍后重试");
+          }
+          return;
+        }
+
         if (
-          !res.ok ||
           !res.headers.get("content-type")?.startsWith(EventStreamContentType)
         ) {
+          console.log(res);
           showToast("当前接口负载过高，请稍后重试");
           return;
         }
       },
+
       onmessage(msg) {
         if (msg.data === "[DONE]") {
           finish();
